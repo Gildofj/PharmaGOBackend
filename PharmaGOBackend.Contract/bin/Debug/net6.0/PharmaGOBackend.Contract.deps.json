@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "PharmaGOBackend.Contract/1.0.0": {
+        "runtime": {
+          "PharmaGOBackend.Contract.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "PharmaGOBackend.Contract/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "D3kQGPf31JByw+uFZuExBWF6OW4UJvJhZD48vxUoMao=",
+  "Source": "PharmaGOBackend.Api",
+  "BasePath": "_content/PharmaGOBackend.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

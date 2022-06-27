@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PharmaGOBackend.Api", "PharmaGOBackend.Api\PharmaGOBackend.Api.csproj", "{92E7B869-1175-4985-BE8C-6F1F3890340B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PharmaGOBackend.Application", "PharmaGOBackend.Application\PharmaGOBackend.Application.csproj", "{FC50FE26-5B5E-478A-AD64-3DE3080B9150}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PharmaGOBackend.Contract", "PharmaGOBackend.Contract\PharmaGOBackend.Contract.csproj", "{3ADBA59A-47E2-499B-9BE7-CCE0FEFE03C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PharmaGOBackend.Domain", "PharmaGOBackend.Domain\PharmaGOBackend.Domain.csproj", "{2C6398E7-FB01-4F2E-A606-A26DFC425E99}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PharmaGOBackend.Infrastructure", "PharmaGOBackend.Infrastructure\PharmaGOBackend.Infrastructure.csproj", "{72B603AA-7D81-4979-B023-994758089A84}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PharmaGOBackend.UnitTests", "PharmaGOBackend.UnitTests\PharmaGOBackend.UnitTests.csproj", "{31ABFD90-11DB-488D-8E07-BB4552EDF221}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{92E7B869-1175-4985-BE8C-6F1F3890340B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92E7B869-1175-4985-BE8C-6F1F3890340B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92E7B869-1175-4985-BE8C-6F1F3890340B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92E7B869-1175-4985-BE8C-6F1F3890340B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC50FE26-5B5E-478A-AD64-3DE3080B9150}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC50FE26-5B5E-478A-AD64-3DE3080B9150}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC50FE26-5B5E-478A-AD64-3DE3080B9150}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC50FE26-5B5E-478A-AD64-3DE3080B9150}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3ADBA59A-47E2-499B-9BE7-CCE0FEFE03C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3ADBA59A-47E2-499B-9BE7-CCE0FEFE03C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3ADBA59A-47E2-499B-9BE7-CCE0FEFE03C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3ADBA59A-47E2-499B-9BE7-CCE0FEFE03C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C6398E7-FB01-4F2E-A606-A26DFC425E99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C6398E7-FB01-4F2E-A606-A26DFC425E99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C6398E7-FB01-4F2E-A606-A26DFC425E99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C6398E7-FB01-4F2E-A606-A26DFC425E99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72B603AA-7D81-4979-B023-994758089A84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72B603AA-7D81-4979-B023-994758089A84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72B603AA-7D81-4979-B023-994758089A84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72B603AA-7D81-4979-B023-994758089A84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31ABFD90-11DB-488D-8E07-BB4552EDF221}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31ABFD90-11DB-488D-8E07-BB4552EDF221}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31ABFD90-11DB-488D-8E07-BB4552EDF221}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31ABFD90-11DB-488D-8E07-BB4552EDF221}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
