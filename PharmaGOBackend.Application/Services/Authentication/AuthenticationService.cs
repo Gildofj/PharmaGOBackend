@@ -3,6 +3,7 @@ using PharmaGOBackend.Application.Common.Interfaces.Authentication;
 using PharmaGOBackend.Application.Common.Interfaces.Persistence;
 using PharmaGOBackend.Domain.Common.Errors;
 using PharmaGOBackend.Domain.Entities;
+using BC = BCrypt.Net.BCrypt;
 
 namespace PharmaGOBackend.Application.Services.Authentication
 {
@@ -29,7 +30,7 @@ namespace PharmaGOBackend.Application.Services.Authentication
                 FirstName = firstName,
                 LastName = lastName,
                 Email = email,
-                Password = password,
+                Password = BC.HashPassword(password, BC.GenerateSalt(12)),
             };
 
             _clientRepository.Add(client);
@@ -41,7 +42,7 @@ namespace PharmaGOBackend.Application.Services.Authentication
 
         public ErrorOr<AuthenticationResult> Login(string email, string password)
         {
-            if (_clientRepository.GetClientByEmail(email) is not Client client ||  client.Password != password)
+            if (_clientRepository.GetClientByEmail(email) is not Client client || !BC.Verify(password, client.Password))
             {
                 return Errors.Authentication.InvalidCredentials;
             }

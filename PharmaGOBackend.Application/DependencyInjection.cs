@@ -5,7 +5,7 @@ namespace PharmaGOBackend.Application
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddAppliaction(this IServiceCollection services)
+        public static IServiceCollection AddApplication(this IServiceCollection services)
         {
             services.AddScoped<IAuthenticationService, AuthenticationService>();
 

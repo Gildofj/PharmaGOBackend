@@ -5,15 +5,22 @@ namespace PharmaGOBackend.Infrastructure.Persistence
 {
     public class ClientRepository : IClientRepository
     {
-        private static readonly List<Client> _clients = new();
+        private readonly PharmaGOContext _db;
+
+        public ClientRepository(PharmaGOContext db)
+        {
+            _db = db;
+        }
+
         public void Add(Client client)
         {
-            _clients.Add(client);
+            _db.Clients.Add(client);
+            _db.SaveChanges();
         }
 
         public Client? GetClientByEmail(string email)
         {
-            return _clients.SingleOrDefault(u => u.Email == email);
+            return _db.Clients.SingleOrDefault(u => u.Email == email);
         }
     }
 }

@@ -1,20 +1,31 @@
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 using PharmaGOBackend.Application;
 using PharmaGOBackend.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 {
+    builder.Services.AddCors();
     builder.Services
-        .AddAppliaction()
-        .AddInfrastructure(builder.Configuration)
-        .AddControllers();
+        .AddApplication()
+        .AddInfrastructure(builder.Configuration);
+
 
     builder.Services.AddSingleton<ProblemDetailsFactory, PharmaGOProblemDetailsFactory>();
+
+    builder.Services.AddDbContext(builder.Configuration.GetConnectionString("PharmaGOContext"));
+
+    AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
+    builder.Services.AddControllers();
 }
 
 var app = builder.Build();
 {
-    app.UseExceptionHandler("/error");
+    app.UseCors(x => x
+    .AllowAnyOrigin()
+    .AllowAnyHeader()
+    .AllowAnyMethod());
 
     app.UseHttpsRedirection();
     app.MapControllers();
