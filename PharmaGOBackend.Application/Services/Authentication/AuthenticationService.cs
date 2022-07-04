@@ -1,5 +1,7 @@
-﻿using PharmaGOBackend.Application.Common.Interfaces.Authentication;
+﻿using ErrorOr;
+using PharmaGOBackend.Application.Common.Interfaces.Authentication;
 using PharmaGOBackend.Application.Common.Interfaces.Persistence;
+using PharmaGOBackend.Domain.Common.Errors;
 using PharmaGOBackend.Domain.Entities;
 
 namespace PharmaGOBackend.Application.Services.Authentication
@@ -15,11 +17,11 @@ namespace PharmaGOBackend.Application.Services.Authentication
             _clientRepository = clientRepository;
         }
 
-        public AuthenticationResult Register(string firstName, string lastName, string email, string password)
+        public ErrorOr<AuthenticationResult> Register(string firstName, string lastName, string email, string password)
         {
             if (_clientRepository.GetClientByEmail(email) is not null)
             {
-                throw new Exception("Client with given email already exists.");
+                return Errors.Client.DuplicateEmail;
             }
 
             var client = new Client
@@ -37,11 +39,11 @@ namespace PharmaGOBackend.Application.Services.Authentication
             return new AuthenticationResult(client, token);
         }
 
-        public AuthenticationResult Login(string email, string password)
+        public ErrorOr<AuthenticationResult> Login(string email, string password)
         {
             if (_clientRepository.GetClientByEmail(email) is not Client client ||  client.Password != password)
             {
-                throw new Exception("Invalid e-mail or password.");
+                return Errors.Authentication.InvalidCredentials;
             }
 
             var token = _jwtTokenGenerator.GenerateToken(client);

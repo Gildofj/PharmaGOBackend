@@ -4,9 +4,8 @@ using PharmaGOBackend.Contract.Authentication;
 
 namespace PharmaGOBackend.Api.Controllers
 {
-    [ApiController]
     [Route("api/auth")]
-    public class AuthenticationController : ControllerBase
+    public class AuthenticationController : ApiController
     {
         private readonly IAuthenticationService _authenticationService;
 
@@ -20,9 +19,10 @@ namespace PharmaGOBackend.Api.Controllers
         {
             var authResult = _authenticationService.Register(request.FirstName, request.LastName, request.Email, request.Password);
 
-            var response = new AuthenticationResponse(authResult.Client.Id, authResult.Client.FirstName, authResult.Client.LastName, authResult.Client.Email, authResult.Token);
-
-            return Ok(response);
+            return authResult.Match(
+                authResult => Ok(new AuthenticationResponse(authResult.Client.Id, authResult.Client.FirstName, authResult.Client.LastName, authResult.Client.Email, authResult.Token)),
+                errors => Problem(errors)
+                );
         }
 
         [HttpPost("login")]
@@ -30,9 +30,10 @@ namespace PharmaGOBackend.Api.Controllers
         {
             var authResult = _authenticationService.Login(request.Email, request.Password);
 
-            var response = new AuthenticationResponse(authResult.Client.Id, authResult.Client.FirstName, authResult.Client.LastName, authResult.Client.Email, authResult.Token);
-
-            return Ok(response);
+            return authResult.Match(
+                authResult => Ok(new AuthenticationResponse(authResult.Client.Id, authResult.Client.FirstName, authResult.Client.LastName, authResult.Client.Email, authResult.Token)),
+                errors => Problem(errors)
+                );
         }
     }
 }
