@@ -13,12 +13,23 @@ public class TestAuthenticationController
     [Fact]
     public void Register_OnSuccess_ReturnsStatusCode200()
     {
-        var registerRequest = new RegisterRequest("teste@pharmago.com", "Teste", "Unitario", "123");
+        var registerRequest = new RegisterRequest(
+            "teste@pharmago.com", 
+            "Teste", 
+            "Unitario", 
+            "123"
+            );
 
         var mockAuthenticationService = new Mock<IAuthenticationService>();
 
         mockAuthenticationService
-            .Setup(service => service.Register(registerRequest.FirstName, registerRequest.LastName, registerRequest.Email, registerRequest.Password))
+            .Setup(service => 
+                service.Register(
+                    registerRequest.FirstName, 
+                    registerRequest.LastName, 
+                    registerRequest.Email, 
+                    registerRequest.Password)
+            )
             .Returns(new AuthenticationResult(new Client(), string.Empty));
 
         var sut = new AuthenticationController(mockAuthenticationService.Object);
@@ -31,20 +42,35 @@ public class TestAuthenticationController
     [Fact]
     public void Register_OnSuccess_InvokesAuthenticationService()
     {
-        var registerRequest = new RegisterRequest("teste@pharmago.com", "Teste", "Unitario", "123");
+        var registerRequest = new RegisterRequest(
+            "teste@pharmago.com", 
+            "Teste", 
+            "Unitario", 
+            "123"
+            );
 
         var mockAuthenticationService = new Mock<IAuthenticationService>();
 
         mockAuthenticationService
-            .Setup(service => service.Register(registerRequest.FirstName, registerRequest.LastName, registerRequest.Email, registerRequest.Password))
+            .Setup(service => 
+                service.
+                    Register(
+                        registerRequest.FirstName, 
+                        registerRequest.LastName, 
+                        registerRequest.Email, 
+                        registerRequest.Password)
+                )
             .Returns(new AuthenticationResult(new Client(), string.Empty));
 
         var sut = new AuthenticationController(mockAuthenticationService.Object);
 
-        var result = (OkObjectResult)sut.Register(registerRequest);
-
         mockAuthenticationService.Verify(
-            service => service.Register(registerRequest.FirstName, registerRequest.LastName, registerRequest.Email, registerRequest.Password),
+            service => 
+                service.Register(
+                    registerRequest.FirstName, 
+                    registerRequest.LastName, 
+                    registerRequest.Email, 
+                    registerRequest.Password),
             Times.Once()
             );
     }
@@ -52,12 +78,23 @@ public class TestAuthenticationController
     [Fact]
     public void Register_OnSuccess_ReturnsAuthenticationResponse()
     {
-        var registerRequest = new RegisterRequest("teste@pharmago.com", "Teste", "Unitario", "123");
+        var registerRequest = new RegisterRequest(
+            "teste@pharmago.com", 
+            "Teste", 
+            "Unitario", 
+            "123"
+            );
 
         var mockAuthenticationService = new Mock<IAuthenticationService>();
 
         mockAuthenticationService
-            .Setup(service => service.Register(registerRequest.FirstName, registerRequest.LastName, registerRequest.Email, registerRequest.Password))
+            .Setup(service => 
+                service.Register(
+                    registerRequest.FirstName, 
+                    registerRequest.LastName, 
+                    registerRequest.Email, 
+                    registerRequest.Password)
+                )
             .Returns(new AuthenticationResult(new Client(), string.Empty));
 
         var sut = new AuthenticationController(mockAuthenticationService.Object);

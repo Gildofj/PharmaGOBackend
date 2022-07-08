@@ -20,10 +20,10 @@ namespace PharmaGOBackend.Application.Services.Authentication
 
         public ErrorOr<AuthenticationResult> Register(string firstName, string lastName, string email, string password)
         {
-            if (_clientRepository.GetClientByEmail(email) is not null)
+            if (ValidateRegisterCredentials(firstName, lastName, email, password) is Error error)
             {
-                return Errors.Client.DuplicateEmail;
-            }
+                return error;
+            };
 
             var client = new Client
             {
@@ -38,6 +38,36 @@ namespace PharmaGOBackend.Application.Services.Authentication
             var token = _jwtTokenGenerator.GenerateToken(client);
 
             return new AuthenticationResult(client, token);
+        }
+
+        private Error? ValidateRegisterCredentials(string firstName, string lastName, string email, string password)
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                return Errors.Authentication.EmailNotInformed;
+            }
+            
+            if (string.IsNullOrEmpty(firstName))
+            {
+                return Errors.Authentication.FirstNameNotInformed;
+            }
+            
+            if (string.IsNullOrEmpty(lastName))
+            {
+                return Errors.Authentication.LastNameNotInformed;
+            }
+            
+            if (string.IsNullOrEmpty(password))
+            {
+                return Errors.Authentication.PasswordNotInformed;
+            }
+            
+            if (_clientRepository.GetClientByEmail(email) is not null)
+            {
+                return Errors.Client.DuplicateEmail;
+            }
+
+            return null;
         }
 
         public ErrorOr<AuthenticationResult> Login(string email, string password)
