@@ -12,10 +12,11 @@ namespace PharmaGOBackend.Infrastructure.Persistence
             _db = db;
         }
 
-        public void Add(Client client)
+        public Client Add(Client client)
         {
             _db.Clients.Add(client);
             _db.SaveChanges();
+            return client;
         }
 
         public Client? GetClientByEmail(string email)

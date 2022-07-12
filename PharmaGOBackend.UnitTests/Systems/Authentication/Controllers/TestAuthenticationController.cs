@@ -1,14 +1,8 @@
-using Microsoft.AspNetCore.Mvc;
-using PharmaGOBackend.Api.Controllers;
-using PharmaGOBackend.Application.Services.Authentication;
-using PharmaGOBackend.Contract.Authentication;
-using PharmaGOBackend.Domain.Entities;
-
-namespace PharmaGOBackend.UnitTests.Systems.Controllers;
+namespace PharmaGOBackend.UnitTests.Systems.Authentication.Controllers;
 
 public class TestAuthenticationController
 {
-    #region Register
+    /*#region Register
 
     [Fact]
     public void Register_OnSuccess_ReturnsStatusCode200()
@@ -20,19 +14,16 @@ public class TestAuthenticationController
             "123"
             );
 
-        var mockAuthenticationService = new Mock<IAuthenticationService>();
+        var mockMediatR = new Mock<ISender>();
 
-        mockAuthenticationService
+        mockMediatR
             .Setup(service => 
-                service.Register(
-                    registerRequest.FirstName, 
-                    registerRequest.LastName, 
-                    registerRequest.Email, 
-                    registerRequest.Password)
+                service.Send(
+                new   
             )
             .Returns(new AuthenticationResult(new Client(), string.Empty));
 
-        var sut = new AuthenticationController(mockAuthenticationService.Object);
+        var sut = new AuthenticationController(mockMediatR.Object);
 
         var result = (OkObjectResult)sut.Register(registerRequest);
 
@@ -40,7 +31,7 @@ public class TestAuthenticationController
     }
 
     [Fact]
-    public void Register_OnSuccess_InvokesAuthenticationService()
+    public void Register_OnSuccess_InvokesAuthenticationCommandService()
     {
         var registerRequest = new RegisterRequest(
             "teste@pharmago.com", 
@@ -49,28 +40,36 @@ public class TestAuthenticationController
             "123"
             );
 
-        var mockAuthenticationService = new Mock<IAuthenticationService>();
+        var mockAuthenticationQueryService = new Mock<IAuthenticationQueryService>();
+        var mockAuthenticationCommandService = new Mock<IAuthenticationCommandService>();
 
-        mockAuthenticationService
+        mockAuthenticationCommandService
             .Setup(service => 
                 service.
-                    Register(
+                    Register(new ClientDto(
                         registerRequest.FirstName, 
                         registerRequest.LastName, 
                         registerRequest.Email, 
                         registerRequest.Password)
+                        )
                 )
             .Returns(new AuthenticationResult(new Client(), string.Empty));
 
-        var sut = new AuthenticationController(mockAuthenticationService.Object);
+        var sut = new AuthenticationController(
+            mockAuthenticationCommandService.Object, 
+            mockAuthenticationQueryService.Object
+            );
 
-        mockAuthenticationService.Verify(
+        mockAuthenticationCommandService.Verify(
             service => 
                 service.Register(
-                    registerRequest.FirstName, 
-                    registerRequest.LastName, 
-                    registerRequest.Email, 
-                    registerRequest.Password),
+                    new ClientDto(
+                        registerRequest.FirstName, 
+                        registerRequest.LastName, 
+                        registerRequest.Email, 
+                        registerRequest.Password
+                        )
+                    ),
             Times.Once()
             );
     }
@@ -85,19 +84,25 @@ public class TestAuthenticationController
             "123"
             );
 
-        var mockAuthenticationService = new Mock<IAuthenticationService>();
+        var mockAuthenticationQueryService = new Mock<IAuthenticationQueryService>();
+        var mockAuthenticationCommandService = new Mock<IAuthenticationCommandService>();
 
-        mockAuthenticationService
+        mockAuthenticationCommandService
             .Setup(service => 
                 service.Register(
+                    new ClientDto(
                     registerRequest.FirstName, 
                     registerRequest.LastName, 
                     registerRequest.Email, 
                     registerRequest.Password)
+                        )
                 )
             .Returns(new AuthenticationResult(new Client(), string.Empty));
 
-        var sut = new AuthenticationController(mockAuthenticationService.Object);
+        var sut = new AuthenticationController(
+            mockAuthenticationCommandService.Object,
+            mockAuthenticationQueryService.Object
+            );
 
         var result = sut.Register(registerRequest);
 
@@ -115,13 +120,17 @@ public class TestAuthenticationController
     {
         var loginRequest = new LoginRequest("teste@pharmago.com", "123");
 
-        var mockAuthenticationService = new Mock<IAuthenticationService>();
+        var mockAuthenticationQueryService = new Mock<IAuthenticationQueryService>();
+        var mockAuthenticationCommandService = new Mock<IAuthenticationCommandService>();
 
-        mockAuthenticationService
+        mockAuthenticationQueryService
             .Setup(service => service.Login(loginRequest.Email, loginRequest.Password))
             .Returns(new AuthenticationResult(new Client(), string.Empty));
 
-        var sut = new AuthenticationController(mockAuthenticationService.Object);
+        var sut = new AuthenticationController(
+            mockAuthenticationCommandService.Object,
+            mockAuthenticationQueryService.Object
+        );
 
         var result = (OkObjectResult)sut.Login(loginRequest);
 
@@ -129,21 +138,25 @@ public class TestAuthenticationController
     }
 
     [Fact]
-    public void Login_OnSuccess_InvokesAuthenticationService()
+    public void Login_OnSuccess_InvokesAuthenticationQueryService()
     {
         var loginRequest = new LoginRequest("teste@pharmago.com", "123");
 
-        var mockAuthenticationService = new Mock<IAuthenticationService>();
+        var mockAuthenticationQueryService = new Mock<IAuthenticationQueryService>();
+        var mockAuthenticationCommandService = new Mock<IAuthenticationCommandService>();
 
-        mockAuthenticationService
+        mockAuthenticationQueryService
             .Setup(service => service.Login(loginRequest.Email, loginRequest.Password))
             .Returns(new AuthenticationResult(new Client(), string.Empty));
 
-        var sut = new AuthenticationController(mockAuthenticationService.Object);
+        var sut = new AuthenticationController(
+            mockAuthenticationCommandService.Object,
+            mockAuthenticationQueryService.Object
+        );
 
         var result = (OkObjectResult)sut.Login(loginRequest);
 
-        mockAuthenticationService.Verify(
+        mockAuthenticationQueryService.Verify(
             service => service.Login(loginRequest.Email, loginRequest.Password),
             Times.Once()
             );
@@ -154,13 +167,17 @@ public class TestAuthenticationController
     {
         var loginRequest = new LoginRequest("teste@pharmago.com", "123");
 
-        var mockAuthenticationService = new Mock<IAuthenticationService>();
+        var mockAuthenticationQueryService = new Mock<IAuthenticationQueryService>();
+        var mockAuthenticationCommandService = new Mock<IAuthenticationCommandService>();
 
-        mockAuthenticationService
+        mockAuthenticationQueryService
             .Setup(service => service.Login(loginRequest.Email, loginRequest.Password))
             .Returns(new AuthenticationResult(new Client(), string.Empty));
 
-        var sut = new AuthenticationController(mockAuthenticationService.Object);
+        var sut = new AuthenticationController(
+            mockAuthenticationCommandService.Object,
+            mockAuthenticationQueryService.Object
+        );
 
         var result = sut.Login(loginRequest);
 
@@ -169,5 +186,5 @@ public class TestAuthenticationController
         objectResult.Value.Should().BeOfType<AuthenticationResponse>();
     }
 
-    #endregion
+    #endregion*/
 }

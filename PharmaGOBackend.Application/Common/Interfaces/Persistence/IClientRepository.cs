@@ -4,7 +4,7 @@ namespace PharmaGOBackend.Application.Common.Interfaces.Persistence
 {
     public interface IClientRepository
     {
-        void Add(Client client);
+        Client Add(Client client);
         Client? GetClientByEmail(string email);
     }
 }

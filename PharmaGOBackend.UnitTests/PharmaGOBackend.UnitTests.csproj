@@ -24,8 +24,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Fixtures\" />
+    <Folder Include="Mocks\" />
     <Folder Include="Helpers\" />
+    <Folder Include="Systems\Authentication\Queries" />
   </ItemGroup>
 
   <ItemGroup>

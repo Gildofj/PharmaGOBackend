@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using PharmaGOBackend.Application.Services.Authentication;
+﻿using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace PharmaGOBackend.Application
 {
@@ -7,7 +7,7 @@ namespace PharmaGOBackend.Application
     {
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
-            services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddMediatR(typeof(DependencyInjection).Assembly);
 
             return services;
         }

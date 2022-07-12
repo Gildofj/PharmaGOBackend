@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using PharmaGOBackend.Application.Services.Authentication;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using PharmaGOBackend.Application.Authentication.Commands.Register;
+using PharmaGOBackend.Application.Authentication.Queries.Login;
 using PharmaGOBackend.Contract.Authentication;
 
 namespace PharmaGOBackend.Api.Controllers
@@ -7,31 +9,49 @@ namespace PharmaGOBackend.Api.Controllers
     [Route("api/auth")]
     public class AuthenticationController : ApiController
     {
-        private readonly IAuthenticationService _authenticationService;
+        private readonly ISender _sender;
 
-        public AuthenticationController(IAuthenticationService authenticationService)
+        public AuthenticationController(ISender sender)
         {
-            _authenticationService = authenticationService;
+            _sender = sender;
         }
 
         [HttpPost("register")]
-        public IActionResult Register(RegisterRequest request)
+        public async Task<IActionResult> Register(RegisterRequest request)
         {
-            var authResult = _authenticationService.Register(request.FirstName, request.LastName, request.Email, request.Password);
-
+            var command = new RegisterCommand(request.FirstName, request.LastName, request.Email, request.Password);
+            var authResult = await _sender.Send(command);
+            
             return authResult.Match(
-                result => Ok(new AuthenticationResponse(result.Client.Id, result.Client.FirstName, result.Client.LastName, result.Client.Email, result.Token)),
+                result => Ok(
+                    new AuthenticationResponse(
+                        result.Client.Id, 
+                        result.Client.FirstName, 
+                        result.Client.LastName, 
+                        result.Client.Email, 
+                        result.Token
+                        )
+                    ),
                 errors => Problem(errors)
                 );
         }
 
         [HttpPost("login")]
-        public IActionResult Login(LoginRequest request)
+        public async Task<IActionResult> Login(LoginRequest request)
         {
-            var authResult = _authenticationService.Login(request.Email, request.Password);
+            var command = new LoginQuery(request.Email, request.Password);
+            var authResult = await  _sender.Send(command);
 
             return authResult.Match(
-                result => Ok(new AuthenticationResponse(result.Client.Id, result.Client.FirstName, result.Client.LastName, result.Client.Email, result.Token)),
+                result => Ok(
+                    new AuthenticationResponse(
+                        result.Client.Id,
+                        result.Client.FirstName,
+                        result.Client.LastName,
+                        result.Client.Email,
+                        result.Token
+                        )
+                    ),
                 errors => Problem(errors)
                 );
         }

@@ -1,0 +1,66 @@
+using PharmaGOBackend.Application.Authentication.Commands.Register;
+
+namespace PharmaGOBackend.UnitTests.Helpers.Authentication.Commands;
+
+public static class RegisterCommandsHelper
+{
+    public static RegisterCommand GetDefault()
+    {
+        return new RegisterCommand(
+            "Teste",
+            Common.GetRandomName(),
+            "teste@teste.com",
+            "123"
+            );
+    }    
+    
+    public static RegisterCommand GetWithoutFirstName()
+    {
+        return new RegisterCommand(
+            "",
+            Common.GetRandomName(),
+            "teste@teste.com",
+            "123"
+        );
+    }   
+    
+    public static RegisterCommand GetWithoutLastName()
+    {
+        return new RegisterCommand(
+            "Teste",
+            "",
+            "teste@teste.com",
+            "123"
+        );
+    }   
+    
+    public static RegisterCommand GetWithoutEmail()
+    {
+        return new RegisterCommand(
+            "Teste",
+            Common.GetRandomName(),
+            "",
+            "123"
+        );
+    }   
+    
+    public static RegisterCommand GetWithoutPassword()
+    {
+        return new RegisterCommand(
+            "Teste",
+            Common.GetRandomName(),
+            "teste@teste.com",
+            ""
+        );
+    }   
+    
+    public static RegisterCommand GetWithRepeatedEmail()
+    {
+        return new RegisterCommand(
+            "Teste",
+            Common.GetRandomName(),
+            "repeated@teste.com",
+            "123"
+        );
+    }   
+}
