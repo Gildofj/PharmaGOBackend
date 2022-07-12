@@ -20,7 +20,7 @@ namespace PharmaGOBackend.Api.Controllers
             var authResult = _authenticationService.Register(request.FirstName, request.LastName, request.Email, request.Password);
 
             return authResult.Match(
-                authResult => Ok(new AuthenticationResponse(authResult.Client.Id, authResult.Client.FirstName, authResult.Client.LastName, authResult.Client.Email, authResult.Token)),
+                result => Ok(new AuthenticationResponse(result.Client.Id, result.Client.FirstName, result.Client.LastName, result.Client.Email, result.Token)),
                 errors => Problem(errors)
                 );
         }
@@ -31,7 +31,7 @@ namespace PharmaGOBackend.Api.Controllers
             var authResult = _authenticationService.Login(request.Email, request.Password);
 
             return authResult.Match(
-                authResult => Ok(new AuthenticationResponse(authResult.Client.Id, authResult.Client.FirstName, authResult.Client.LastName, authResult.Client.Email, authResult.Token)),
+                result => Ok(new AuthenticationResponse(result.Client.Id, result.Client.FirstName, result.Client.LastName, result.Client.Email, result.Token)),
                 errors => Problem(errors)
                 );
         }
