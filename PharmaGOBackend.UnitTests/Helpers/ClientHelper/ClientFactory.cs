@@ -1,8 +1,8 @@
 using PharmaGOBackend.Domain.Entities;
 
-namespace PharmaGOBackend.UnitTests.Helpers.MockClient;
+namespace PharmaGOBackend.UnitTests.Helpers.ClientHelper;
 
-public static class ClientHelper
+public static class ClientFactory
 {
     public static Client GetDefaultClient()
     {

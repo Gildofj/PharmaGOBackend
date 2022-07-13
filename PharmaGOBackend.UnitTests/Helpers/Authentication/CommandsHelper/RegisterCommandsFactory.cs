@@ -1,8 +1,8 @@
 using PharmaGOBackend.Application.Authentication.Commands.Register;
 
-namespace PharmaGOBackend.UnitTests.Helpers.Authentication.Commands;
+namespace PharmaGOBackend.UnitTests.Helpers.Authentication.CommandsHelper;
 
-public static class RegisterCommandsHelper
+public static class RegisterCommandsFactory
 {
     public static RegisterCommand GetDefault()
     {

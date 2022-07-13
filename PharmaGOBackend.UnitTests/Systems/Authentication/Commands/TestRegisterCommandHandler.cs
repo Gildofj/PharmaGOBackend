@@ -3,7 +3,7 @@ using PharmaGOBackend.Application.Authentication.Common;
 using PharmaGOBackend.Application.Common.Interfaces.Authentication;
 using PharmaGOBackend.Application.Common.Interfaces.Persistence;
 using PharmaGOBackend.Domain.Common.Errors;
-using PharmaGOBackend.UnitTests.Helpers.Authentication.Commands;
+using PharmaGOBackend.UnitTests.Helpers.Authentication.CommandsHelper;
 using PharmaGOBackend.UnitTests.Mocks;
 
 namespace PharmaGOBackend.UnitTests.Systems.Authentication.Commands;
@@ -25,7 +25,7 @@ public class TestRegisterCommandHandler
             var handler = new RegisterCommandHandler(_mockJwtTokenGenerator.Object, _mockClientRepository.Object);
             
             var result = await handler.Handle(
-                RegisterCommandsHelper.GetDefault(), 
+                RegisterCommandsFactory.GetDefault(), 
                 CancellationToken.None
                 );
 
@@ -39,7 +39,7 @@ public class TestRegisterCommandHandler
             var handler = new RegisterCommandHandler(_mockJwtTokenGenerator.Object, _mockClientRepository.Object);
             
             var result = await handler.Handle(
-                RegisterCommandsHelper.GetWithoutFirstName(),
+                RegisterCommandsFactory.GetWithoutFirstName(),
                 CancellationToken.None
                 );
 
@@ -53,7 +53,7 @@ public class TestRegisterCommandHandler
             var handler = new RegisterCommandHandler(_mockJwtTokenGenerator.Object, _mockClientRepository.Object);
             
             var result = await handler.Handle(
-                RegisterCommandsHelper.GetWithoutLastName(),
+                RegisterCommandsFactory.GetWithoutLastName(),
                 CancellationToken.None
                 );
 
@@ -67,7 +67,7 @@ public class TestRegisterCommandHandler
             var handler = new RegisterCommandHandler(_mockJwtTokenGenerator.Object, _mockClientRepository.Object);
             
             var result = await handler.Handle(
-                RegisterCommandsHelper.GetWithoutPassword(), 
+                RegisterCommandsFactory.GetWithoutPassword(), 
                 CancellationToken.None
                 );
 
@@ -81,13 +81,14 @@ public class TestRegisterCommandHandler
             var handler = new RegisterCommandHandler(_mockJwtTokenGenerator.Object, _mockClientRepository.Object);
             
             var result = await handler.Handle(
-                RegisterCommandsHelper.GetWithoutEmail(), 
+                RegisterCommandsFactory.GetWithoutEmail(), 
                 CancellationToken.None
                 );
 
             result.Errors.Should().ContainEquivalentOf(Errors.Authentication.EmailNotInformed);
         }
         
+        // TODO: Mock client with repeated email don't return in mock get
         [Fact]
         public async Task Register_ExistingEmailInformation_ReturnsDuplicateEmail()
         {
@@ -95,7 +96,7 @@ public class TestRegisterCommandHandler
             var handler = new RegisterCommandHandler(_mockJwtTokenGenerator.Object, _mockClientRepository.Object);
             
             var result = await handler.Handle(
-                RegisterCommandsHelper.GetWithRepeatedEmail(), 
+                RegisterCommandsFactory.GetWithRepeatedEmail(), 
                 CancellationToken.None
             );
 

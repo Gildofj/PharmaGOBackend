@@ -1,6 +1,6 @@
 using PharmaGOBackend.Application.Common.Interfaces.Persistence;
 using PharmaGOBackend.Domain.Entities;
-using PharmaGOBackend.UnitTests.Helpers.MockClient;
+using PharmaGOBackend.UnitTests.Helpers.ClientHelper;
 
 namespace PharmaGOBackend.UnitTests.Mocks;
 
@@ -10,16 +10,16 @@ public static class MockClientRepository
     {
         List<Client> clients = new List<Client>
         {
-            ClientHelper.GetDefaultClient(),
-            ClientHelper.GetClientWithRepeatedEmail()
+            ClientFactory.GetDefaultClient(),
+            ClientFactory.GetClientWithRepeatedEmail()
         };
 
         var mockClientRepository = new Mock<IClientRepository>();
 
+        var repeatedEmailClient = clients.FirstOrDefault(c => c.Email.Contains("repeated"))!.Email;
+
         mockClientRepository.Setup(r =>
-            r.GetClientByEmail(
-                clients.FirstOrDefault(c => c.Email.Contains("repeated"))!.Email
-            )
+            r.GetClientByEmail(repeatedEmailClient)
         );
 
         mockClientRepository.Setup(r => r
