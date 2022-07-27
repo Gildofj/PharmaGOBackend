@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using MapsterMapper;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PharmaGOBackend.Application.Authentication.Commands.Register;
 using PharmaGOBackend.Application.Authentication.Queries.Login;
@@ -9,29 +10,23 @@ namespace PharmaGOBackend.Api.Controllers
     [Route("api/auth")]
     public class AuthenticationController : ApiController
     {
-        private readonly ISender _sender;
+        private readonly ISender _mediator;
+        private readonly IMapper _mapper;
 
-        public AuthenticationController(ISender sender)
+        public AuthenticationController(ISender mediator, IMapper mapper)
         {
-            _sender = sender;
+            _mediator = mediator;
+            _mapper = mapper;
         }
 
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterRequest request)
         {
-            var command = new RegisterCommand(request.FirstName, request.LastName, request.Email, request.Password);
-            var authResult = await _sender.Send(command);
+            var command = _mapper.Map<RegisterCommand>(request);
+            var authResult = await _mediator.Send(command);
             
             return authResult.Match(
-                result => Ok(
-                    new AuthenticationResponse(
-                        result.Client.Id, 
-                        result.Client.FirstName, 
-                        result.Client.LastName, 
-                        result.Client.Email, 
-                        result.Token
-                        )
-                    ),
+                result => Ok(_mapper.Map<AuthenticationResponse>(result)),
                 errors => Problem(errors)
                 );
         }
@@ -39,19 +34,11 @@ namespace PharmaGOBackend.Api.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginRequest request)
         {
-            var command = new LoginQuery(request.Email, request.Password);
-            var authResult = await  _sender.Send(command);
+            var command =  _mapper.Map<LoginQuery>(request);
+            var authResult = await  _mediator.Send(command);
 
             return authResult.Match(
-                result => Ok(
-                    new AuthenticationResponse(
-                        result.Client.Id,
-                        result.Client.FirstName,
-                        result.Client.LastName,
-                        result.Client.Email,
-                        result.Token
-                        )
-                    ),
+                result => Ok(_mapper.Map<AuthenticationResponse>(result)),
                 errors => Problem(errors)
                 );
         }

@@ -22,6 +22,8 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, ErrorOr<Authenticat
 
     public async Task<ErrorOr<AuthenticationResult>> Handle(LoginQuery query, CancellationToken cancellationToken)
     {
+        await Task.CompletedTask;
+        
         if (
             _clientRepository.GetClientByEmail(query.Email) is not Client client || 
             !BC.Verify(query.Password, client.Password)
