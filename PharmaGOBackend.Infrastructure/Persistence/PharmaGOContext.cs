@@ -9,6 +9,6 @@ namespace PharmaGOBackend.Infrastructure.Persistence
         {
         }
 
-        public DbSet<Client> Clients { get; set; }
+        public DbSet<Client> Clients { get; set; } = null!;
     }
 }
