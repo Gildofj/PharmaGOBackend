@@ -1,20 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <ItemGroup>
-    <PackageReference Include="BCrypt.Net-Core" Version="1.6.0" />
-    <PackageReference Include="MediatR" Version="10.0.1" />
-    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+    <PackageReference Include="BCrypt.Net-Core" Version="1.6.0"/>
+    <PackageReference Include="MediatR" Version="10.0.1"/>
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1"/>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0"/>
+    <PackageReference Include="FluentValidation" Version="11.2.1"/>
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.1"/>
   </ItemGroup>
-
   <ItemGroup>
-    <ProjectReference Include="..\PharmaGOBackend.Domain\PharmaGOBackend.Domain.csproj" />
+    <ProjectReference Include="..\PharmaGOBackend.Domain\PharmaGOBackend.Domain.csproj"/>
   </ItemGroup>
-
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
 </Project>
