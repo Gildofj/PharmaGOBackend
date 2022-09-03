@@ -9,5 +9,7 @@ public class PharmaGOContext : DbContext
     {
     }
 
-    public DbSet<Client> Clients { get; set; } = null!;
+    public DbSet<Client> Client { get; set; } = null!;
+    public DbSet<Product> Product { get; set; } = null!;
+    public DbSet<Pharmacy> Pharmacy { get; set; } = null!;
 }

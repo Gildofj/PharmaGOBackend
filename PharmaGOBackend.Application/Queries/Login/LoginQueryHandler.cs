@@ -1,13 +1,13 @@
 using ErrorOr;
 using MediatR;
-using PharmaGOBackend.Application.Authentication.Common;
+using PharmaGOBackend.Application.Common.Authentication;
 using PharmaGOBackend.Application.Common.Interfaces.Authentication;
 using PharmaGOBackend.Application.Common.Interfaces.Persistence;
 using PharmaGOBackend.Domain.Common.Errors;
 using PharmaGOBackend.Domain.Entities;
 using BC = BCrypt.Net.BCrypt;
 
-namespace PharmaGOBackend.Application.Authentication.Queries.Login;
+namespace PharmaGOBackend.Application.Queries.Login;
 
 public class LoginQueryHandler : IRequestHandler<LoginQuery, ErrorOr<AuthenticationResult>>
 {
@@ -23,9 +23,9 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, ErrorOr<Authenticat
     public async Task<ErrorOr<AuthenticationResult>> Handle(LoginQuery query, CancellationToken cancellationToken)
     {
         await Task.CompletedTask;
-        
+
         if (
-            _clientRepository.GetClientByEmail(query.Email) is not Client client || 
+            _clientRepository.GetClientByEmail(query.Email) is not Client client ||
             !BC.Verify(query.Password, client.Password)
         )
         {

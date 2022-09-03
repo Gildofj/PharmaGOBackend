@@ -1,13 +1,13 @@
 using ErrorOr;
 using MediatR;
-using PharmaGOBackend.Application.Authentication.Common;
+using PharmaGOBackend.Application.Common.Authentication;
 using PharmaGOBackend.Application.Common.Interfaces.Authentication;
 using PharmaGOBackend.Application.Common.Interfaces.Persistence;
 using PharmaGOBackend.Domain.Common.Errors;
 using PharmaGOBackend.Domain.Entities;
 using BC = BCrypt.Net.BCrypt;
 
-namespace PharmaGOBackend.Application.Authentication.Commands.Register;
+namespace PharmaGOBackend.Application.Commands.Register;
 
 public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<AuthenticationResult>>
 {
@@ -23,7 +23,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<A
     public async Task<ErrorOr<AuthenticationResult>> Handle(RegisterCommand command, CancellationToken cancellationToken)
     {
         await Task.CompletedTask;
-        
+
         if (ValidateRegisterCredentials(command) is Error error)
         {
             return error;
@@ -43,29 +43,29 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<A
 
         return new AuthenticationResult(client, token);
     }
-    
+
     private Error? ValidateRegisterCredentials(RegisterCommand request)
     {
         if (string.IsNullOrEmpty(request.Email))
         {
             return Errors.Authentication.EmailNotInformed;
         }
-            
+
         if (string.IsNullOrEmpty(request.FirstName))
         {
             return Errors.Authentication.FirstNameNotInformed;
         }
-            
+
         if (string.IsNullOrEmpty(request.LastName))
         {
             return Errors.Authentication.LastNameNotInformed;
         }
-            
+
         if (string.IsNullOrEmpty(request.Password))
         {
             return Errors.Authentication.PasswordNotInformed;
         }
-            
+
         if (_clientRepository.GetClientByEmail(request.Email) is not null)
         {
             return Errors.Client.DuplicateEmail;

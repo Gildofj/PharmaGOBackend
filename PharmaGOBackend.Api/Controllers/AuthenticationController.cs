@@ -1,8 +1,8 @@
 ﻿using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using PharmaGOBackend.Application.Authentication.Commands.Register;
-using PharmaGOBackend.Application.Authentication.Queries.Login;
+using PharmaGOBackend.Application.Commands.Register;
+using PharmaGOBackend.Application.Queries.Login;
 using PharmaGOBackend.Contract.Authentication;
 
 namespace PharmaGOBackend.Api.Controllers;

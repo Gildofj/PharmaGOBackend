@@ -14,13 +14,13 @@ public class ClientRepository : IClientRepository
 
     public Client Add(Client client)
     {
-        _db.Clients.Add(client);
+        _db.Client.Add(client);
         _db.SaveChanges();
         return client;
     }
 
     public Client? GetClientByEmail(string email)
     {
-        return _db.Clients.SingleOrDefault(u => u.Email == email);
+        return _db.Client.SingleOrDefault(u => u.Email == email);
     }
 }

@@ -1,5 +1,5 @@
-using PharmaGOBackend.Application.Authentication.Commands.Register;
-using PharmaGOBackend.Application.Authentication.Common;
+using PharmaGOBackend.Application.Commands.Register;
+using PharmaGOBackend.Application.Common.Authentication;
 using PharmaGOBackend.Application.Common.Interfaces.Authentication;
 using PharmaGOBackend.Application.Common.Interfaces.Persistence;
 using PharmaGOBackend.Domain.Common.Errors;
