@@ -7,42 +7,41 @@ using PharmaGOBackend.Application.Common.Interfaces.Authentication;
 using PharmaGOBackend.Application.Common.Interfaces.Services;
 using PharmaGOBackend.Domain.Entities;
 
-namespace PharmaGOBackend.Infrastructure.Authentication
+namespace PharmaGOBackend.Infrastructure.Authentication;
+
+public class JwtTokenGenerator : IJwtTokenGenerator
 {
-    public class JwtTokenGenerator : IJwtTokenGenerator
+    private readonly JwtSettings _jwtSettings;
+    private readonly IDateTimeProvider _dateTimeProvider;
+
+    public JwtTokenGenerator(IDateTimeProvider dateTimeProvider, IOptions<JwtSettings> jwtOptions)
     {
-        private readonly JwtSettings _jwtSettings;
-        private readonly IDateTimeProvider _dateTimeProvider;
+        _dateTimeProvider = dateTimeProvider;
+        _jwtSettings = jwtOptions.Value;
+    }
 
-        public JwtTokenGenerator(IDateTimeProvider dateTimeProvider, IOptions<JwtSettings> jwtOptions)
+    public string GenerateToken(Client client)
+    {
+        var signingCredentials = new SigningCredentials(
+            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Secret)),
+            SecurityAlgorithms.HmacSha256
+            );
+        var claims = new[]
         {
-            _dateTimeProvider = dateTimeProvider;
-            _jwtSettings = jwtOptions.Value;
-        }
+            new Claim(JwtRegisteredClaimNames.Sub, client.Id.ToString()),
+            new Claim(JwtRegisteredClaimNames.GivenName, client.FirstName),
+            new Claim(JwtRegisteredClaimNames.FamilyName, client.LastName),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+        };
 
-        public string GenerateToken(Client client)
-        {
-            var signingCredentials = new SigningCredentials(
-                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Secret)),
-                SecurityAlgorithms.HmacSha256
-                );
-            var claims = new[]
-            {
-                new Claim(JwtRegisteredClaimNames.Sub, client.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.GivenName, client.FirstName),
-                new Claim(JwtRegisteredClaimNames.FamilyName, client.LastName),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            };
+        var securityToken = new JwtSecurityToken(
+            issuer: _jwtSettings.Issuer,
+            audience: _jwtSettings.Audience,
+            expires: _dateTimeProvider.UtcNow.AddMinutes(_jwtSettings.ExpiryInMinutes),
+            claims: claims,
+            signingCredentials: signingCredentials
+            );
 
-            var securityToken = new JwtSecurityToken(
-                issuer: _jwtSettings.Issuer, 
-                audience: _jwtSettings.Audience,
-                expires: _dateTimeProvider.UtcNow.AddMinutes(_jwtSettings.ExpiryInMinutes), 
-                claims: claims, 
-                signingCredentials: signingCredentials
-                );
-
-            return new JwtSecurityTokenHandler().WriteToken(securityToken);
-        }
+        return new JwtSecurityTokenHandler().WriteToken(securityToken);
     }
 }

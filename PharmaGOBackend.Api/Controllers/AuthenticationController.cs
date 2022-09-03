@@ -5,42 +5,41 @@ using PharmaGOBackend.Application.Authentication.Commands.Register;
 using PharmaGOBackend.Application.Authentication.Queries.Login;
 using PharmaGOBackend.Contract.Authentication;
 
-namespace PharmaGOBackend.Api.Controllers
+namespace PharmaGOBackend.Api.Controllers;
+
+[Route("api/auth")]
+public class AuthenticationController : ApiController
 {
-    [Route("api/auth")]
-    public class AuthenticationController : ApiController
+    private readonly ISender _mediator;
+    private readonly IMapper _mapper;
+
+    public AuthenticationController(ISender mediator, IMapper mapper)
     {
-        private readonly ISender _mediator;
-        private readonly IMapper _mapper;
+        _mediator = mediator;
+        _mapper = mapper;
+    }
 
-        public AuthenticationController(ISender mediator, IMapper mapper)
-        {
-            _mediator = mediator;
-            _mapper = mapper;
-        }
+    [HttpPost("register")]
+    public async Task<IActionResult> Register(RegisterRequest request)
+    {
+        var command = _mapper.Map<RegisterCommand>(request);
+        var authResult = await _mediator.Send(command);
 
-        [HttpPost("register")]
-        public async Task<IActionResult> Register(RegisterRequest request)
-        {
-            var command = _mapper.Map<RegisterCommand>(request);
-            var authResult = await _mediator.Send(command);
-            
-            return authResult.Match(
-                result => Ok(_mapper.Map<AuthenticationResponse>(result)),
-                errors => Problem(errors)
-                );
-        }
+        return authResult.Match(
+            result => Ok(_mapper.Map<AuthenticationResponse>(result)),
+            errors => Problem(errors)
+            );
+    }
 
-        [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginRequest request)
-        {
-            var command =  _mapper.Map<LoginQuery>(request);
-            var authResult = await  _mediator.Send(command);
+    [HttpPost("login")]
+    public async Task<IActionResult> Login(LoginRequest request)
+    {
+        var command =  _mapper.Map<LoginQuery>(request);
+        var authResult = await  _mediator.Send(command);
 
-            return authResult.Match(
-                result => Ok(_mapper.Map<AuthenticationResponse>(result)),
-                errors => Problem(errors)
-                );
-        }
+        return authResult.Match(
+            result => Ok(_mapper.Map<AuthenticationResponse>(result)),
+            errors => Problem(errors)
+            );
     }
 }

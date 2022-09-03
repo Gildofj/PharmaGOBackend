@@ -4,17 +4,16 @@ using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using PharmaGOBackend.Application.Common.Behaviors;
 
-namespace PharmaGOBackend.Application
-{
-  public static class DependencyInjection
-    {
-        public static IServiceCollection AddApplication(this IServiceCollection services)
-        {
-            services.AddMediatR(typeof(DependencyInjection).Assembly);
-            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
-            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+namespace PharmaGOBackend.Application;
 
-            return services;
-        }
+public static class DependencyInjection
+{
+    public static IServiceCollection AddApplication(this IServiceCollection services)
+    {
+        services.AddMediatR(typeof(DependencyInjection).Assembly);
+        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
+        return services;
     }
 }

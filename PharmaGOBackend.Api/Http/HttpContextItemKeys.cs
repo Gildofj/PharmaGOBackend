@@ -1,7 +1,5 @@
-﻿namespace PharmaGOBackend.Api.Http
+﻿namespace PharmaGOBackend.Api.Http;
+public static class HttpContextItemKeys
 {
-    public static class HttpContextItemKeys
-    {
-        public const string Errors = "errors";
-    }
+    public const string Errors = "errors";
 }
