@@ -1,14 +1,13 @@
 using FluentValidation;
-using PharmaGOBackend.Application.Commands.Register;
 
-namespace PharmaGOBackend.Application.Authentication.Commands.Register;
+namespace PharmaGOBackend.Application.Commands.RegisterClient;
 public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
 {
   public RegisterCommandValidator()
   {
     RuleFor(x => x.FirstName).NotEmpty();
     RuleFor(x => x.LastName).NotEmpty();
-    RuleFor(x => x.Email).NotEmpty();
+    RuleFor(x => x.Email).NotEmpty().EmailAddress();
     RuleFor(x => x.Password).NotEmpty();
   }
 }

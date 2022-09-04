@@ -1,13 +1,13 @@
 using ErrorOr;
 using MediatR;
-using PharmaGOBackend.Application.Common.Authentication;
+using PharmaGOBackend.Application.Common.Results;
 using PharmaGOBackend.Application.Common.Interfaces.Authentication;
 using PharmaGOBackend.Application.Common.Interfaces.Persistence;
 using PharmaGOBackend.Domain.Common.Errors;
 using PharmaGOBackend.Domain.Entities;
 using BC = BCrypt.Net.BCrypt;
 
-namespace PharmaGOBackend.Application.Commands.Register;
+namespace PharmaGOBackend.Application.Commands.RegisterClient;
 
 public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<AuthenticationResult>>
 {
@@ -24,10 +24,10 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<A
     {
         await Task.CompletedTask;
 
-        if (ValidateRegisterCredentials(command) is Error error)
+        if (_clientRepository.GetClientByEmail(command.Email) is not null)
         {
-            return error;
-        };
+            return Errors.Client.DuplicateEmail;
+        }
 
         var client = new Client
         {
@@ -42,35 +42,5 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<A
         var token = _jwtTokenGenerator.GenerateToken(client);
 
         return new AuthenticationResult(client, token);
-    }
-
-    private Error? ValidateRegisterCredentials(RegisterCommand request)
-    {
-        if (string.IsNullOrEmpty(request.Email))
-        {
-            return Errors.Authentication.EmailNotInformed;
-        }
-
-        if (string.IsNullOrEmpty(request.FirstName))
-        {
-            return Errors.Authentication.FirstNameNotInformed;
-        }
-
-        if (string.IsNullOrEmpty(request.LastName))
-        {
-            return Errors.Authentication.LastNameNotInformed;
-        }
-
-        if (string.IsNullOrEmpty(request.Password))
-        {
-            return Errors.Authentication.PasswordNotInformed;
-        }
-
-        if (_clientRepository.GetClientByEmail(request.Email) is not null)
-        {
-            return Errors.Client.DuplicateEmail;
-        }
-
-        return null;
     }
 }

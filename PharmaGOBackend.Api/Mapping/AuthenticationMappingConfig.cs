@@ -1,5 +1,5 @@
 using Mapster;
-using PharmaGOBackend.Application.Common.Authentication;
+using PharmaGOBackend.Application.Common.Results;
 using PharmaGOBackend.Contract.Authentication;
 
 namespace PharmaGOBackend.Api.Mapping;
