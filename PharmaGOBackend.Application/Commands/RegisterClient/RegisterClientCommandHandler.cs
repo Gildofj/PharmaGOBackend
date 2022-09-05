@@ -35,6 +35,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<A
             LastName = command.LastName,
             Email = command.Email,
             Password = BC.HashPassword(command.Password, BC.GenerateSalt(12)),
+            PharmacyId = command.PharmacyId,
         };
 
         _clientRepository.Add(client);

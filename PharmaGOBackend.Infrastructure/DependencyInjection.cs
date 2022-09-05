@@ -21,6 +21,7 @@ public static class DependencyInjection
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
         services.AddScoped<IClientRepository, ClientRepository>();
+        services.AddScoped<IPharmacyRepository, PharmacyRepository>();
 
         return services;
     }

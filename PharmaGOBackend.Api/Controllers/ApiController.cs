@@ -6,7 +6,7 @@ using PharmaGOBackend.Api.Http;
 namespace PharmaGOBackend.Api.Controllers;
 
 [ApiController]
-public class ApiController : ControllerBase
+public abstract class ApiController : ControllerBase
 {
     protected IActionResult Problem(List<Error> errors)
     {

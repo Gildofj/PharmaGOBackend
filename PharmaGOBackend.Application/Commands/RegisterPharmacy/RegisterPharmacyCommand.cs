@@ -6,5 +6,5 @@ namespace PharmaGOBackend.Application.Commands.RegisterPharmacy;
 
 public record RegisterPharmacyCommand(
     string Name,
-    string CNPJ
+    string Cnpj
 ) : IRequest<ErrorOr<Pharmacy>>;

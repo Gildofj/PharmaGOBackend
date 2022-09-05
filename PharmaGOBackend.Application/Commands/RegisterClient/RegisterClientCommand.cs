@@ -8,5 +8,6 @@ public record RegisterCommand(
     string FirstName,
     string LastName,
     string Email,
-    string Password
+    string Password,
+    Guid PharmacyId
     ) : IRequest<ErrorOr<AuthenticationResult>>;

@@ -7,7 +7,7 @@ using PharmaGOBackend.Contract.Authentication;
 
 namespace PharmaGOBackend.Api.Controllers;
 
-[Route("api/auth")]
+[Route("api/auth/[action]")]
 public class AuthenticationController : ApiController
 {
     private readonly ISender _mediator;
@@ -19,9 +19,10 @@ public class AuthenticationController : ApiController
         _mapper = mapper;
     }
 
-    [HttpPost("register")]
-    public async Task<IActionResult> Register(RegisterRequest request)
+    [HttpPost]
+    public async Task<IActionResult> Register(Guid pharmacyId, RegisterRequest request)
     {
+        request.PharmacyId = pharmacyId;
         var command = _mapper.Map<RegisterCommand>(request);
         var authResult = await _mediator.Send(command);
 
@@ -31,7 +32,7 @@ public class AuthenticationController : ApiController
             );
     }
 
-    [HttpPost("login")]
+    [HttpPost]
     public async Task<IActionResult> Login(LoginRequest request)
     {
         var command =  _mapper.Map<LoginQuery>(request);

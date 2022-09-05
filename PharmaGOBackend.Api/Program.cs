@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 using PharmaGOBackend.Api;
 using PharmaGOBackend.Application;
 using PharmaGOBackend.Infrastructure;
@@ -21,5 +20,6 @@ var app = builder.Build();
 
     app.UseHttpsRedirection();
     app.MapControllers();
+
     app.Run();
 }
