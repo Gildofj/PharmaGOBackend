@@ -2,7 +2,6 @@ using PharmaGOBackend.Application.Commands.RegisterClient;
 using PharmaGOBackend.Application.Common.Results;
 using PharmaGOBackend.Application.Common.Interfaces.Authentication;
 using PharmaGOBackend.Application.Common.Interfaces.Persistence;
-using PharmaGOBackend.Domain.Common.Errors;
 using PharmaGOBackend.UnitTests.Helpers.Authentication.CommandsHelper;
 using PharmaGOBackend.UnitTests.Mocks;
 
@@ -45,7 +44,7 @@ public class TestRegisterCommandHandler
             );
 
         result.IsError.Should().BeTrue();
-        result.Errors.Should().ContainEquivalentOf(Errors.Authentication.FirstNameNotInformed);
+        result.Errors.Should().ContainEquivalentOf("The FirstName field is required.");
     }
 
     [Fact]
@@ -60,7 +59,7 @@ public class TestRegisterCommandHandler
             );
 
         result.IsError.Should().BeTrue();
-        result.Errors.Should().ContainEquivalentOf(Errors.Authentication.LastNameNotInformed);
+        result.Errors.Should().ContainEquivalentOf("The LastName field is required.");
     }
 
     [Fact]
@@ -75,7 +74,7 @@ public class TestRegisterCommandHandler
             );
 
         result.IsError.Should().BeTrue();
-        result.Errors.Should().ContainEquivalentOf(Errors.Authentication.PasswordNotInformed);
+        result.Errors.Should().ContainEquivalentOf("");
     }
 
     [Fact]
@@ -90,7 +89,7 @@ public class TestRegisterCommandHandler
             );
 
         result.IsError.Should().BeTrue();
-        result.Errors.Should().ContainEquivalentOf(Errors.Authentication.EmailNotInformed);
+        result.Errors.Should().ContainEquivalentOf("The Email field is required.");
     }
 
     // TODO: Mock client with repeated email don't return in mock get

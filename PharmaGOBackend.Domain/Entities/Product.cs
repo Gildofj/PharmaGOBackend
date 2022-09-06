@@ -5,7 +5,7 @@ namespace PharmaGOBackend.Domain.Entities;
 public class Product : EntityBase
 {
     [Required]
-    public string Title { get; set; } = null!;
+    public string Name { get; set; } = null!;
     [Required]
     public decimal Amount { get; set; }
     public string Image { get; set; } = null!;
