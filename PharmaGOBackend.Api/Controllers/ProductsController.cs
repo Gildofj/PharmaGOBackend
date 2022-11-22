@@ -8,12 +8,12 @@ using PharmaGOBackend.Domain.Entities;
 namespace PharmaGOBackend.Api.Controllers;
 
 [Route("api/[controller]")]
-public class ProductController : ApiController
+public class ProductsController : ApiController
 {
     private readonly ISender _mediator;
     private readonly IMapper _mapper;
 
-    public ProductController(ISender mediator, IMapper mapper)
+    public ProductsController(ISender mediator, IMapper mapper)
     {
         _mediator = mediator;
         _mapper = mapper;

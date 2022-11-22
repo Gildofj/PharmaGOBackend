@@ -7,12 +7,12 @@ using PharmaGOBackend.Contract.Pharmacy;
 namespace PharmaGOBackend.Api.Controllers;
 
 [Route("api/[controller]")]
-public class PharmacyController : ApiController
+public class PharmaciesController : ApiController
 {
     private readonly ISender _mediator;
     private readonly IMapper _mapper;
 
-    public PharmacyController(ISender mediator, IMapper mapper)
+    public PharmaciesController(ISender mediator, IMapper mapper)
     {
         _mediator = mediator;
         _mapper = mapper;
