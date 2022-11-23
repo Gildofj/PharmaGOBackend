@@ -1,3 +1,3 @@
 namespace PharmaGOBackend.Contract.Pharmacy;
 
-public record PharmacyResponse(string Name, string CNPJ);
+public record PharmacyResponse(Guid Id, string Name, string CNPJ);

@@ -9,5 +9,6 @@ public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
     RuleFor(x => x.LastName).NotEmpty();
     RuleFor(x => x.Email).NotEmpty().EmailAddress();
     RuleFor(x => x.Password).NotEmpty();
+    RuleFor(x => x.PharmacyId).NotEmpty();
   }
 }

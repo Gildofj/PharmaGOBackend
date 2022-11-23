@@ -6,14 +6,14 @@
     <UserSecretsId>7b3a26b2-56d6-4f6a-9564-c57d950606f9</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Mapster" Version="7.3.0"/>
-    <PackageReference Include="Mapster.DependencyInjection" Version="1.0.0"/>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.8"/>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3"/>
+    <PackageReference Include="Mapster" Version="7.3.0" />
+    <PackageReference Include="Mapster.DependencyInjection" Version="1.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.8" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PharmaGOBackend.Contract\PharmaGOBackend.Contract.csproj"/>
-    <ProjectReference Include="..\PharmaGOBackend.Application\PharmaGOBackend.Application.csproj"/>
-    <ProjectReference Include="..\PharmaGOBackend.Infrastructure\PharmaGOBackend.Infrastructure.csproj"/>
+    <ProjectReference Include="..\PharmaGOBackend.Contract\PharmaGOBackend.Contract.csproj" />
+    <ProjectReference Include="..\PharmaGOBackend.Application\PharmaGOBackend.Application.csproj" />
+    <ProjectReference Include="..\PharmaGOBackend.Infrastructure\PharmaGOBackend.Infrastructure.csproj" />
   </ItemGroup>
 </Project>
