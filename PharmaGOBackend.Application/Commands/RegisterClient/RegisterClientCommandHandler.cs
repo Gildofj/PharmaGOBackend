@@ -24,9 +24,9 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<A
     {
         await Task.CompletedTask;
 
-        if (await _clientRepository.GetClientByEmail(command.Email) is not null)
+        if (await ValidateRegisterCredentials(command) is Error error)
         {
-            return Errors.Client.DuplicateEmail;
+            return error;
         }
 
         var client = new Client
@@ -43,5 +43,35 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<A
         var token = _jwtTokenGenerator.GenerateToken(client);
 
         return new AuthenticationResult(client, token);
+    }
+
+    private async Task<Error?> ValidateRegisterCredentials(RegisterCommand command)
+    {
+        if (string.IsNullOrEmpty(command.Email))
+        {
+            return Errors.Authentication.EmailNotInformed;
+        }
+
+        if (string.IsNullOrEmpty(command.FirstName))
+        {
+            return Errors.Authentication.FirstNameNotInformed;
+        }
+
+        if (string.IsNullOrEmpty(command.LastName))
+        {
+            return Errors.Authentication.LastNameNotInformed;
+        }
+
+        if (string.IsNullOrEmpty(command.Password))
+        {
+            return Errors.Authentication.PasswordNotInformed;
+        }
+
+        if (await _clientRepository.GetClientByEmail(command.Email) is not null)
+        {
+            return Errors.Client.DuplicateEmail;
+        }
+
+        return null;
     }
 }

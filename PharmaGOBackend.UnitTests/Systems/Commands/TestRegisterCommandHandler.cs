@@ -1,3 +1,4 @@
+using ErrorOr;
 using PharmaGOBackend.Application.Commands.RegisterClient;
 using PharmaGOBackend.Application.Common.Results;
 using PharmaGOBackend.Core.Authentication;
@@ -44,7 +45,10 @@ public class TestRegisterCommandHandler
             );
 
         result.IsError.Should().BeTrue();
-        result.Errors.Should().ContainEquivalentOf("The FirstName field is required.");
+        Assert.Collection(
+            result.Errors,
+            item => Assert.Equal("Auth.FirstNameNotInformed", item.Code)
+            );
     }
 
     [Fact]
@@ -59,7 +63,7 @@ public class TestRegisterCommandHandler
             );
 
         result.IsError.Should().BeTrue();
-        result.Errors.Should().ContainEquivalentOf("The LastName field is required.");
+        Assert.Collection(result.Errors, item => Assert.Equal("Auth.LastNameNotInformed", item.Code));
     }
 
     [Fact]
@@ -74,7 +78,7 @@ public class TestRegisterCommandHandler
             );
 
         result.IsError.Should().BeTrue();
-        result.Errors.Should().ContainEquivalentOf("");
+        Assert.Collection(result.Errors, item => Assert.Equal("Auth.PasswordNotInformed", item.Code));
     }
 
     [Fact]
@@ -89,7 +93,7 @@ public class TestRegisterCommandHandler
             );
 
         result.IsError.Should().BeTrue();
-        result.Errors.Should().ContainEquivalentOf("The Email field is required.");
+        Assert.Collection(result.Errors, item => Assert.Equal("Auth.EmailNotInformed", item.Code));
     }
 
     // TODO: Mock client with repeated email don't return in mock get
