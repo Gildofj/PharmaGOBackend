@@ -2,6 +2,7 @@ using ErrorOr;
 using PharmaGOBackend.Application.Commands.RegisterClient;
 using PharmaGOBackend.Application.Common.Results;
 using PharmaGOBackend.Core.Authentication;
+using PharmaGOBackend.Core.Common.Errors;
 using PharmaGOBackend.Core.Persistence;
 using PharmaGOBackend.UnitTests.Helpers.Authentication.CommandsHelper;
 using PharmaGOBackend.UnitTests.Mocks;
@@ -45,10 +46,7 @@ public class TestRegisterCommandHandler
             );
 
         result.IsError.Should().BeTrue();
-        Assert.Collection(
-            result.Errors,
-            item => Assert.Equal("Auth.FirstNameNotInformed", item.Code)
-            );
+        result.Errors.Should().ContainEquivalentOf(Errors.Authentication.FirstNameNotInformed);
     }
 
     [Fact]
@@ -63,7 +61,7 @@ public class TestRegisterCommandHandler
             );
 
         result.IsError.Should().BeTrue();
-        Assert.Collection(result.Errors, item => Assert.Equal("Auth.LastNameNotInformed", item.Code));
+        result.Errors.Should().ContainEquivalentOf(Errors.Authentication.LastNameNotInformed);
     }
 
     [Fact]
@@ -78,7 +76,7 @@ public class TestRegisterCommandHandler
             );
 
         result.IsError.Should().BeTrue();
-        Assert.Collection(result.Errors, item => Assert.Equal("Auth.PasswordNotInformed", item.Code));
+        result.Errors.Should().ContainEquivalentOf(Errors.Authentication.PasswordNotInformed);
     }
 
     [Fact]
@@ -93,22 +91,22 @@ public class TestRegisterCommandHandler
             );
 
         result.IsError.Should().BeTrue();
-        Assert.Collection(result.Errors, item => Assert.Equal("Auth.EmailNotInformed", item.Code));
+        result.Errors.Should().ContainEquivalentOf(Errors.Authentication.EmailNotInformed);
     }
 
     // TODO: Mock client with repeated email don't return in mock get
-    //[Fact]
-    //public async Task Register_ExistingEmailInformation_ReturnsDuplicateEmail()
-    //{
+    [Fact]
+    public async Task Register_ExistingEmailInformation_ReturnsDuplicateEmail()
+    {
 
-    //    var handler = new RegisterCommandHandler(_mockJwtTokenGenerator.Object, _mockClientRepository.Object);
+        var handler = new RegisterCommandHandler(_mockJwtTokenGenerator.Object, _mockClientRepository.Object);
 
-    //    var result = await handler.Handle(
-    //        RegisterCommandsFactory.GetWithRepeatedEmail(),
-    //        CancellationToken.None
-    //    );
+        var result = await handler.Handle(
+          RegisterCommandsFactory.GetWithRepeatedEmail(),
+            CancellationToken.None
+        );
 
-    //    result.IsError.Should().BeTrue();
-    //    result.Errors.Should().ContainEquivalentOf(Errors.Client.DuplicateEmail);
-    //}
+        result.IsError.Should().BeTrue();
+        result.Errors.Should().ContainEquivalentOf(Errors.Client.DuplicateEmail);
+    }
 }
