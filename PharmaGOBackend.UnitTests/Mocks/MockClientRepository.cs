@@ -10,21 +10,18 @@ public static class MockClientRepository
     {
         List<Client> clients = new()
         {
-            ClientFactory.GetDefaultClient(),
-            ClientFactory.GetClientWithRepeatedEmail()
+            ClientFactory.GetDefaultClient()
         };
 
         var mockClientRepository = new Mock<IClientRepository>();
 
-        var repeatedEmailClient = clients.FirstOrDefault(c => c.Email.Contains("repeated"))!.Email;
-
-        mockClientRepository.Setup(r =>
-            r.GetClientByEmail(repeatedEmailClient).Result
-        );
+        mockClientRepository.Setup(r => r
+                .GetClientByEmailAsync("teste@teste.com")
+                );
 
         mockClientRepository.Setup(r => r
-                .AddAsync(It.IsAny<Client>()))
-                .ReturnsAsync((Client client) =>
+                .AddAsync(It.IsAny<Client>())
+                ).ReturnsAsync((Client client) =>
                 {
                     clients.Add(client);
                     return client;

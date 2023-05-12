@@ -59,12 +59,12 @@ public static class RegisterCommandsFactory
         );
     }
 
-    public static RegisterCommand GetWithRepeatedEmail()
+    public static RegisterCommand GetWithNewEmail()
     {
         return new RegisterCommand(
             "Teste",
             Common.GetRandomName(),
-            "repeated@teste.com",
+            "new@teste.com",
             "123",
             Guid.Empty
         );

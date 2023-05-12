@@ -26,7 +26,7 @@ public class TestRegisterCommandHandler
         var handler = new RegisterCommandHandler(_mockJwtTokenGenerator.Object, _mockClientRepository.Object);
 
         var result = await handler.Handle(
-            RegisterCommandsFactory.GetDefault(),
+            RegisterCommandsFactory.GetWithNewEmail(),
             CancellationToken.None
             );
 
@@ -102,7 +102,7 @@ public class TestRegisterCommandHandler
     //    var handler = new RegisterCommandHandler(_mockJwtTokenGenerator.Object, _mockClientRepository.Object);
 
     //    var result = await handler.Handle(
-    //      RegisterCommandsFactory.GetWithRepeatedEmail(),
+    //      RegisterCommandsFactory.GetDefault(),
     //        CancellationToken.None
     //    );
 

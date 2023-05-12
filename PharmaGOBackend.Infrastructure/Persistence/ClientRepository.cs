@@ -11,7 +11,7 @@ public class ClientRepository : Repository<Client>, IClientRepository
     {
     }
 
-    public async Task<Client?> GetClientByEmail(string email)
+    public async Task<Client?> GetClientByEmailAsync(string email)
     {
         return await _db.Client.SingleOrDefaultAsync(u => u.Email == email);
     }

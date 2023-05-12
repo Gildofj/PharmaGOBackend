@@ -67,7 +67,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<A
             return Errors.Authentication.PasswordNotInformed;
         }
 
-        if (await _clientRepository.GetClientByEmail(command.Email) is not null)
+        if (await _clientRepository.GetClientByEmailAsync(command.Email) is not null)
         {
             return Errors.Client.DuplicateEmail;
         }

@@ -25,7 +25,7 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, ErrorOr<Authenticat
         await Task.CompletedTask;
 
         if (
-            await _clientRepository.GetClientByEmail(query.Email) is not Client client ||
+            await _clientRepository.GetClientByEmailAsync(query.Email) is not Client client ||
             !BC.Verify(query.Password, client.Password)
         )
         {
