@@ -1,6 +1,6 @@
 ﻿using ErrorOr;
 
-namespace PharmaGOBackend.Domain.Common.Errors;
+namespace PharmaGOBackend.Core.Common.Errors;
 public static partial class Errors
 {
     public static class Authentication

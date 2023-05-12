@@ -1,5 +1,7 @@
-﻿namespace PharmaGOBackend.Domain.Entities;
-public class Client : EntityBase
+﻿using PharmaGOBackend.Core.Entities.Base;
+
+namespace PharmaGOBackend.Core.Entities;
+public class Client : Entity
 {
     public string FirstName { get; set; } = null!;
     public string LastName { get; set; } = null!;

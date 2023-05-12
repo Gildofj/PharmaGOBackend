@@ -1,5 +1,5 @@
-using PharmaGOBackend.Application.Common.Interfaces.Persistence;
-using PharmaGOBackend.Domain.Entities;
+using PharmaGOBackend.Core.Persistence;
+using PharmaGOBackend.Core.Entities;
 using PharmaGOBackend.UnitTests.Helpers.ClientHelper;
 
 namespace PharmaGOBackend.UnitTests.Mocks;
@@ -23,7 +23,7 @@ public static class MockClientRepository
         );
 
         mockClientRepository.Setup(r => r
-                .Add(It.IsAny<Client>()))
+                .AddAsync(It.IsAny<Client>()))
                 .Returns((Client client) =>
                 {
                     clients.Add(client);

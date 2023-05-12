@@ -3,7 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PharmaGOBackend.Application.Commands.RegisterProduct;
 using PharmaGOBackend.Contract.Product;
-using PharmaGOBackend.Domain.Entities;
+using PharmaGOBackend.Core.Entities;
 
 namespace PharmaGOBackend.Api.Controllers;
 

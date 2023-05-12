@@ -1,7 +1,7 @@
 using PharmaGOBackend.Application.Commands.RegisterClient;
 using PharmaGOBackend.Application.Common.Results;
-using PharmaGOBackend.Application.Common.Interfaces.Authentication;
-using PharmaGOBackend.Application.Common.Interfaces.Persistence;
+using PharmaGOBackend.Core.Authentication;
+using PharmaGOBackend.Core.Persistence;
 using PharmaGOBackend.UnitTests.Helpers.Authentication.CommandsHelper;
 using PharmaGOBackend.UnitTests.Mocks;
 

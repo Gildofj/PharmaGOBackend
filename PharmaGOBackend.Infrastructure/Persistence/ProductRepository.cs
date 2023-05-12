@@ -1,40 +1,12 @@
-using PharmaGOBackend.Application.Common.Interfaces.Persistence;
-using PharmaGOBackend.Domain.Entities;
+using PharmaGOBackend.Core.Persistence;
+using PharmaGOBackend.Core.Entities;
+using PharmaGOBackend.Infrastructure.Persistence.Base;
 
 namespace PharmaGOBackend.Infrastructure.Persistence;
 
-public class ProductRepository : IProductRepository
+public class ProductRepository : Repository<Product>, IProductRepository
 {
-    private readonly PharmaGOContext _db;
-    public ProductRepository(PharmaGOContext db)
+    public ProductRepository(PharmaGOContext db) : base(db)
     {
-        _db = db;
-    }
-
-  public Product Add(Product product)
-  {
-    _db.Product.Add(product);
-    _db.SaveChanges();
-    return product;
-  }
-
-  public Product Update(Product product)
-  {
-    _db.Product.Update(product);
-    _db.SaveChanges();
-    return product;
-  }
-
-  public Product? Get(Guid id)
-  {
-    return _db.Product
-        .Where(p => p.Id == id)
-        .FirstOrDefault();
-  }
-
-  public List<Product> GetAll(Guid pharmacyId) {
-        return _db.Product
-                    .Where(p => p.PharmacyId == pharmacyId)
-                    .ToList();
     }
 }

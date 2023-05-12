@@ -1,7 +1,7 @@
 using ErrorOr;
 using MediatR;
-using PharmaGOBackend.Application.Common.Interfaces.Persistence;
-using PharmaGOBackend.Domain.Entities;
+using PharmaGOBackend.Core.Persistence;
+using PharmaGOBackend.Core.Entities;
 
 namespace PharmaGOBackend.Application.Commands.RegisterPharmacy;
 
@@ -23,6 +23,6 @@ public class RegisterPharmacyCommandHandler : IRequestHandler<RegisterPharmacyCo
                 Cnpj = command.Cnpj,
             };
 
-            return _pharmacyRepository.Add(pharmacy);
+            return await _pharmacyRepository.AddAsync(pharmacy);
     }
 }

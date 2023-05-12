@@ -1,7 +1,7 @@
 using ErrorOr;
 using MediatR;
-using PharmaGOBackend.Application.Common.Interfaces.Persistence;
-using PharmaGOBackend.Domain.Entities;
+using PharmaGOBackend.Core.Persistence;
+using PharmaGOBackend.Core.Entities;
 
 namespace PharmaGOBackend.Application.Commands.RegisterProduct;
 
@@ -27,7 +27,7 @@ public class RegisterProductCommandHandler : IRequestHandler<RegisterProductComm
             PharmacyId = request.PharmacyId
         };
 
-        _productRepository.Add(product);
+        await _productRepository.AddAsync(product);
 
         return product;
     }

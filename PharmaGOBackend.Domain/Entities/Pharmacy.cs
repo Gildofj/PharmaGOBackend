@@ -1,6 +1,8 @@
-namespace PharmaGOBackend.Domain.Entities;
+using PharmaGOBackend.Core.Entities.Base;
 
-public class Pharmacy : EntityBase
+namespace PharmaGOBackend.Core.Entities;
+
+public class Pharmacy : Entity
 {
     public string Name { get; set; } = null!;
     public string Cnpj { get; set; } = null!;

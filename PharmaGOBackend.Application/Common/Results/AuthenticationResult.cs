@@ -1,4 +1,4 @@
-using PharmaGOBackend.Domain.Entities;
+using PharmaGOBackend.Core.Entities;
 
 namespace PharmaGOBackend.Application.Common.Results;
 

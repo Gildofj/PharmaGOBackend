@@ -1,6 +1,6 @@
 using ErrorOr;
 using MediatR;
-using PharmaGOBackend.Domain.Entities;
+using PharmaGOBackend.Core.Entities;
 
 namespace PharmaGOBackend.Application.Commands.RegisterPharmacy;
 

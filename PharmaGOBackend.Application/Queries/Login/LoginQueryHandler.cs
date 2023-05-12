@@ -1,10 +1,10 @@
 using ErrorOr;
 using MediatR;
 using PharmaGOBackend.Application.Common.Results;
-using PharmaGOBackend.Application.Common.Interfaces.Authentication;
-using PharmaGOBackend.Application.Common.Interfaces.Persistence;
-using PharmaGOBackend.Domain.Common.Errors;
-using PharmaGOBackend.Domain.Entities;
+using PharmaGOBackend.Core.Authentication;
+using PharmaGOBackend.Core.Persistence;
+using PharmaGOBackend.Core.Common.Errors;
+using PharmaGOBackend.Core.Entities;
 using BC = BCrypt.Net.BCrypt;
 
 namespace PharmaGOBackend.Application.Queries.Login;
@@ -25,7 +25,7 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, ErrorOr<Authenticat
         await Task.CompletedTask;
 
         if (
-            _clientRepository.GetClientByEmail(query.Email) is not Client client ||
+            await _clientRepository.GetClientByEmail(query.Email) is not Client client ||
             !BC.Verify(query.Password, client.Password)
         )
         {

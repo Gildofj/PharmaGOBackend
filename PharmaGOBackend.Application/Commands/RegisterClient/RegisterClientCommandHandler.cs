@@ -1,10 +1,10 @@
 using ErrorOr;
 using MediatR;
 using PharmaGOBackend.Application.Common.Results;
-using PharmaGOBackend.Application.Common.Interfaces.Authentication;
-using PharmaGOBackend.Application.Common.Interfaces.Persistence;
-using PharmaGOBackend.Domain.Common.Errors;
-using PharmaGOBackend.Domain.Entities;
+using PharmaGOBackend.Core.Authentication;
+using PharmaGOBackend.Core.Persistence;
+using PharmaGOBackend.Core.Common.Errors;
+using PharmaGOBackend.Core.Entities;
 using BC = BCrypt.Net.BCrypt;
 
 namespace PharmaGOBackend.Application.Commands.RegisterClient;
@@ -24,7 +24,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<A
     {
         await Task.CompletedTask;
 
-        if (_clientRepository.GetClientByEmail(command.Email) is not null)
+        if (await _clientRepository.GetClientByEmail(command.Email) is not null)
         {
             return Errors.Client.DuplicateEmail;
         }
@@ -38,7 +38,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<A
             PharmacyId = command.PharmacyId,
         };
 
-        _clientRepository.Add(client);
+        await _clientRepository.AddAsync(client);
 
         var token = _jwtTokenGenerator.GenerateToken(client);
 

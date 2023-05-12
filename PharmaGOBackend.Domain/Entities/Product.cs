@@ -1,8 +1,9 @@
+using PharmaGOBackend.Core.Entities.Base;
 using System.ComponentModel.DataAnnotations;
 
-namespace PharmaGOBackend.Domain.Entities;
+namespace PharmaGOBackend.Core.Entities;
 
-public class Product : EntityBase
+public class Product : Entity
 {
     [Required]
     public string Name { get; set; } = null!;

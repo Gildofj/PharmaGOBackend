@@ -1,26 +1,18 @@
-﻿using PharmaGOBackend.Application.Common.Interfaces.Persistence;
-using PharmaGOBackend.Domain.Entities;
+﻿using PharmaGOBackend.Core.Persistence;
+using PharmaGOBackend.Core.Entities;
+using PharmaGOBackend.Infrastructure.Persistence.Base;
+using Microsoft.EntityFrameworkCore;
 
 namespace PharmaGOBackend.Infrastructure.Persistence;
 
-public class ClientRepository : IClientRepository
+public class ClientRepository : Repository<Client>, IClientRepository
 {
-    private readonly PharmaGOContext _db;
-
-    public ClientRepository(PharmaGOContext db)
+    public ClientRepository(PharmaGOContext db) : base(db)
     {
-        _db = db;
     }
 
-    public Client Add(Client client)
+    public async Task<Client?> GetClientByEmail(string email)
     {
-        _db.Client.Add(client);
-        _db.SaveChanges();
-        return client;
-    }
-
-    public Client? GetClientByEmail(string email)
-    {
-        return _db.Client.SingleOrDefault(u => u.Email == email);
+        return await _db.Client.SingleOrDefaultAsync(u => u.Email == email);
     }
 }

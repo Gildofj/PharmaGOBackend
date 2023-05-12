@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PharmaGOBackend.Domain.Entities;
+using PharmaGOBackend.Core.Entities;
 
 namespace PharmaGOBackend.Infrastructure.Persistence;
 

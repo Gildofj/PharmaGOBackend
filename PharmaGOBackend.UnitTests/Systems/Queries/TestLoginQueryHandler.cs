@@ -1,7 +1,7 @@
-﻿using PharmaGOBackend.Application.Common.Interfaces.Authentication;
-using PharmaGOBackend.Application.Common.Interfaces.Persistence;
+﻿using PharmaGOBackend.Core.Authentication;
+using PharmaGOBackend.Core.Persistence;
 using PharmaGOBackend.UnitTests.Mocks;
-using PharmaGOBackend.Domain.Common.Errors;
+using PharmaGOBackend.Core.Common.Errors;
 using PharmaGOBackend.Application.Queries.Login;
 using PharmaGOBackend.UnitTests.Helpers.Authentication.QueriesHelper;
 

@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using PharmaGOBackend.Application.Common.Interfaces.Authentication;
-using PharmaGOBackend.Application.Common.Interfaces.Persistence;
-using PharmaGOBackend.Application.Common.Interfaces.Services;
+using PharmaGOBackend.Core.Authentication;
+using PharmaGOBackend.Core.Persistence;
+using PharmaGOBackend.Core.Services;
 using PharmaGOBackend.Infrastructure.Authentication;
 using PharmaGOBackend.Infrastructure.Persistence;
 using PharmaGOBackend.Infrastructure.Services;
