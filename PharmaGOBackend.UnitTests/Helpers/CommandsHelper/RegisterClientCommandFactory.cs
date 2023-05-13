@@ -2,11 +2,11 @@ using PharmaGOBackend.Application.Commands.RegisterClient;
 
 namespace PharmaGOBackend.UnitTests.Helpers.Authentication.CommandsHelper;
 
-public static class RegisterCommandsFactory
+public static class RegisterClientCommandFactory
 {
-    public static RegisterCommand GetDefault()
+    public static RegisterClientCommand GetDefault()
     {
-        return new RegisterCommand(
+        return new RegisterClientCommand(
             "Teste",
             Common.GetRandomName(),
             "teste@teste.com",
@@ -15,9 +15,9 @@ public static class RegisterCommandsFactory
             );
     }
 
-    public static RegisterCommand GetWithoutFirstName()
+    public static RegisterClientCommand GetWithoutFirstName()
     {
-        return new RegisterCommand(
+        return new RegisterClientCommand(
             "",
             Common.GetRandomName(),
             "teste@teste.com",
@@ -26,9 +26,9 @@ public static class RegisterCommandsFactory
         );
     }
 
-    public static RegisterCommand GetWithoutLastName()
+    public static RegisterClientCommand GetWithoutLastName()
     {
-        return new RegisterCommand(
+        return new RegisterClientCommand(
             "Teste",
             "",
             "teste@teste.com",
@@ -37,9 +37,9 @@ public static class RegisterCommandsFactory
         );
     }
 
-    public static RegisterCommand GetWithoutEmail()
+    public static RegisterClientCommand GetWithoutEmail()
     {
-        return new RegisterCommand(
+        return new RegisterClientCommand(
             "Teste",
             Common.GetRandomName(),
             "",
@@ -48,9 +48,9 @@ public static class RegisterCommandsFactory
         );
     }
 
-    public static RegisterCommand GetWithoutPassword()
+    public static RegisterClientCommand GetWithoutPassword()
     {
-        return new RegisterCommand(
+        return new RegisterClientCommand(
             "Teste",
             Common.GetRandomName(),
             "teste@teste.com",

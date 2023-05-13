@@ -6,26 +6,26 @@ using PharmaGOBackend.Core.Persistence;
 using PharmaGOBackend.UnitTests.Helpers.Authentication.CommandsHelper;
 using PharmaGOBackend.UnitTests.Helpers.ClientHelper;
 
-namespace PharmaGOBackend.UnitTests.Systems.Authentication.Commands;
+namespace PharmaGOBackend.UnitTests.Systems.Commands;
 
-public class TestRegisterCommandHandler
+public class TestRegisterClientCommandHandler
 {
     private readonly Mock<IJwtTokenGenerator> _mockJwtTokenGenerator;
     private readonly Mock<IClientRepository> _mockClientRepository;
 
-    public TestRegisterCommandHandler()
+    public TestRegisterClientCommandHandler()
     {
         _mockJwtTokenGenerator = new();
         _mockClientRepository = new();
     }
 
     [Fact]
-    public async Task Register_OnSuccess_ReturnsAuthenticationResult()
+    public async Task Register_OnSuccess_AddClient()
     {
-        var handler = new RegisterCommandHandler(_mockJwtTokenGenerator.Object, _mockClientRepository.Object);
+        var handler = new RegisterClientCommandHandler(_mockJwtTokenGenerator.Object, _mockClientRepository.Object);
 
         var result = await handler.Handle(
-            RegisterCommandsFactory.GetDefault(),
+            RegisterClientCommandFactory.GetDefault(),
             default
             );
 
@@ -36,12 +36,12 @@ public class TestRegisterCommandHandler
     }
 
     [Fact]
-    public async Task Register_FirstNameNotInformed_ReturnsFirstNameNotInformedException()
+    public async Task Register_FirstNameNotInformed_ReturnsFirstNameNotInformedError()
     {
-        var handler = new RegisterCommandHandler(_mockJwtTokenGenerator.Object, _mockClientRepository.Object);
+        var handler = new RegisterClientCommandHandler(_mockJwtTokenGenerator.Object, _mockClientRepository.Object);
 
         var result = await handler.Handle(
-            RegisterCommandsFactory.GetWithoutFirstName(),
+            RegisterClientCommandFactory.GetWithoutFirstName(),
             default
             );
 
@@ -50,12 +50,12 @@ public class TestRegisterCommandHandler
     }
 
     [Fact]
-    public async Task Register_LastNameNotInformed_ReturnsLastNameNotInformedException()
+    public async Task Register_LastNameNotInformed_ReturnsLastNameNotInformedError()
     {
-        var handler = new RegisterCommandHandler(_mockJwtTokenGenerator.Object, _mockClientRepository.Object);
+        var handler = new RegisterClientCommandHandler(_mockJwtTokenGenerator.Object, _mockClientRepository.Object);
 
         var result = await handler.Handle(
-            RegisterCommandsFactory.GetWithoutLastName(),
+            RegisterClientCommandFactory.GetWithoutLastName(),
             default
             );
 
@@ -64,12 +64,12 @@ public class TestRegisterCommandHandler
     }
 
     [Fact]
-    public async Task Register_PasswordNotInformed_ReturnsPasswordNotInformedException()
+    public async Task Register_PasswordNotInformed_ReturnsPasswordNotInformedError()
     {
-        var handler = new RegisterCommandHandler(_mockJwtTokenGenerator.Object, _mockClientRepository.Object);
+        var handler = new RegisterClientCommandHandler(_mockJwtTokenGenerator.Object, _mockClientRepository.Object);
 
         var result = await handler.Handle(
-            RegisterCommandsFactory.GetWithoutPassword(),
+            RegisterClientCommandFactory.GetWithoutPassword(),
             default
             );
 
@@ -78,12 +78,12 @@ public class TestRegisterCommandHandler
     }
 
     [Fact]
-    public async Task Register_EmailNotInformed_ReturnsEmailNotInformedException()
+    public async Task Register_EmailNotInformed_ReturnsEmailNotInformedError()
     {
-        var handler = new RegisterCommandHandler(_mockJwtTokenGenerator.Object, _mockClientRepository.Object);
+        var handler = new RegisterClientCommandHandler(_mockJwtTokenGenerator.Object, _mockClientRepository.Object);
 
         var result = await handler.Handle(
-            RegisterCommandsFactory.GetWithoutEmail(),
+            RegisterClientCommandFactory.GetWithoutEmail(),
             default
             );
 
@@ -98,14 +98,34 @@ public class TestRegisterCommandHandler
              x => x.GetClientByEmailAsync(It.IsAny<string>())
              ).ReturnsAsync(ClientFactory.GetDefaultClient());
 
-        var handler = new RegisterCommandHandler(_mockJwtTokenGenerator.Object, _mockClientRepository.Object);
+        var handler = new RegisterClientCommandHandler(_mockJwtTokenGenerator.Object, _mockClientRepository.Object);
 
         var result = await handler.Handle(
-          RegisterCommandsFactory.GetDefault(),
+          RegisterClientCommandFactory.GetDefault(),
             default
         );
 
         result.IsError.Should().BeTrue();
         result.Errors.Should().ContainEquivalentOf(Errors.Client.DuplicateEmail);
+    }
+
+    [Fact]
+    public async Task Register_ExistingEmailInformation_NotAddClient()
+    {
+        _mockClientRepository.Setup(
+             x => x.GetClientByEmailAsync(It.IsAny<string>())
+             ).ReturnsAsync(ClientFactory.GetDefaultClient());
+
+        var handler = new RegisterClientCommandHandler(_mockJwtTokenGenerator.Object, _mockClientRepository.Object);
+
+        var result = await handler.Handle(
+          RegisterClientCommandFactory.GetDefault(),
+            default
+        );
+
+        _mockClientRepository.Verify(
+            x => x.AddAsync(It.IsAny<Client>()),
+            Times.Never
+            );
     }
 }

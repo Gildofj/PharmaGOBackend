@@ -3,11 +3,10 @@ using PharmaGOBackend.Core.Persistence;
 using PharmaGOBackend.Core.Common.Errors;
 using PharmaGOBackend.Application.Queries.Login;
 using PharmaGOBackend.UnitTests.Helpers.Authentication.QueriesHelper;
-using PharmaGOBackend.Core.Entities;
 using PharmaGOBackend.UnitTests.Helpers.ClientHelper;
 using PharmaGOBackend.Application.Common.Results;
 
-namespace PharmaGOBackend.UnitTests.Systems.Authentication.Queries;
+namespace PharmaGOBackend.UnitTests.Systems.Queries;
 
 public class TestLoginQueryHandler
 {
@@ -39,7 +38,7 @@ public class TestLoginQueryHandler
     }
 
     [Fact]
-    public async Task Login_PasswordNotInformed_ReturnsInvalidCredentialException()
+    public async Task Login_PasswordNotInformed_ReturnsInvalidCredentialError()
     {
         _mockClientRepository.Setup(
             x => x.GetClientByEmailAsync(It.IsAny<string>())
@@ -57,7 +56,7 @@ public class TestLoginQueryHandler
     }
 
     [Fact]
-    public async Task Login_EmailNotInformed_ReturnsInvalidCredentialException()
+    public async Task Login_EmailNotInformed_ReturnsInvalidCredentialError()
     {
         var handler = new LoginQueryHandler(_mockJwtTokenGenerator.Object, _mockClientRepository.Object);
 
@@ -71,7 +70,7 @@ public class TestLoginQueryHandler
     }
 
     [Fact]
-    public async Task Login_IncorrectPassword_ReturnsInvalidCredentialException()
+    public async Task Login_IncorrectPassword_ReturnsInvalidCredentialError()
     {
         _mockClientRepository.Setup(
             x => x.GetClientByEmailAsync(It.IsAny<string>())

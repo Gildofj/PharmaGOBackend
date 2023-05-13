@@ -23,7 +23,7 @@ public class AuthenticationController : ApiController
     public async Task<IActionResult> Register(Guid pharmacyId, RegisterRequest request)
     {
         request.PharmacyId = pharmacyId;
-        var command = _mapper.Map<RegisterCommand>(request);
+        var command = _mapper.Map<RegisterClientCommand>(request);
         var authResult = await _mediator.Send(command);
 
         return authResult.Match(

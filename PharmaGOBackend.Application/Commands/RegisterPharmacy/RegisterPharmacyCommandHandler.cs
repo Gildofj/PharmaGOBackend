@@ -2,6 +2,8 @@ using ErrorOr;
 using MediatR;
 using PharmaGOBackend.Core.Persistence;
 using PharmaGOBackend.Core.Entities;
+using Microsoft.AspNetCore.Mvc;
+using PharmaGOBackend.Core.Common.Errors;
 
 namespace PharmaGOBackend.Application.Commands.RegisterPharmacy;
 
@@ -15,14 +17,30 @@ public class RegisterPharmacyCommandHandler : IRequestHandler<RegisterPharmacyCo
 
     public async Task<ErrorOr<Pharmacy>> Handle(RegisterPharmacyCommand command, CancellationToken cancellationToken)
     {
-            await Task.CompletedTask;
+        await Task.CompletedTask;
 
-            var pharmacy = new Pharmacy
-            {
-                Name = command.Name,
-                Cnpj = command.Cnpj,
-            };
+        if (ValidatePharmacyData(command) is Error error)
+            return error;
 
-            return await _pharmacyRepository.AddAsync(pharmacy);
+        var pharmacy = new Pharmacy
+        {
+            Name = command.Name,
+            Cnpj = command.Cnpj,
+        };
+
+        await _pharmacyRepository.AddAsync(pharmacy);
+
+        return pharmacy;
+    }
+
+    public static Error? ValidatePharmacyData(RegisterPharmacyCommand command)
+    {
+        if (string.IsNullOrEmpty(command.Name))
+            return Errors.Pharmacy.NameNotInformed;
+
+        if (string.IsNullOrEmpty(command.Cnpj))
+            return Errors.Pharmacy.CnpjNotInformed;
+
+        return null;
     }
 }

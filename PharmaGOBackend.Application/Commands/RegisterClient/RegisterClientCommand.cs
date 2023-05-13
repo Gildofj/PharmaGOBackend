@@ -4,7 +4,7 @@ using PharmaGOBackend.Application.Common.Results;
 
 namespace PharmaGOBackend.Application.Commands.RegisterClient;
 
-public record RegisterCommand(
+public record RegisterClientCommand(
     string FirstName,
     string LastName,
     string Email,

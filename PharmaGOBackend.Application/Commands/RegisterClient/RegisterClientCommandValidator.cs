@@ -1,7 +1,7 @@
 using FluentValidation;
 
 namespace PharmaGOBackend.Application.Commands.RegisterClient;
-public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
+public class RegisterCommandValidator : AbstractValidator<RegisterClientCommand>
 {
   public RegisterCommandValidator()
   {

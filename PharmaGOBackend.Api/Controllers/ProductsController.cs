@@ -23,8 +23,8 @@ public class ProductsController : ApiController
     public async Task<IActionResult> Post(Guid pharmacyId, RegisterProductRequest request)
     {
         request.PharmacyId = pharmacyId;
-        var command =  _mapper.Map<RegisterProductCommand>(request);
-        var authResult = await  _mediator.Send(command);
+        var command = _mapper.Map<RegisterProductCommand>(request);
+        var authResult = await _mediator.Send(command);
 
         return authResult.Match(
             result => Ok(_mapper.Map<Product>(result)),
