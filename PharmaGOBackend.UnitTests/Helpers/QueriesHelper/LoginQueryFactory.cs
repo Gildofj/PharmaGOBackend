@@ -28,4 +28,12 @@ public class LoginQueryFactory
             ""
         );
     }
+
+    public static LoginQuery GetWithWrongPassword()
+    {
+        return new LoginQuery(
+            "teste@teste.com",
+            "111"
+        );
+    }
 }

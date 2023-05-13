@@ -58,15 +58,4 @@ public static class RegisterCommandsFactory
             Guid.Empty
         );
     }
-
-    public static RegisterCommand GetWithNewEmail()
-    {
-        return new RegisterCommand(
-            "Teste",
-            Common.GetRandomName(),
-            "new@teste.com",
-            "123",
-            Guid.Empty
-        );
-    }
 }
