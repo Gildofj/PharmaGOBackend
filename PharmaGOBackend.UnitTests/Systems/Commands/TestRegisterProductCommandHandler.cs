@@ -31,6 +31,7 @@ public class TestRegisterProductCommandHandler
             );
     }
 
+    [Fact]
     public async Task Register_PharmacyIdNotInformed_ReturnsPharmacyIdNotInformedError()
     {
         var handler = new RegisterProductCommandHandler(_mockProductRepository.Object);
@@ -44,6 +45,7 @@ public class TestRegisterProductCommandHandler
         result.Errors.Should().ContainEquivalentOf(Errors.Product.PharmacyIdNotInformed);
     }
 
+    [Fact]
     public async Task Register_NameNotInformed_ReturnsNameNotInformedError()
     {
         var handler = new RegisterProductCommandHandler(_mockProductRepository.Object);
@@ -57,6 +59,7 @@ public class TestRegisterProductCommandHandler
         result.Errors.Should().ContainEquivalentOf(Errors.Product.NameNotInformed);
     }
 
+    [Fact]
     public async Task Register_AmountIdNotInformed_ReturnsAmountNotInformedError()
     {
         var handler = new RegisterProductCommandHandler(_mockProductRepository.Object);
@@ -70,6 +73,7 @@ public class TestRegisterProductCommandHandler
         result.Errors.Should().ContainEquivalentOf(Errors.Product.AmountNotInformed);
     }
 
+    [Fact]
     public async Task Register_DescriptionOver300Caracteres_ReturnsDescriptionExceededMaxLengthError()
     {
         var handler = new RegisterProductCommandHandler(_mockProductRepository.Object);
