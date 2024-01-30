@@ -5,12 +5,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace PharmaGOBackend.Infrastructure.Persistence;
 
-public class ClientRepository : Repository<Client>, IClientRepository
+public class ClientRepository(PharmaGOContext db) : Repository<Client>(db), IClientRepository
 {
-    public ClientRepository(PharmaGOContext db) : base(db)
-    {
-    }
-
     public async Task<Client?> GetClientByEmailAsync(string email)
     {
         return await _db.Client.SingleOrDefaultAsync(u => u.Email == email);

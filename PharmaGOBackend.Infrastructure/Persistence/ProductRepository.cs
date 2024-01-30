@@ -4,9 +4,6 @@ using PharmaGOBackend.Infrastructure.Persistence.Base;
 
 namespace PharmaGOBackend.Infrastructure.Persistence;
 
-public class ProductRepository : Repository<Product>, IProductRepository
+public class ProductRepository(PharmaGOContext db) : Repository<Product>(db), IProductRepository
 {
-    public ProductRepository(PharmaGOContext db) : base(db)
-    {
-    }
 }
