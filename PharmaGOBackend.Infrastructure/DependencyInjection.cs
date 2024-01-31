@@ -14,7 +14,7 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, ConfigurationManager configuration)
     {
         services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.SectionName));
-        services.AddDbContext(configuration.GetConnectionString("PharmaGOContext"));
+        services.AddDbContext(configuration.GetConnectionString("PharmaGOContext") ?? throw new MissingFieldException("ConnectionString databse not found"));
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
         services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
