@@ -19,7 +19,7 @@ public class PharmaciesController : ApiController
     }
 
     [HttpPost]
-    public async Task<IActionResult> Post(RegisterPharmacyRequest request)
+    public async Task<IActionResult> Post(CreatePharmacyRequest request)
     {
         var command = _mapper.Map<CreatePharmacyCommand>(request);
         var authResult = await _mediator.Send(command);

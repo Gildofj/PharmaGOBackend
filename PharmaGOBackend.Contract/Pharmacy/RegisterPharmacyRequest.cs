@@ -1,3 +1,3 @@
 namespace PharmaGOBackend.Contract.Pharmacy;
 
-public record RegisterPharmacyRequest(string Name, string Cnpj);
+public record CreatePharmacyRequest(string Name, string Cnpj);

@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PharmaGOBackend.Application.Products.Commands.CreateProduct;
 using PharmaGOBackend.Application.Products.Queries.ListProducts;
+using PharmaGOBackend.Contract;
 using PharmaGOBackend.Contract.Product;
 using PharmaGOBackend.Core.Entities;
 
@@ -25,18 +26,18 @@ public class ProductsController : ApiController
     {
         var result = await _mediator.Send(new ListProductsQuery());
 
-        return Ok(_mapper.Map<List<Product>>(result));
+        return Ok(_mapper.Map<List<ProductResponse>>(result));
     }
 
     [HttpPost]
-    public async Task<IActionResult> Post(Guid pharmacyId, RegisterProductRequest request)
+    public async Task<IActionResult> Post(Guid pharmacyId, CreateProductRequest request)
     {
         request.PharmacyId = pharmacyId;
         var command = _mapper.Map<CreateProductCommand>(request);
         var result = await _mediator.Send(command);
 
         return result.Match(
-            result => Ok(_mapper.Map<Product>(result)),
+            result => Ok(_mapper.Map<ProductResponse>(result)),
             errors => Problem(errors)
             );
     }
