@@ -1,7 +1,7 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
 using PharmaGOBackend.Core.Entities.Base;
-using PharmaGOBackend.Core.Persistence.Base;
+using PharmaGOBackend.Core.Interfaces.Persistence.Base;
 
 namespace PharmaGOBackend.Infrastructure.Persistence.Base
 {

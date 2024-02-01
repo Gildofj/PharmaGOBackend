@@ -8,7 +8,7 @@
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PharmaGOBackend.Domain\PharmaGOBackend.Core.csproj" />
+    <ProjectReference Include="..\PharmaGOBackend.Core\PharmaGOBackend.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Authentication/" />

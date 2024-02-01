@@ -1,6 +1,6 @@
 using ErrorOr;
 using MediatR;
-using PharmaGOBackend.Core.Persistence;
+using PharmaGOBackend.Core.Interfaces.Persistence;
 using PharmaGOBackend.Core.Entities;
 using PharmaGOBackend.Core.Common.Errors;
 

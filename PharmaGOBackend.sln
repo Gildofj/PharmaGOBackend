@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PharmaGOBackend.Application
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PharmaGOBackend.Contract", "PharmaGOBackend.Contract\PharmaGOBackend.Contract.csproj", "{3ADBA59A-47E2-499B-9BE7-CCE0FEFE03C6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PharmaGOBackend.Core", "PharmaGOBackend.Domain\PharmaGOBackend.Core.csproj", "{2C6398E7-FB01-4F2E-A606-A26DFC425E99}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PharmaGOBackend.Core", "PharmaGOBackend.Core\PharmaGOBackend.Core.csproj", "{2C6398E7-FB01-4F2E-A606-A26DFC425E99}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PharmaGOBackend.Infrastructure", "PharmaGOBackend.Infrastructure\PharmaGOBackend.Infrastructure.csproj", "{72B603AA-7D81-4979-B023-994758089A84}"
 EndProject

@@ -1,4 +1,4 @@
-﻿using PharmaGOBackend.Core.Services;
+﻿using PharmaGOBackend.Core.Interfaces.Services;
 
 namespace PharmaGOBackend.Infrastructure.Services;
 

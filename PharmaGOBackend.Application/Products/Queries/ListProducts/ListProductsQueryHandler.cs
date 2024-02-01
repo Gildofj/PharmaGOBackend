@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using PharmaGOBackend.Core.Entities;
-using PharmaGOBackend.Core.Persistence;
+using PharmaGOBackend.Core.Interfaces.Persistence;
 
 namespace PharmaGOBackend.Application.Products.Queries.ListProducts;
 

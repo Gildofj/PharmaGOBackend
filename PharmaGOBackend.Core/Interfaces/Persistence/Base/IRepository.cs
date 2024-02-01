@@ -1,6 +1,6 @@
 ﻿using PharmaGOBackend.Core.Entities.Base;
 
-namespace PharmaGOBackend.Core.Persistence.Base
+namespace PharmaGOBackend.Core.Interfaces.Persistence.Base
 {
     public interface IRepository<T> where T : Entity
     {

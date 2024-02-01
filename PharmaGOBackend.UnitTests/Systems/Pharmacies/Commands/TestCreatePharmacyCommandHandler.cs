@@ -1,5 +1,5 @@
 ﻿using PharmaGOBackend.Core.Entities;
-using PharmaGOBackend.Core.Persistence;
+using PharmaGOBackend.Core.Interfaces.Persistence;
 using PharmaGOBackend.Core.Common.Errors;
 using PharmaGOBackend.UnitTests.Helpers.CommandsHelper;
 using PharmaGOBackend.Application.Pharmacies.Commands.CreatePharmacy;

@@ -3,8 +3,8 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using PharmaGOBackend.Core.Authentication;
-using PharmaGOBackend.Core.Services;
+using PharmaGOBackend.Core.Interfaces.Authentication;
+using PharmaGOBackend.Core.Interfaces.Services;
 using PharmaGOBackend.Core.Entities;
 
 namespace PharmaGOBackend.Infrastructure.Authentication;

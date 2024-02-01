@@ -1,11 +1,11 @@
 using ErrorOr;
 using MediatR;
-using PharmaGOBackend.Core.Authentication;
-using PharmaGOBackend.Core.Persistence;
 using PharmaGOBackend.Core.Common.Errors;
 using PharmaGOBackend.Core.Entities;
 using BC = BCrypt.Net.BCrypt;
 using PharmaGOBackend.Application.Authentication.Common;
+using PharmaGOBackend.Core.Interfaces.Authentication;
+using PharmaGOBackend.Core.Interfaces.Persistence;
 
 namespace PharmaGOBackend.Application.Authentication.Commands.Register;
 
