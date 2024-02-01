@@ -1,16 +1,16 @@
-﻿using PharmaGOBackend.Application.Commands.RegisterPharmacy;
-using PharmaGOBackend.Core.Entities;
+﻿using PharmaGOBackend.Core.Entities;
 using PharmaGOBackend.Core.Persistence;
 using PharmaGOBackend.Core.Common.Errors;
 using PharmaGOBackend.UnitTests.Helpers.CommandsHelper;
+using PharmaGOBackend.Application.Pharmacies.Commands.CreatePharmacy;
 
-namespace PharmaGOBackend.UnitTests.Systems.Commands;
+namespace PharmaGOBackend.UnitTests.Systems.Pharmacies.Commands;
 
-public  class TestRegisterPharmacyCommandHandler
+public class TestCreatePharmacyCommandHandler
 {
     private readonly Mock<IPharmacyRepository> _mockPharmacyRepository;
 
-    public TestRegisterPharmacyCommandHandler()
+    public TestCreatePharmacyCommandHandler()
     {
         _mockPharmacyRepository = new();
     }
@@ -18,10 +18,10 @@ public  class TestRegisterPharmacyCommandHandler
     [Fact]
     public async Task Register_OnSuccess_AddPharmacy()
     {
-        var handler = new RegisterPharmacyCommandHandler(_mockPharmacyRepository.Object);
+        var handler = new CreatePharmacyCommandHandler(_mockPharmacyRepository.Object);
 
         var result = await handler.Handle(
-            RegisterPharmacyCommandFactory.GetDefault(),
+            CreatePharmacyCommandFactory.GetDefault(),
             default
             );
 
@@ -34,10 +34,10 @@ public  class TestRegisterPharmacyCommandHandler
     [Fact]
     public async Task Register_CnpjNotInformed_ReturnsCnpjNotInformedError()
     {
-        var handler = new RegisterPharmacyCommandHandler(_mockPharmacyRepository.Object);
+        var handler = new CreatePharmacyCommandHandler(_mockPharmacyRepository.Object);
 
         var result = await handler.Handle(
-            RegisterPharmacyCommandFactory.GetWithoutCnpj(),
+            CreatePharmacyCommandFactory.GetWithoutCnpj(),
             default
             );
 
@@ -48,10 +48,10 @@ public  class TestRegisterPharmacyCommandHandler
     [Fact]
     public async Task Register_NameNotInformed_ReturnsNameNotInformedError()
     {
-        var handler = new RegisterPharmacyCommandHandler(_mockPharmacyRepository.Object);
+        var handler = new CreatePharmacyCommandHandler(_mockPharmacyRepository.Object);
 
         var result = await handler.Handle(
-            RegisterPharmacyCommandFactory.GetWithoutName(),
+            CreatePharmacyCommandFactory.GetWithoutName(),
             default
             );
 

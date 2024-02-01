@@ -1,4 +1,4 @@
-﻿using PharmaGOBackend.Application.Commands.RegisterProduct;
+﻿using PharmaGOBackend.Application.Products.Commands.CreateProduct;
 using PharmaGOBackend.Core.Authentication;
 using PharmaGOBackend.Core.Common.Errors;
 using PharmaGOBackend.Core.Entities;
@@ -6,11 +6,11 @@ using PharmaGOBackend.Core.Persistence;
 using PharmaGOBackend.UnitTests.Helpers.CommandsHelper;
 
 namespace PharmaGOBackend.UnitTests.Systems.Commands;
-public class TestRegisterProductCommandHandler
+public class TestCreateProductCommandHandler
 {
     private readonly Mock<IProductRepository> _mockProductRepository;
 
-    public TestRegisterProductCommandHandler()
+    public TestCreateProductCommandHandler()
     {
         _mockProductRepository = new();
     }
@@ -18,7 +18,7 @@ public class TestRegisterProductCommandHandler
     [Fact]
     public async Task Register_OnSuccess_AddProduct()
     {
-        var handler = new RegisterProductCommandHandler(_mockProductRepository.Object);
+        var handler = new CreateProductCommandHandler(_mockProductRepository.Object);
 
         var result = await handler.Handle(
             RegisterProductCommandFactory.GetDefault(),
@@ -34,7 +34,7 @@ public class TestRegisterProductCommandHandler
     [Fact]
     public async Task Register_PharmacyIdNotInformed_ReturnsPharmacyIdNotInformedError()
     {
-        var handler = new RegisterProductCommandHandler(_mockProductRepository.Object);
+        var handler = new CreateProductCommandHandler(_mockProductRepository.Object);
 
         var result = await handler.Handle(
             RegisterProductCommandFactory.GetWithoutPharmacyId(),
@@ -48,7 +48,7 @@ public class TestRegisterProductCommandHandler
     [Fact]
     public async Task Register_NameNotInformed_ReturnsNameNotInformedError()
     {
-        var handler = new RegisterProductCommandHandler(_mockProductRepository.Object);
+        var handler = new CreateProductCommandHandler(_mockProductRepository.Object);
 
         var result = await handler.Handle(
             RegisterProductCommandFactory.GetWithoutName(),
@@ -62,7 +62,7 @@ public class TestRegisterProductCommandHandler
     [Fact]
     public async Task Register_AmountIdNotInformed_ReturnsAmountNotInformedError()
     {
-        var handler = new RegisterProductCommandHandler(_mockProductRepository.Object);
+        var handler = new CreateProductCommandHandler(_mockProductRepository.Object);
 
         var result = await handler.Handle(
             RegisterProductCommandFactory.GetWithoutAmount(),
@@ -76,7 +76,7 @@ public class TestRegisterProductCommandHandler
     [Fact]
     public async Task Register_DescriptionOver300Caracteres_ReturnsDescriptionExceededMaxLengthError()
     {
-        var handler = new RegisterProductCommandHandler(_mockProductRepository.Object);
+        var handler = new CreateProductCommandHandler(_mockProductRepository.Object);
 
         var result = await handler.Handle(
             RegisterProductCommandFactory.GetWithOver300CaracteresDescription(),

@@ -1,12 +1,12 @@
 ﻿using PharmaGOBackend.Core.Authentication;
 using PharmaGOBackend.Core.Persistence;
 using PharmaGOBackend.Core.Common.Errors;
-using PharmaGOBackend.Application.Queries.Login;
 using PharmaGOBackend.UnitTests.Helpers.Authentication.QueriesHelper;
 using PharmaGOBackend.UnitTests.Helpers.ClientHelper;
 using PharmaGOBackend.Application.Authentication.Common;
+using PharmaGOBackend.Application.Authentication.Queries.Login;
 
-namespace PharmaGOBackend.UnitTests.Systems.Queries;
+namespace PharmaGOBackend.UnitTests.Systems.Authentication.Queries;
 
 public class TestLoginQueryHandler
 {

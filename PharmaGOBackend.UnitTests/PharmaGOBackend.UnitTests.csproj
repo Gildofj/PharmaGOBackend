@@ -27,4 +27,9 @@
     <ProjectReference Include="..\PharmaGOBackend.Api\PharmaGOBackend.Api.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Systems/Authentication/" />
+    <Folder Include="Systems/Authentication/Commands/" />
+  </ItemGroup>
+
 </Project>

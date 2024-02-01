@@ -2,7 +2,7 @@ using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PharmaGOBackend.Application.Products.Commands.CreateProduct;
-using PharmaGOBackend.Application.Queries.ListProducts;
+using PharmaGOBackend.Application.Products.Queries.ListProducts;
 using PharmaGOBackend.Contract.Product;
 using PharmaGOBackend.Core.Entities;
 

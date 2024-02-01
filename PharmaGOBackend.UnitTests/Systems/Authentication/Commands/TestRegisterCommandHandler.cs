@@ -1,4 +1,4 @@
-using PharmaGOBackend.Application.Commands.RegisterClient;
+using PharmaGOBackend.Application.Authentication.Commands.Register;
 using PharmaGOBackend.Core.Authentication;
 using PharmaGOBackend.Core.Common.Errors;
 using PharmaGOBackend.Core.Entities;
@@ -6,7 +6,7 @@ using PharmaGOBackend.Core.Persistence;
 using PharmaGOBackend.UnitTests.Helpers.Authentication.CommandsHelper;
 using PharmaGOBackend.UnitTests.Helpers.ClientHelper;
 
-namespace PharmaGOBackend.UnitTests.Systems.Commands;
+namespace PharmaGOBackend.UnitTests.Systems.Authentication.Commands;
 
 public class TestRegisterClientCommandHandler
 {

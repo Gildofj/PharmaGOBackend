@@ -2,7 +2,7 @@
 
 namespace PharmaGOBackend.UnitTests.Helpers.CommandsHelper;
 
-public static class RegisterPharmacyCommandFactory
+public static class CreatePharmacyCommandFactory
 {
     public static CreatePharmacyCommand GetDefault()
     {
