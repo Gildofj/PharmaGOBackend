@@ -1,5 +1,5 @@
 using PharmaGOBackend.Core.Entities;
 
-namespace PharmaGOBackend.Application.Common.Results;
+namespace PharmaGOBackend.Application.Authentication.Common;
 
 public record AuthenticationResult(Client Client, string Token);

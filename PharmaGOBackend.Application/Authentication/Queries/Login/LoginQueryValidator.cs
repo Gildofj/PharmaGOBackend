@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace PharmaGOBackend.Application.Queries.Login;
+namespace PharmaGOBackend.Application.Authentication.Queries.Login;
 
 public class LoginQueryValidator : AbstractValidator<LoginQuery>
 {

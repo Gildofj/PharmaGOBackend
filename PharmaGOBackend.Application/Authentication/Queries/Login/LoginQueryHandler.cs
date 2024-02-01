@@ -1,13 +1,13 @@
 using ErrorOr;
 using MediatR;
-using PharmaGOBackend.Application.Common.Results;
 using PharmaGOBackend.Core.Authentication;
 using PharmaGOBackend.Core.Persistence;
 using PharmaGOBackend.Core.Common.Errors;
 using PharmaGOBackend.Core.Entities;
 using BC = BCrypt.Net.BCrypt;
+using PharmaGOBackend.Application.Authentication.Common;
 
-namespace PharmaGOBackend.Application.Queries.Login;
+namespace PharmaGOBackend.Application.Authentication.Queries.Login;
 
 public class LoginQueryHandler : IRequestHandler<LoginQuery, ErrorOr<AuthenticationResult>>
 {

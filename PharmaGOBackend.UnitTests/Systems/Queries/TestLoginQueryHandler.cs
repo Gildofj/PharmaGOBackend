@@ -4,7 +4,7 @@ using PharmaGOBackend.Core.Common.Errors;
 using PharmaGOBackend.Application.Queries.Login;
 using PharmaGOBackend.UnitTests.Helpers.Authentication.QueriesHelper;
 using PharmaGOBackend.UnitTests.Helpers.ClientHelper;
-using PharmaGOBackend.Application.Common.Results;
+using PharmaGOBackend.Application.Authentication.Common;
 
 namespace PharmaGOBackend.UnitTests.Systems.Queries;
 

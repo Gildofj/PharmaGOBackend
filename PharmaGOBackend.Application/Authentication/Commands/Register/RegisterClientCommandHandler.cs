@@ -1,13 +1,13 @@
 using ErrorOr;
 using MediatR;
-using PharmaGOBackend.Application.Common.Results;
 using PharmaGOBackend.Core.Authentication;
 using PharmaGOBackend.Core.Persistence;
 using PharmaGOBackend.Core.Common.Errors;
 using PharmaGOBackend.Core.Entities;
 using BC = BCrypt.Net.BCrypt;
+using PharmaGOBackend.Application.Authentication.Common;
 
-namespace PharmaGOBackend.Application.Commands.RegisterClient;
+namespace PharmaGOBackend.Application.Authentication.Commands.Register;
 
 public class RegisterClientCommandHandler : IRequestHandler<RegisterClientCommand, ErrorOr<AuthenticationResult>>
 {

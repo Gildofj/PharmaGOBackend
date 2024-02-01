@@ -4,18 +4,18 @@ using PharmaGOBackend.Core.Persistence;
 using PharmaGOBackend.Core.Entities;
 using PharmaGOBackend.Core.Common.Errors;
 
-namespace PharmaGOBackend.Application.Commands.RegisterProduct;
+namespace PharmaGOBackend.Application.Products.Commands.CreateProduct;
 
-public class RegisterProductCommandHandler : IRequestHandler<RegisterProductCommand, ErrorOr<Product>>
+public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, ErrorOr<Product>>
 {
     private readonly IProductRepository _productRepository;
 
-    public RegisterProductCommandHandler(IProductRepository productRepository)
+    public CreateProductCommandHandler(IProductRepository productRepository)
     {
         _productRepository = productRepository;
     }
 
-    public async Task<ErrorOr<Product>> Handle(RegisterProductCommand command, CancellationToken cancellationToken)
+    public async Task<ErrorOr<Product>> Handle(CreateProductCommand command, CancellationToken cancellationToken)
     {
         await Task.CompletedTask;
 
@@ -37,7 +37,7 @@ public class RegisterProductCommandHandler : IRequestHandler<RegisterProductComm
         return product;
     }
 
-    private static Error? ValidateProductData(RegisterProductCommand command)
+    private static Error? ValidateProductData(CreateProductCommand command)
     {
         if (string.IsNullOrEmpty(command.Name))
             return Errors.Product.NameNotInformed;

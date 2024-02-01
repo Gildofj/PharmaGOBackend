@@ -1,7 +1,7 @@
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using PharmaGOBackend.Application.Commands.RegisterPharmacy;
+using PharmaGOBackend.Application.Pharmacies.Commands.CreatePharmacy;
 using PharmaGOBackend.Contract.Pharmacy;
 
 namespace PharmaGOBackend.Api.Controllers;
@@ -21,7 +21,7 @@ public class PharmaciesController : ApiController
     [HttpPost]
     public async Task<IActionResult> Post(RegisterPharmacyRequest request)
     {
-        var command = _mapper.Map<RegisterPharmacyCommand>(request);
+        var command = _mapper.Map<CreatePharmacyCommand>(request);
         var authResult = await _mediator.Send(command);
 
         return authResult.Match(

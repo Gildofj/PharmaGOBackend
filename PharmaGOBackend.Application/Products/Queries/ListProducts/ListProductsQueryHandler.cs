@@ -2,7 +2,7 @@
 using PharmaGOBackend.Core.Entities;
 using PharmaGOBackend.Core.Persistence;
 
-namespace PharmaGOBackend.Application.Queries.ListProducts;
+namespace PharmaGOBackend.Application.Products.Queries.ListProducts;
 
 public class ListProductsQueryHandler : IRequestHandler<ListProductsQuery, List<Product>>
 {

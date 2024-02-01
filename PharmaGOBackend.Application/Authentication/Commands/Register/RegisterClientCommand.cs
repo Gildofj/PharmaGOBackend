@@ -1,8 +1,8 @@
 using ErrorOr;
 using MediatR;
-using PharmaGOBackend.Application.Common.Results;
+using PharmaGOBackend.Application.Authentication.Common;
 
-namespace PharmaGOBackend.Application.Commands.RegisterClient;
+namespace PharmaGOBackend.Application.Authentication.Commands.Register;
 
 public record RegisterClientCommand(
     string FirstName,

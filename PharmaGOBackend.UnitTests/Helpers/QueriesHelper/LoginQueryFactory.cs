@@ -1,5 +1,5 @@
 ﻿
-using PharmaGOBackend.Application.Queries.Login;
+using PharmaGOBackend.Application.Authentication.Queries.Login;
 
 namespace PharmaGOBackend.UnitTests.Helpers.Authentication.QueriesHelper;
 

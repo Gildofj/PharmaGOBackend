@@ -1,7 +1,7 @@
 using ErrorOr;
 using MediatR;
-using PharmaGOBackend.Application.Common.Results;
+using PharmaGOBackend.Application.Authentication.Common;
 
-namespace PharmaGOBackend.Application.Queries.Login;
+namespace PharmaGOBackend.Application.Authentication.Queries.Login;
 
 public record LoginQuery(string Email, string Password) : IRequest<ErrorOr<AuthenticationResult>>;

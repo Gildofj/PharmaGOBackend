@@ -2,9 +2,9 @@ using ErrorOr;
 using MediatR;
 using PharmaGOBackend.Core.Entities;
 
-namespace PharmaGOBackend.Application.Commands.RegisterPharmacy;
+namespace PharmaGOBackend.Application.Pharmacies.Commands.CreatePharmacy;
 
-public record RegisterPharmacyCommand(
+public record CreatePharmacyCommand(
     string Name,
     string Cnpj
 ) : IRequest<ErrorOr<Pharmacy>>;

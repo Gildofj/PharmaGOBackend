@@ -3,9 +3,9 @@ using MediatR;
 using PharmaGOBackend.Core.Entities;
 using static PharmaGOBackend.Core.Common.Constants.ProductConstans;
 
-namespace PharmaGOBackend.Application.Commands.RegisterProduct;
+namespace PharmaGOBackend.Application.Products.Commands.CreateProduct;
 
-public record RegisterProductCommand(
+public record CreateProductCommand(
     string Name,
     decimal Amount,
     string Description,

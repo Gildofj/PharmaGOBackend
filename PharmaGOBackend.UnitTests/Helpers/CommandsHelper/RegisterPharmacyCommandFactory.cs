@@ -1,28 +1,28 @@
-﻿using PharmaGOBackend.Application.Commands.RegisterPharmacy;
+﻿using PharmaGOBackend.Application.Pharmacies.Commands.CreatePharmacy;
 
 namespace PharmaGOBackend.UnitTests.Helpers.CommandsHelper;
 
 public static class RegisterPharmacyCommandFactory
 {
-    public static RegisterPharmacyCommand GetDefault()
+    public static CreatePharmacyCommand GetDefault()
     {
-        return new RegisterPharmacyCommand(
+        return new CreatePharmacyCommand(
             Common.GetRandomName(),
             "15.041.127/0001-26"
             );
     }
 
-    public static RegisterPharmacyCommand GetWithoutName()
+    public static CreatePharmacyCommand GetWithoutName()
     {
-        return new RegisterPharmacyCommand(
+        return new CreatePharmacyCommand(
             "",
             "15.041.127/0001-26"
             );
     }
 
-    public static RegisterPharmacyCommand GetWithoutCnpj()
+    public static CreatePharmacyCommand GetWithoutCnpj()
     {
-        return new RegisterPharmacyCommand(
+        return new CreatePharmacyCommand(
             Common.GetRandomName(),
             ""
             );

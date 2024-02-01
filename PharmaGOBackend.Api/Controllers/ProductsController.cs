@@ -1,7 +1,7 @@
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using PharmaGOBackend.Application.Commands.RegisterProduct;
+using PharmaGOBackend.Application.Products.Commands.CreateProduct;
 using PharmaGOBackend.Application.Queries.ListProducts;
 using PharmaGOBackend.Contract.Product;
 using PharmaGOBackend.Core.Entities;
@@ -32,7 +32,7 @@ public class ProductsController : ApiController
     public async Task<IActionResult> Post(Guid pharmacyId, RegisterProductRequest request)
     {
         request.PharmacyId = pharmacyId;
-        var command = _mapper.Map<RegisterProductCommand>(request);
+        var command = _mapper.Map<CreateProductCommand>(request);
         var result = await _mediator.Send(command);
 
         return result.Match(
