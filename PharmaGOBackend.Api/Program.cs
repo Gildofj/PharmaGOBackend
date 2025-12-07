@@ -1,5 +1,5 @@
 using System.Reflection;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using PharmaGOBackend.Api;
 using PharmaGOBackend.Application;
 using PharmaGOBackend.Infrastructure;
@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddCors();
     builder.Services
         .AddPresentation()
-        .AddApplication()
+        .AddApplication(builder.Configuration)
         .AddInfrastructure(builder.Configuration);
     builder.Services.AddSwaggerGen(options =>
     {
@@ -30,23 +30,15 @@ var builder = WebApplication.CreateBuilder(args);
             Description = "JWT Authorization header using the Bearer scheme.",
             Name = "Authorization",
             In = ParameterLocation.Header,
-            Type = SecuritySchemeType.ApiKey,
+            Type = SecuritySchemeType.Http,
             Scheme = "Bearer"
         });
 
-        options.AddSecurityRequirement(new OpenApiSecurityRequirement
+        options.AddSecurityRequirement(_ =>
         {
-            {
-                new OpenApiSecurityScheme
-                {
-                    Reference = new OpenApiReference
-                    {
-                        Type = ReferenceType.SecurityScheme,
-                        Id = "Bearer"
-                    }
-                },
-                Array.Empty<string>()
-            }
+            var requirement = new OpenApiSecurityRequirement();
+            requirement.Add(new OpenApiSecuritySchemeReference("Bearer"), []);
+            return requirement;
         });
 
         var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
