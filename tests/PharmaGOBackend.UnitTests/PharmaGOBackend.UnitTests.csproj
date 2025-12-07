@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PharmaGOBackend.Api\PharmaGOBackend.Api.csproj" />
+    <ProjectReference Include="..\..\src\PharmaGOBackend.Api\PharmaGOBackend.Api.csproj" />
   </ItemGroup>
 
   <ItemGroup>
