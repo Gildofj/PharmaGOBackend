@@ -8,12 +8,7 @@ namespace PharmaGOBackend.UnitTests.Systems.Pharmacies.Commands;
 
 public class TestCreatePharmacyCommandHandler
 {
-    private readonly Mock<IPharmacyRepository> _mockPharmacyRepository;
-
-    public TestCreatePharmacyCommandHandler()
-    {
-        _mockPharmacyRepository = new();
-    }
+    private readonly Mock<IPharmacyRepository> _mockPharmacyRepository = new();
 
     [Fact]
     public async Task Register_OnSuccess_AddPharmacy()
@@ -22,13 +17,13 @@ public class TestCreatePharmacyCommandHandler
 
         var result = await handler.Handle(
             CreatePharmacyCommandFactory.GetDefault(),
-            default
-            );
+            CancellationToken.None
+        );
 
         _mockPharmacyRepository.Verify(
             x => x.AddAsync(It.Is<Pharmacy>(m => m.Id == result.Value.Id)),
             Times.Once
-            );
+        );
     }
 
     [Fact]
@@ -38,8 +33,8 @@ public class TestCreatePharmacyCommandHandler
 
         var result = await handler.Handle(
             CreatePharmacyCommandFactory.GetWithoutCnpj(),
-            default
-            );
+            CancellationToken.None
+        );
 
         result.IsError.Should().BeTrue();
         result.Errors.Should().ContainEquivalentOf(Errors.Pharmacy.CnpjNotInformed);
@@ -52,8 +47,8 @@ public class TestCreatePharmacyCommandHandler
 
         var result = await handler.Handle(
             CreatePharmacyCommandFactory.GetWithoutName(),
-            default
-            );
+            CancellationToken.None
+        );
 
         result.IsError.Should().BeTrue();
         result.Errors.Should().ContainEquivalentOf(Errors.Pharmacy.NameNotInformed);

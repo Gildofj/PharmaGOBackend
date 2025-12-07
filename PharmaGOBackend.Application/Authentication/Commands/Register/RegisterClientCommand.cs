@@ -10,4 +10,4 @@ public record RegisterClientCommand(
     string Email,
     string Password,
     Guid PharmacyId
-    ) : IRequest<ErrorOr<AuthenticationResult>>;
+) : IRequest<ErrorOr<AuthenticationResult>>;

@@ -6,20 +6,14 @@ using PharmaGOBackend.Core.Common.Errors;
 
 namespace PharmaGOBackend.Application.Products.Commands.CreateProduct;
 
-public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, ErrorOr<Product>>
+public class CreateProductCommandHandler(IProductRepository productRepository)
+    : IRequestHandler<CreateProductCommand, ErrorOr<Product>>
 {
-    private readonly IProductRepository _productRepository;
-
-    public CreateProductCommandHandler(IProductRepository productRepository)
-    {
-        _productRepository = productRepository;
-    }
-
     public async Task<ErrorOr<Product>> Handle(CreateProductCommand command, CancellationToken cancellationToken)
     {
         await Task.CompletedTask;
 
-        if (ValidateProductData(command) is Error error)
+        if (ValidateProductData(command) is { } error)
             return error;
 
         var product = new Product()
@@ -32,7 +26,7 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
             PharmacyId = command.PharmacyId
         };
 
-        await _productRepository.AddAsync(product);
+        await productRepository.AddAsync(product);
 
         return product;
     }

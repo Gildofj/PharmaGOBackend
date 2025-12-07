@@ -9,7 +9,7 @@ public static class CreatePharmacyCommandFactory
         return new CreatePharmacyCommand(
             Common.GetRandomName(),
             "15.041.127/0001-26"
-            );
+        );
     }
 
     public static CreatePharmacyCommand GetWithoutName()
@@ -17,7 +17,7 @@ public static class CreatePharmacyCommandFactory
         return new CreatePharmacyCommand(
             "",
             "15.041.127/0001-26"
-            );
+        );
     }
 
     public static CreatePharmacyCommand GetWithoutCnpj()
@@ -25,6 +25,6 @@ public static class CreatePharmacyCommandFactory
         return new CreatePharmacyCommand(
             Common.GetRandomName(),
             ""
-            );
+        );
     }
 }

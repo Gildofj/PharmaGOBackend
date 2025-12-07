@@ -14,7 +14,7 @@ public static class RegisterProductCommandFactory
             Category.Health,
             "",
             Guid.NewGuid()
-            );
+        );
     }
 
     public static CreateProductCommand GetWithoutPharmacyId()
@@ -26,7 +26,7 @@ public static class RegisterProductCommandFactory
             Category.Health,
             "",
             Guid.Empty
-            );
+        );
     }
 
     public static CreateProductCommand GetWithoutName()
@@ -38,7 +38,7 @@ public static class RegisterProductCommandFactory
             Category.Health,
             "",
             Guid.NewGuid()
-            );
+        );
     }
 
     public static CreateProductCommand GetWithoutAmount()
@@ -50,7 +50,7 @@ public static class RegisterProductCommandFactory
             Category.Health,
             "",
             Guid.NewGuid()
-            );
+        );
     }
 
     public static CreateProductCommand GetWithOver300CaracteresDescription()
@@ -62,6 +62,6 @@ public static class RegisterProductCommandFactory
             Category.Health,
             "",
             Guid.NewGuid()
-            );
+        );
     }
 }

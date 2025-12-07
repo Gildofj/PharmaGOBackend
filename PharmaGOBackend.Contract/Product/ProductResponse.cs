@@ -1,6 +1,6 @@
 ﻿using static PharmaGOBackend.Core.Common.Constants.ProductConstans;
 
-namespace PharmaGOBackend.Contract;
+namespace PharmaGOBackend.Contract.Product;
 
 public record ProductResponse(
   Guid Id,
@@ -8,6 +8,6 @@ public record ProductResponse(
   decimal Amount,
   string Image,
   string Description,
-  Category Cqtegory,
+  Category Category,
   Guid PharmacyId
 );

@@ -5,20 +5,17 @@
 
 using System.Diagnostics;
 using ErrorOr;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Options;
 using PharmaGOBackend.Api.Http;
 
-namespace Microsoft.AspNetCore.Mvc.Infrastructure;
+namespace PharmaGOBackend.Api.Errors;
 
-internal sealed class PharmaGOProblemDetailsFactory : ProblemDetailsFactory
+internal sealed class PharmaGOProblemDetailsFactory(IOptions<ApiBehaviorOptions> options) : ProblemDetailsFactory
 {
-    private readonly ApiBehaviorOptions _options;
-
-    public PharmaGOProblemDetailsFactory(IOptions<ApiBehaviorOptions> options)
-    {
-        _options = options?.Value ?? throw new ArgumentNullException(nameof(options));
-    }
+    private readonly ApiBehaviorOptions _options = options?.Value ?? throw new ArgumentNullException(nameof(options));
 
     public override ProblemDetails CreateProblemDetails(
         HttpContext httpContext,

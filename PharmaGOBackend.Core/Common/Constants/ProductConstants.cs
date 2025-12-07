@@ -1,5 +1,5 @@
 ﻿namespace PharmaGOBackend.Core.Common.Constants;
-public class ProductConstans
+public static class ProductConstans
 {
     public enum Category
     {
@@ -7,6 +7,7 @@ public class ProductConstans
         Sports = 2,
         Dermocosmetics = 3,
         Beauty = 4,
+        Miscellaneous = 5,
     }
 }
 

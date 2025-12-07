@@ -1,7 +1,6 @@
-﻿
-using PharmaGOBackend.Application.Authentication.Queries.Login;
+﻿using PharmaGOBackend.Application.Authentication.Queries.Login;
 
-namespace PharmaGOBackend.UnitTests.Helpers.Authentication.QueriesHelper;
+namespace PharmaGOBackend.UnitTests.Helpers.QueriesHelper;
 
 public class LoginQueryFactory
 {
@@ -10,7 +9,7 @@ public class LoginQueryFactory
         return new LoginQuery(
             "teste@teste.com",
             "123"
-            );
+        );
     }
 
     public static LoginQuery GetWithoutEmail()

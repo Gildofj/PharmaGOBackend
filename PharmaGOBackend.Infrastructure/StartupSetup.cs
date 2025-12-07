@@ -6,8 +6,9 @@ namespace PharmaGOBackend.Infrastructure
 {
     public static class StartupSetup
     {
-        public static IServiceCollection AddDbContext(this IServiceCollection services, string connectionString) =>
-            services.AddDbContext<PharmaGOContext>(options =>
-                options.UseNpgsql(connectionString));
+        public static void AddDbContext(this IServiceCollection services, string connectionString)
+        {
+            services.AddDbContext<PharmaGOContext>(options => options.UseNpgsql(connectionString));
+        }
     }
 }

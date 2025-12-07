@@ -8,38 +8,44 @@ using PharmaGOBackend.Contract.Authentication;
 namespace PharmaGOBackend.Api.Controllers;
 
 [Route("api/auth/[action]")]
-public class AuthenticationController : ApiController
+public class AuthenticationController(ISender mediator, IMapper mapper) : ApiController
 {
-    private readonly ISender _mediator;
-    private readonly IMapper _mapper;
-
-    public AuthenticationController(ISender mediator, IMapper mapper)
-    {
-        _mediator = mediator;
-        _mapper = mapper;
-    }
-
+    /// <summary>
+    /// Register client
+    /// </summary>
+    /// <param name="pharmacyId"></param>
+    /// <param name="request"></param>
+    /// <returns>Created user data</returns>
+    /// <response code="200">Returns a created user data</response>
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> Register(Guid pharmacyId, RegisterRequest request)
     {
         request.PharmacyId = pharmacyId;
-        var command = _mapper.Map<RegisterClientCommand>(request);
-        var authResult = await _mediator.Send(command);
+        var command = mapper.Map<RegisterClientCommand>(request);
+        var authResult = await mediator.Send(command);
 
         return authResult.Match(
-            result => Ok(_mapper.Map<AuthenticationResponse>(result)),
+            result => Ok(mapper.Map<AuthenticationResponse>(result)),
             errors => Problem(errors)
             );
     }
 
+    /// <summary>
+    /// Login registered user
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns>Logged user with jwt token</returns>
+    /// <response code="200">Returns the logged user with jwt token</response>
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> Login(LoginRequest request)
     {
-        var command = _mapper.Map<LoginQuery>(request);
-        var authResult = await _mediator.Send(command);
+        var command = mapper.Map<LoginQuery>(request);
+        var authResult = await mediator.Send(command);
 
         return authResult.Match(
-            result => Ok(_mapper.Map<AuthenticationResponse>(result)),
+            result => Ok(mapper.Map<AuthenticationResponse>(result)),
             errors => Problem(errors)
             );
     }

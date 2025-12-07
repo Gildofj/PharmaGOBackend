@@ -11,10 +11,11 @@ namespace PharmaGOBackend.Infrastructure;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services, ConfigurationManager configuration)
+    public static void AddInfrastructure(this IServiceCollection services, ConfigurationManager configuration)
     {
         services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.SectionName));
-        services.AddDbContext(configuration.GetConnectionString("PharmaGOContext") ?? throw new MissingFieldException("ConnectionString databse not found"));
+        services.AddDbContext(configuration.GetConnectionString("PharmaGOContext") ??
+                              throw new MissingFieldException("ConnectionString databse not found"));
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
         services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
@@ -23,7 +24,5 @@ public static class DependencyInjection
         services.AddScoped<IClientRepository, ClientRepository>();
         services.AddScoped<IPharmacyRepository, PharmacyRepository>();
         services.AddScoped<IProductRepository, ProductRepository>();
-
-        return services;
     }
 }

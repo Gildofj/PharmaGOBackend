@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using PharmaGOBackend.Api.Errors;
 using PharmaGOBackend.Api.Mapping;
 
 namespace PharmaGOBackend.Api;

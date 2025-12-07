@@ -9,30 +9,22 @@ using PharmaGOBackend.Application.Authentication.Common;
 
 namespace PharmaGOBackend.Application.Authentication.Queries.Login;
 
-public class LoginQueryHandler : IRequestHandler<LoginQuery, ErrorOr<AuthenticationResult>>
+public class LoginQueryHandler(IJwtTokenGenerator jwtTokenGenerator, IClientRepository clientRepository)
+    : IRequestHandler<LoginQuery, ErrorOr<AuthenticationResult>>
 {
-    private readonly IJwtTokenGenerator _jwtTokenGenerator;
-    private readonly IClientRepository _clientRepository;
-
-    public LoginQueryHandler(IJwtTokenGenerator jwtTokenGenerator, IClientRepository clientRepository)
-    {
-        _jwtTokenGenerator = jwtTokenGenerator;
-        _clientRepository = clientRepository;
-    }
-
     public async Task<ErrorOr<AuthenticationResult>> Handle(LoginQuery query, CancellationToken cancellationToken)
     {
         await Task.CompletedTask;
 
         if (
-            await _clientRepository.GetClientByEmailAsync(query.Email) is not Client client ||
+            await clientRepository.GetClientByEmailAsync(query.Email) is not { } client ||
             !BC.Verify(query.Password, client.Password)
         )
         {
             return Errors.Authentication.InvalidCredentials;
         }
 
-        var token = _jwtTokenGenerator.GenerateToken(client);
+        var token = jwtTokenGenerator.GenerateToken(client);
 
         return new AuthenticationResult(client, token);
     }

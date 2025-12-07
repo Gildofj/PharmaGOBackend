@@ -1,6 +1,6 @@
 using PharmaGOBackend.Application.Authentication.Commands.Register;
 
-namespace PharmaGOBackend.UnitTests.Helpers.Authentication.CommandsHelper;
+namespace PharmaGOBackend.UnitTests.Helpers.CommandsHelper;
 
 public static class RegisterClientCommandFactory
 {
@@ -12,7 +12,7 @@ public static class RegisterClientCommandFactory
             "teste@teste.com",
             "123",
             Guid.Empty
-            );
+        );
     }
 
     public static RegisterClientCommand GetWithoutFirstName()

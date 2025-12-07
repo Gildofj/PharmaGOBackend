@@ -9,22 +9,17 @@ using PharmaGOBackend.Core.Interfaces.Persistence;
 
 namespace PharmaGOBackend.Application.Authentication.Commands.Register;
 
-public class RegisterClientCommandHandler : IRequestHandler<RegisterClientCommand, ErrorOr<AuthenticationResult>>
+public class RegisterClientCommandHandler(IJwtTokenGenerator jwtTokenGenerator, IClientRepository clientRepository)
+    : IRequestHandler<RegisterClientCommand, ErrorOr<AuthenticationResult>>
 {
-    private readonly IJwtTokenGenerator _jwtTokenGenerator;
-    private readonly IClientRepository _clientRepository;
-
-    public RegisterClientCommandHandler(IJwtTokenGenerator jwtTokenGenerator, IClientRepository clientRepository)
-    {
-        _jwtTokenGenerator = jwtTokenGenerator;
-        _clientRepository = clientRepository;
-    }
-
-    public async Task<ErrorOr<AuthenticationResult>> Handle(RegisterClientCommand command, CancellationToken cancellationToken)
+    public async Task<ErrorOr<AuthenticationResult>> Handle(
+        RegisterClientCommand command,
+        CancellationToken cancellationToken
+    )
     {
         await Task.CompletedTask;
 
-        if (await ValidateRegisterCredentials(command) is Error error)
+        if (await ValidateRegisterCredentials(command) is { } error)
             return error;
 
         var client = new Client
@@ -36,9 +31,9 @@ public class RegisterClientCommandHandler : IRequestHandler<RegisterClientComman
             PharmacyId = command.PharmacyId,
         };
 
-        await _clientRepository.AddAsync(client);
+        await clientRepository.AddAsync(client);
 
-        var token = _jwtTokenGenerator.GenerateToken(client);
+        var token = jwtTokenGenerator.GenerateToken(client);
 
         return new AuthenticationResult(client, token);
     }
@@ -65,7 +60,7 @@ public class RegisterClientCommandHandler : IRequestHandler<RegisterClientComman
             return Errors.Authentication.PasswordNotInformed;
         }
 
-        if (await _clientRepository.GetClientByEmailAsync(command.Email) is not null)
+        if (await clientRepository.GetClientByEmailAsync(command.Email) is not null)
         {
             return Errors.Client.DuplicateEmail;
         }

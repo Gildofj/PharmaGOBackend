@@ -6,14 +6,9 @@ using PharmaGOBackend.Core.Common.Errors;
 
 namespace PharmaGOBackend.Application.Pharmacies.Commands.CreatePharmacy;
 
-public class CreatePharmacyCommandHandler : IRequestHandler<CreatePharmacyCommand, ErrorOr<Pharmacy>>
+public class CreatePharmacyCommandHandler(IPharmacyRepository pharmacyRepository)
+    : IRequestHandler<CreatePharmacyCommand, ErrorOr<Pharmacy>>
 {
-    public readonly IPharmacyRepository _pharmacyRepository;
-    public CreatePharmacyCommandHandler(IPharmacyRepository pharmacyRepository)
-    {
-        _pharmacyRepository = pharmacyRepository;
-    }
-
     public async Task<ErrorOr<Pharmacy>> Handle(CreatePharmacyCommand command, CancellationToken cancellationToken)
     {
         await Task.CompletedTask;
@@ -27,7 +22,7 @@ public class CreatePharmacyCommandHandler : IRequestHandler<CreatePharmacyComman
             Cnpj = command.Cnpj,
         };
 
-        await _pharmacyRepository.AddAsync(pharmacy);
+        await pharmacyRepository.AddAsync(pharmacy);
 
         return pharmacy;
     }

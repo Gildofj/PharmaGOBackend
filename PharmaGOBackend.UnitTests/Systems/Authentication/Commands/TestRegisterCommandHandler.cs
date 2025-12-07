@@ -3,21 +3,15 @@ using PharmaGOBackend.Core.Interfaces.Authentication;
 using PharmaGOBackend.Core.Common.Errors;
 using PharmaGOBackend.Core.Entities;
 using PharmaGOBackend.Core.Interfaces.Persistence;
-using PharmaGOBackend.UnitTests.Helpers.Authentication.CommandsHelper;
 using PharmaGOBackend.UnitTests.Helpers.ClientHelper;
+using PharmaGOBackend.UnitTests.Helpers.CommandsHelper;
 
 namespace PharmaGOBackend.UnitTests.Systems.Authentication.Commands;
 
 public class TestRegisterClientCommandHandler
 {
-    private readonly Mock<IJwtTokenGenerator> _mockJwtTokenGenerator;
-    private readonly Mock<IClientRepository> _mockClientRepository;
-
-    public TestRegisterClientCommandHandler()
-    {
-        _mockJwtTokenGenerator = new();
-        _mockClientRepository = new();
-    }
+    private readonly Mock<IJwtTokenGenerator> _mockJwtTokenGenerator = new();
+    private readonly Mock<IClientRepository> _mockClientRepository = new();
 
     [Fact]
     public async Task Register_OnSuccess_AddClient()
