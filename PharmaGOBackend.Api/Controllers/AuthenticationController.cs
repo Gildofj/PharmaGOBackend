@@ -10,13 +10,6 @@ namespace PharmaGOBackend.Api.Controllers;
 [Route("api/auth/[action]")]
 public class AuthenticationController(ISender mediator, IMapper mapper) : ApiController
 {
-    /// <summary>
-    /// Register client
-    /// </summary>
-    /// <param name="pharmacyId"></param>
-    /// <param name="request"></param>
-    /// <returns>Created user data</returns>
-    /// <response code="200">Returns a created user data</response>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> Register(Guid pharmacyId, RegisterRequest request)
@@ -31,12 +24,6 @@ public class AuthenticationController(ISender mediator, IMapper mapper) : ApiCon
             );
     }
 
-    /// <summary>
-    /// Login registered user
-    /// </summary>
-    /// <param name="request"></param>
-    /// <returns>Logged user with jwt token</returns>
-    /// <response code="200">Returns the logged user with jwt token</response>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> Login(LoginRequest request)

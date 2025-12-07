@@ -10,11 +10,12 @@
   <ItemGroup>
     <PackageReference Include="Mapster" Version="9.0.0-pre01" />
     <PackageReference Include="Mapster.DependencyInjection" Version="9.0.0-pre01" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.0.1" />
+    <PackageReference Include="Scalar.AspNetCore" Version="2.11.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PharmaGOBackend.Contract\PharmaGOBackend.Contract.csproj" />
