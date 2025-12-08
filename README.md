@@ -201,7 +201,7 @@ Before running this project, ensure you have the following installed:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/pharmago.server.api.git
+git clone https://github.com/Gildofj/pharmago.server.api.git
 cd pharmago.server.api
 ```
 
@@ -219,10 +219,10 @@ psql -U postgres
 CREATE DATABASE pharmago;
 
 # Create user (if needed)
-CREATE USER gildofj WITH PASSWORD 'your_password';
+CREATE USER 'your_username' WITH PASSWORD 'your_password';
 
 # Grant privileges
-GRANT ALL PRIVILEGES ON DATABASE pharmago TO gildofj;
+GRANT ALL PRIVILEGES ON DATABASE pharmago TO 'your_username';
 ```
 
 #### Option B: Using Docker
@@ -230,7 +230,7 @@ GRANT ALL PRIVILEGES ON DATABASE pharmago TO gildofj;
 ```bash
 docker run --name pharmago-postgres \
   -e POSTGRES_DB=pharmago \
-  -e POSTGRES_USER=gildofj \
+  -e POSTGRES_USER='your_username' \
   -e POSTGRES_PASSWORD=your_password \
   -p 5432:5432 \
   -d postgres:18
@@ -273,7 +273,7 @@ Update `src/PharmaGO.Api/appsettings.json` or create `appsettings.Development.js
     "MediatR": "your-mediatr-license-key-if-needed"
   },
   "ConnectionStrings": {
-    "PharmaGOContext": "Server=127.0.0.1;Port=5432;Database=pharmago;User Id=gildofj;Password=your_password;"
+    "PharmaGOContext": "Server=127.0.0.1;Port=5432;Database=pharmago;User Id=your_username;Password=your_password;"
   }
 }
 ```
