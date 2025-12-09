@@ -10,8 +10,7 @@ public static class RegisterClientCommandFactory
             "Teste",
             Common.GetRandomName(),
             "teste@teste.com",
-            "123",
-            Guid.Empty
+            "123"
         );
     }
 
@@ -21,8 +20,7 @@ public static class RegisterClientCommandFactory
             "",
             Common.GetRandomName(),
             "teste@teste.com",
-            "123",
-            Guid.Empty
+            "123"
         );
     }
 
@@ -32,8 +30,7 @@ public static class RegisterClientCommandFactory
             "Teste",
             "",
             "teste@teste.com",
-            "123",
-            Guid.Empty
+            "123"
         );
     }
 
@@ -43,8 +40,7 @@ public static class RegisterClientCommandFactory
             "Teste",
             Common.GetRandomName(),
             "",
-            "123",
-            Guid.Empty
+            "123"
         );
     }
 
@@ -54,8 +50,7 @@ public static class RegisterClientCommandFactory
             "Teste",
             Common.GetRandomName(),
             "teste@teste.com",
-            "",
-            Guid.Empty
+            ""
         );
     }
 }

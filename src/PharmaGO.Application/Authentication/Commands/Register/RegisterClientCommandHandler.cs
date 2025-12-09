@@ -28,7 +28,6 @@ public class RegisterClientCommandHandler(IJwtTokenGenerator jwtTokenGenerator, 
             LastName = command.LastName,
             Email = command.Email,
             Password = BC.HashPassword(command.Password, BC.GenerateSalt(12)),
-            PharmacyId = command.PharmacyId,
         };
 
         await clientRepository.AddAsync(client);
