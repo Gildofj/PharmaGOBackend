@@ -1,14 +1,14 @@
-﻿using PharmaGO.UnitTests.Helpers.ClientHelper;
+﻿using PharmaGO.Application.Clients.Common;
+using PharmaGO.Application.Clients.Queries.Login;
+using PharmaGO.UnitTests.Helpers.ClientHelper;
 using PharmaGO.UnitTests.Helpers.QueriesHelper;
 using PharmaGO.Core.Interfaces.Authentication;
 using PharmaGO.Core.Interfaces.Persistence;
 using PharmaGO.Core.Common.Errors;
-using PharmaGO.Application.Authentication.Common;
-using PharmaGO.Application.Authentication.Queries.Login;
 
-namespace PharmaGO.UnitTests.Systems.Authentication.Queries;
+namespace PharmaGO.UnitTests.Systems.Clients.Queries;
 
-public class TestLoginQueryHandler
+public class TestClientLoginQueryHandler
 {
     private readonly Mock<IJwtTokenGenerator> _mockJwtTokenGenerator = new();
     private readonly Mock<IClientRepository> _mockClientRepository = new();
@@ -19,7 +19,7 @@ public class TestLoginQueryHandler
         _mockClientRepository.Setup(x => x.GetClientByEmailAsync(It.IsAny<string>())
         ).ReturnsAsync(ClientFactory.GetDefaultClient());
 
-        var handler = new LoginQueryHandler(_mockJwtTokenGenerator.Object, _mockClientRepository.Object);
+        var handler = new ClientLoginQueryHandler(_mockJwtTokenGenerator.Object, _mockClientRepository.Object);
 
         var result = await handler.Handle(
             LoginQueryFactory.GetDefault(),
@@ -27,7 +27,7 @@ public class TestLoginQueryHandler
         );
 
         result.IsError.Should().BeFalse();
-        result.Value.Should().BeOfType<AuthenticationResult>();
+        result.Value.Should().BeOfType<ClientAuthenticationResult>();
     }
 
     [Fact]
@@ -36,7 +36,7 @@ public class TestLoginQueryHandler
         _mockClientRepository.Setup(x => x.GetClientByEmailAsync(It.IsAny<string>())
         ).ReturnsAsync(ClientFactory.GetDefaultClient());
 
-        var handler = new LoginQueryHandler(_mockJwtTokenGenerator.Object, _mockClientRepository.Object);
+        var handler = new ClientLoginQueryHandler(_mockJwtTokenGenerator.Object, _mockClientRepository.Object);
 
         var result = await handler.Handle(
             LoginQueryFactory.GetWithoutPassword(),
@@ -50,7 +50,7 @@ public class TestLoginQueryHandler
     [Fact]
     public async Task Login_EmailNotInformed_ReturnsInvalidCredentialError()
     {
-        var handler = new LoginQueryHandler(_mockJwtTokenGenerator.Object, _mockClientRepository.Object);
+        var handler = new ClientLoginQueryHandler(_mockJwtTokenGenerator.Object, _mockClientRepository.Object);
 
         var result = await handler.Handle(
             LoginQueryFactory.GetWithoutEmail(),
@@ -67,7 +67,7 @@ public class TestLoginQueryHandler
         _mockClientRepository.Setup(x => x.GetClientByEmailAsync(It.IsAny<string>())
         ).ReturnsAsync(ClientFactory.GetDefaultClient());
 
-        var handler = new LoginQueryHandler(_mockJwtTokenGenerator.Object, _mockClientRepository.Object);
+        var handler = new ClientLoginQueryHandler(_mockJwtTokenGenerator.Object, _mockClientRepository.Object);
 
         var result = await handler.Handle(
             LoginQueryFactory.GetWithWrongPassword(),

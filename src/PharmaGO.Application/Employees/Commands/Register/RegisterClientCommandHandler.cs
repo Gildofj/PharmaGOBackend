@@ -1,19 +1,19 @@
 using ErrorOr;
 using MediatR;
-using PharmaGO.Application.Authentication.Common;
+using PharmaGO.Application.Employees.Common;
 using PharmaGO.Core.Common.Errors;
 using PharmaGO.Core.Entities;
 using BC = BCrypt.Net.BCrypt;
 using PharmaGO.Core.Interfaces.Authentication;
 using PharmaGO.Core.Interfaces.Persistence;
 
-namespace PharmaGO.Application.Authentication.Commands.Register;
+namespace PharmaGO.Application.Employees.Commands.Register;
 
-public class RegisterClientCommandHandler(IJwtTokenGenerator jwtTokenGenerator, IClientRepository clientRepository)
-    : IRequestHandler<RegisterClientCommand, ErrorOr<AuthenticationResult>>
+public class RegisterEmployeeCommandHandler(IJwtTokenGenerator jwtTokenGenerator, IEmployeeRepository employeeRepository)
+    : IRequestHandler<RegisterEmployeeCommand, ErrorOr<EmployeeAuthenticationResult>>
 {
-    public async Task<ErrorOr<AuthenticationResult>> Handle(
-        RegisterClientCommand command,
+    public async Task<ErrorOr<EmployeeAuthenticationResult>> Handle(
+        RegisterEmployeeCommand command,
         CancellationToken cancellationToken
     )
     {
@@ -22,22 +22,23 @@ public class RegisterClientCommandHandler(IJwtTokenGenerator jwtTokenGenerator, 
         if (await ValidateRegisterCredentials(command) is { } error)
             return error;
 
-        var client = new Client
+        var employee = new Employee
         {
             FirstName = command.FirstName,
             LastName = command.LastName,
             Email = command.Email,
             Password = BC.HashPassword(command.Password, BC.GenerateSalt(12)),
+            PharmacyId = command.PharmacyId
         };
 
-        await clientRepository.AddAsync(client);
+        await employeeRepository.AddAsync(employee);
 
-        var token = jwtTokenGenerator.GenerateToken(client);
+        var token = jwtTokenGenerator.GenerateToken(employee);
 
-        return new AuthenticationResult(client, token);
+        return new EmployeeAuthenticationResult(employee, token);
     }
 
-    private async Task<Error?> ValidateRegisterCredentials(RegisterClientCommand command)
+    private async Task<Error?> ValidateRegisterCredentials(RegisterEmployeeCommand command)
     {
         if (string.IsNullOrEmpty(command.Email))
         {
@@ -59,7 +60,7 @@ public class RegisterClientCommandHandler(IJwtTokenGenerator jwtTokenGenerator, 
             return Errors.Authentication.PasswordNotInformed;
         }
 
-        if (await clientRepository.GetClientByEmailAsync(command.Email) is not null)
+        if (await employeeRepository.GetEmployeeByEmailAsync(command.Email) is not null)
         {
             return Errors.Client.DuplicateEmail;
         }

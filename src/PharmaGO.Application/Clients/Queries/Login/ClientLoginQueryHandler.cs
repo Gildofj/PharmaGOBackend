@@ -1,18 +1,17 @@
 using ErrorOr;
 using MediatR;
-using PharmaGO.Application.Authentication.Common;
+using PharmaGO.Application.Clients.Common;
+using PharmaGO.Core.Common.Errors;
 using PharmaGO.Core.Interfaces.Authentication;
 using PharmaGO.Core.Interfaces.Persistence;
-using PharmaGO.Core.Common.Errors;
-using PharmaGO.Core.Entities;
 using BC = BCrypt.Net.BCrypt;
 
-namespace PharmaGO.Application.Authentication.Queries.Login;
+namespace PharmaGO.Application.Clients.Queries.Login;
 
-public class LoginQueryHandler(IJwtTokenGenerator jwtTokenGenerator, IClientRepository clientRepository)
-    : IRequestHandler<LoginQuery, ErrorOr<AuthenticationResult>>
+public class ClientLoginQueryHandler(IJwtTokenGenerator jwtTokenGenerator, IClientRepository clientRepository)
+    : IRequestHandler<ClientLoginQuery, ErrorOr<ClientAuthenticationResult>>
 {
-    public async Task<ErrorOr<AuthenticationResult>> Handle(LoginQuery query, CancellationToken cancellationToken)
+    public async Task<ErrorOr<ClientAuthenticationResult>> Handle(ClientLoginQuery query, CancellationToken cancellationToken)
     {
         await Task.CompletedTask;
 
@@ -26,6 +25,6 @@ public class LoginQueryHandler(IJwtTokenGenerator jwtTokenGenerator, IClientRepo
 
         var token = jwtTokenGenerator.GenerateToken(client);
 
-        return new AuthenticationResult(client, token);
+        return new ClientAuthenticationResult(client, token);
     }
 }

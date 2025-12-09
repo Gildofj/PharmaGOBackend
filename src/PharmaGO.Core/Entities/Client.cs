@@ -1,10 +1,5 @@
-﻿using PharmaGO.Core.Entities.Base;
-
-namespace PharmaGO.Core.Entities;
-public class Client : Entity
+﻿namespace PharmaGO.Core.Entities;
+public class Client : User
 {
-    public string FirstName { get; set; } = null!;
-    public string LastName { get; set; } = null!;
-    public string Email { get; set; } = null!;
-    public string Password { get; set; } = null!;
+    public string Cpf { get; set; } = null!;
 }

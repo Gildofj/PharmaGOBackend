@@ -20,17 +20,17 @@ public class JwtTokenGenerator : IJwtTokenGenerator
         _jwtSettings = jwtOptions.Value;
     }
 
-    public string GenerateToken(Client client)
+    public string GenerateToken(User user)
     {
         var signingCredentials = new SigningCredentials(
             new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Secret)),
             SecurityAlgorithms.HmacSha256
-            );
+        );
         var claims = new[]
         {
-            new Claim(JwtRegisteredClaimNames.Sub, client.Id.ToString()),
-            new Claim(JwtRegisteredClaimNames.GivenName, client.FirstName),
-            new Claim(JwtRegisteredClaimNames.FamilyName, client.LastName),
+            new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+            new Claim(JwtRegisteredClaimNames.GivenName, user.FirstName),
+            new Claim(JwtRegisteredClaimNames.FamilyName, user.LastName),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
         };
 
@@ -40,7 +40,7 @@ public class JwtTokenGenerator : IJwtTokenGenerator
             expires: _dateTimeProvider.UtcNow.AddMinutes(_jwtSettings.ExpiryInMinutes),
             claims: claims,
             signingCredentials: signingCredentials
-            );
+        );
 
         return new JwtSecurityTokenHandler().WriteToken(securityToken);
     }

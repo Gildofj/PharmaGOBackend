@@ -10,10 +10,11 @@
     <ProjectReference Include="..\PharmaGO.Core\PharmaGO.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Authentication/" />
-    <Folder Include="Authentication/Commands/" />
-    <Folder Include="Authentication/Commands/Register/" />
-    <Folder Include="Authentication/Queries/" />
+    <Folder Include="Clients\" />
+    <Folder Include="Clients\Commands\" />
+    <Folder Include="Clients\Commands\Register\" />
+    <Folder Include="Clients\Queries\" />
+    <Folder Include="Employees\Queries\Login\" />
     <Folder Include="Products/Queries/" />
   </ItemGroup>
   <PropertyGroup>

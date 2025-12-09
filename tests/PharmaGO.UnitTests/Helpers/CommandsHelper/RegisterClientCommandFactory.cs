@@ -1,4 +1,4 @@
-using PharmaGO.Application.Authentication.Commands.Register;
+using PharmaGO.Application.Clients.Commands.Register;
 
 namespace PharmaGO.UnitTests.Helpers.CommandsHelper;
 

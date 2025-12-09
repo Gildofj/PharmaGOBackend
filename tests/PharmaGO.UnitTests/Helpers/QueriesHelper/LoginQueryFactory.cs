@@ -1,36 +1,36 @@
-﻿using PharmaGO.Application.Authentication.Queries.Login;
+﻿using PharmaGO.Application.Clients.Queries.Login;
 
 namespace PharmaGO.UnitTests.Helpers.QueriesHelper;
 
 public class LoginQueryFactory
 {
-    public static LoginQuery GetDefault()
+    public static ClientLoginQuery GetDefault()
     {
-        return new LoginQuery(
+        return new ClientLoginQuery(
             "teste@teste.com",
             "123"
         );
     }
 
-    public static LoginQuery GetWithoutEmail()
+    public static ClientLoginQuery GetWithoutEmail()
     {
-        return new LoginQuery(
+        return new ClientLoginQuery(
             "",
             "123"
         );
     }
 
-    public static LoginQuery GetWithoutPassword()
+    public static ClientLoginQuery GetWithoutPassword()
     {
-        return new LoginQuery(
+        return new ClientLoginQuery(
             "teste@teste.com",
             ""
         );
     }
 
-    public static LoginQuery GetWithWrongPassword()
+    public static ClientLoginQuery GetWithWrongPassword()
     {
-        return new LoginQuery(
+        return new ClientLoginQuery(
             "teste@teste.com",
             "111"
         );
