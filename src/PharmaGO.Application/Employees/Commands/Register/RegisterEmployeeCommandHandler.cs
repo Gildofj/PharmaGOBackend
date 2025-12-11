@@ -62,7 +62,7 @@ public class RegisterEmployeeCommandHandler(IJwtTokenGenerator jwtTokenGenerator
 
         if (await employeeRepository.GetEmployeeByEmailAsync(command.Email) is not null)
         {
-            return Errors.Client.DuplicateEmail;
+            return Errors.Employee.DuplicateEmail;
         }
 
         return null;

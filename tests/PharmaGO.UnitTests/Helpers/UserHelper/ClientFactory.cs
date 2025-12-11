@@ -1,6 +1,6 @@
 using PharmaGO.Core.Entities;
 
-namespace PharmaGO.UnitTests.Helpers.ClientHelper;
+namespace PharmaGO.UnitTests.Helpers.UserHelper;
 
 public static class ClientFactory
 {

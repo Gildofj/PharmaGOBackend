@@ -2,7 +2,7 @@
 
 namespace PharmaGO.UnitTests.Helpers.QueriesHelper;
 
-public class LoginQueryFactory
+public class ClientLoginQueryFactory
 {
     public static ClientLoginQuery GetDefault()
     {

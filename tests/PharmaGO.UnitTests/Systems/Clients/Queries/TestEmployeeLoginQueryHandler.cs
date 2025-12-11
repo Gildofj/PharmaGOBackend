@@ -1,6 +1,6 @@
 ﻿using PharmaGO.Application.Clients.Common;
 using PharmaGO.Application.Clients.Queries.Login;
-using PharmaGO.UnitTests.Helpers.ClientHelper;
+using PharmaGO.UnitTests.Helpers.UserHelper;
 using PharmaGO.UnitTests.Helpers.QueriesHelper;
 using PharmaGO.Core.Interfaces.Authentication;
 using PharmaGO.Core.Interfaces.Persistence;
@@ -8,7 +8,7 @@ using PharmaGO.Core.Common.Errors;
 
 namespace PharmaGO.UnitTests.Systems.Clients.Queries;
 
-public class TestClientLoginQueryHandler
+public class TestEmployeeLoginQueryHandler
 {
     private readonly Mock<IJwtTokenGenerator> _mockJwtTokenGenerator = new();
     private readonly Mock<IClientRepository> _mockClientRepository = new();
@@ -22,7 +22,7 @@ public class TestClientLoginQueryHandler
         var handler = new ClientLoginQueryHandler(_mockJwtTokenGenerator.Object, _mockClientRepository.Object);
 
         var result = await handler.Handle(
-            LoginQueryFactory.GetDefault(),
+            ClientLoginQueryFactory.GetDefault(),
             default
         );
 
@@ -39,7 +39,7 @@ public class TestClientLoginQueryHandler
         var handler = new ClientLoginQueryHandler(_mockJwtTokenGenerator.Object, _mockClientRepository.Object);
 
         var result = await handler.Handle(
-            LoginQueryFactory.GetWithoutPassword(),
+            ClientLoginQueryFactory.GetWithoutPassword(),
             default
         );
 
@@ -53,7 +53,7 @@ public class TestClientLoginQueryHandler
         var handler = new ClientLoginQueryHandler(_mockJwtTokenGenerator.Object, _mockClientRepository.Object);
 
         var result = await handler.Handle(
-            LoginQueryFactory.GetWithoutEmail(),
+            ClientLoginQueryFactory.GetWithoutEmail(),
             default
         );
 
@@ -70,7 +70,7 @@ public class TestClientLoginQueryHandler
         var handler = new ClientLoginQueryHandler(_mockJwtTokenGenerator.Object, _mockClientRepository.Object);
 
         var result = await handler.Handle(
-            LoginQueryFactory.GetWithWrongPassword(),
+            ClientLoginQueryFactory.GetWithWrongPassword(),
             default
         );
 

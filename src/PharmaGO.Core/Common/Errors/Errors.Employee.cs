@@ -4,9 +4,9 @@ namespace PharmaGO.Core.Common.Errors;
 
 public static partial class Errors
 {
-    public static class Client
+    public static class Employee
     {
         public static Error DuplicateEmail =>
-            Error.Conflict(code: "Client.DuplicateEmail", description: "Email is alrealdy in use.");
+            Error.Conflict(code: "Employee.DuplicateEmail", description: "Email is alrealdy in use.");
     }
 }
