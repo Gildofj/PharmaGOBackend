@@ -14,7 +14,6 @@
     <Folder Include="Clients\Commands\" />
     <Folder Include="Clients\Commands\Register\" />
     <Folder Include="Clients\Queries\" />
-    <Folder Include="Employees\Queries\Login\" />
     <Folder Include="Products/Queries/" />
   </ItemGroup>
   <PropertyGroup>
