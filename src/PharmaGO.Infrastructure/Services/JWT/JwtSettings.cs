@@ -1,4 +1,4 @@
-﻿namespace PharmaGO.Infrastructure.Authentication;
+﻿namespace PharmaGO.Infrastructure.Services.JWT;
 
 public class JwtSettings
 {

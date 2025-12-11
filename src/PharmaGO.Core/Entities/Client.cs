@@ -1,5 +1,55 @@
-﻿namespace PharmaGO.Core.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+using ErrorOr;
+using PharmaGO.Core.Common.Errors;
+
+namespace PharmaGO.Core.Entities;
 public class Client : User
 {
     public string Cpf { get; set; } = null!;
+
+    public static ErrorOr<Client> CreateClient(
+        string firstName,
+        string lastName,
+        string email,
+        string phone,
+        string cpf
+    )
+    {
+        var employee = new Client
+        {
+            FirstName = firstName,
+            LastName = lastName,
+            Email = email,
+            Phone = phone,
+            Cpf = cpf 
+        };
+
+        if (employee.ValidateClientData() is { } error)
+        {
+            return error;
+        }
+
+        return employee;
+    }
+    
+    private Error? ValidateClientData()
+    {
+        if (string.IsNullOrEmpty(Email))
+        {
+            return Errors.Authentication.EmailNotInformed;
+        }
+
+        if (string.IsNullOrEmpty(FirstName))
+        {
+            return Errors.Authentication.FirstNameNotInformed;
+        }
+
+        if (string.IsNullOrEmpty(LastName))
+        {
+            return Errors.Authentication.LastNameNotInformed;
+        }
+        
+        return null;
+    }
+    
 }

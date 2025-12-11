@@ -7,6 +7,12 @@ public static partial class Errors
     public static class Employee
     {
         public static Error DuplicateEmail =>
-            Error.Conflict(code: "Employee.DuplicateEmail", description: "Email is alrealdy in use.");
+            Error.Conflict(code: "Employee.DuplicateEmail", description: "Email is already in use.");
+
+        public static Error PharmacyIdRequired =>
+            Error.Validation(code: "Employee.PharmacyIdRequired", description: "PharmacyId is required.");
+
+        public static Error PharmacyNotFound =>
+            Error.Validation(code: "Employee.PharmacyNotFound", description: "The specified Pharmacy does not exist.");
     }
 }

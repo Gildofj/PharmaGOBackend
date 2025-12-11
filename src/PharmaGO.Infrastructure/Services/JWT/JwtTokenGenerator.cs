@@ -3,11 +3,10 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using PharmaGO.Core.Interfaces.Authentication;
 using PharmaGO.Core.Interfaces.Services;
 using PharmaGO.Core.Entities;
 
-namespace PharmaGO.Infrastructure.Authentication;
+namespace PharmaGO.Infrastructure.Services.JWT;
 
 public class JwtTokenGenerator : IJwtTokenGenerator
 {

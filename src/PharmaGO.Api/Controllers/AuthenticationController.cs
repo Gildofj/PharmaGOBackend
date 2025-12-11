@@ -13,7 +13,7 @@ namespace PharmaGO.Api.Controllers;
 public class AuthenticationController(ISender mediator, IMapper mapper) : ApiController
 {
     [HttpPost("[action]")]
-    public async Task<IActionResult> Register(RegisterRequest request)
+    public async Task<IActionResult> Register(RegisterClientRequest request)
     {
         var command = mapper.Map<RegisterClientCommand>(request);
         var authResult = await mediator.Send(command);
@@ -21,7 +21,7 @@ public class AuthenticationController(ISender mediator, IMapper mapper) : ApiCon
         return authResult.Match(
             result => Ok(mapper.Map<AuthenticationResponse>(result)),
             errors => Problem(errors)
-            );
+        );
     }
 
     [HttpPost("[action]")]
@@ -33,11 +33,11 @@ public class AuthenticationController(ISender mediator, IMapper mapper) : ApiCon
         return authResult.Match(
             result => Ok(mapper.Map<AuthenticationResponse>(result)),
             errors => Problem(errors)
-            );
+        );
     }
-    
+
     [HttpPost("admin/Register")]
-    public async Task<IActionResult> RegisterEmployee(RegisterRequest request)
+    public async Task<IActionResult> RegisterEmployee(RegisterEmployeeRequest request)
     {
         var command = mapper.Map<RegisterEmployeeCommand>(request);
         var authResult = await mediator.Send(command);

@@ -1,15 +1,17 @@
 using ErrorOr;
 using MediatR;
-using PharmaGO.Application.Clients.Common;
+using Microsoft.AspNetCore.Identity;
 using PharmaGO.Application.Employees.Common;
 using PharmaGO.Core.Common.Errors;
-using PharmaGO.Core.Interfaces.Authentication;
 using PharmaGO.Core.Interfaces.Persistence;
-using BC = BCrypt.Net.BCrypt;
+using PharmaGO.Core.Interfaces.Services;
 
 namespace PharmaGO.Application.Employees.Queries.Login;
 
-public class EmployeeLoginQueryHandler(IJwtTokenGenerator jwtTokenGenerator, IEmployeeRepository employeeRepository)
+public class EmployeeLoginQueryHandler(
+    IJwtTokenGenerator jwtTokenGenerator,
+    IEmployeeRepository employeeRepository,
+    IPasswordHashingService passwordHashing)
     : IRequestHandler<EmployeeLoginQuery, ErrorOr<EmployeeAuthenticationResult>>
 {
     public async Task<ErrorOr<EmployeeAuthenticationResult>> Handle(EmployeeLoginQuery query,
@@ -19,7 +21,7 @@ public class EmployeeLoginQueryHandler(IJwtTokenGenerator jwtTokenGenerator, IEm
 
         if (
             await employeeRepository.GetEmployeeByEmailAsync(query.Email) is not { } employee ||
-            !BC.Verify(query.Password, employee.Password)
+            !passwordHashing.VerifyPasswordHash(employee, query.Password, employee.Password)
         )
         {
             return Errors.Authentication.InvalidCredentials;

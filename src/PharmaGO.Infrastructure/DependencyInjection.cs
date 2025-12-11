@@ -1,11 +1,10 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using PharmaGO.Infrastructure.Authentication;
 using PharmaGO.Infrastructure.Persistence;
 using PharmaGO.Infrastructure.Services;
-using PharmaGO.Core.Interfaces.Authentication;
 using PharmaGO.Core.Interfaces.Persistence;
 using PharmaGO.Core.Interfaces.Services;
+using PharmaGO.Infrastructure.Services.JWT;
 
 namespace PharmaGO.Infrastructure;
 
@@ -20,6 +19,7 @@ public static class DependencyInjection
 
         services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
+        services.AddScoped<IPasswordHashingService, PasswordHashingService>();
 
         services.AddScoped<IClientRepository, ClientRepository>();
         services.AddScoped<IPharmacyRepository, PharmacyRepository>();
