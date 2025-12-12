@@ -36,8 +36,10 @@ public class ValidationBehavior<TRequest, TResponse>(IValidator<TRequest>? valid
             : throw new ValidationException(validationResult.Errors);
     }
 
-    private static bool TryCreateErrorResponseFromErrors(List<ValidationFailure> validationFailures,
-        out TResponse response)
+    private static bool TryCreateErrorResponseFromErrors(
+        List<ValidationFailure> validationFailures,
+        out TResponse response
+    )
     {
         List<Error> errors = validationFailures
             .ConvertAll(x => Error.Validation(code: x.PropertyName, description: x.ErrorMessage));
@@ -46,8 +48,8 @@ public class ValidationBehavior<TRequest, TResponse>(IValidator<TRequest>? valid
             .GetMethod(
                 name: nameof(ErrorOr<object>.From),
                 bindingAttr: BindingFlags.Static | BindingFlags.Public,
-                types: new[] { typeof(List<Error>) }
-            )?.Invoke(null, new[] { errors })!;
+                types: [typeof(List<Error>)]
+            )?.Invoke(null, [errors])!;
 
         return response is not null;
     }

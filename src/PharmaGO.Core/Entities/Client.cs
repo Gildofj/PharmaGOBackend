@@ -3,6 +3,7 @@ using ErrorOr;
 using PharmaGO.Core.Common.Errors;
 
 namespace PharmaGO.Core.Entities;
+
 public class Client : User
 {
     public string Cpf { get; set; } = null!;
@@ -21,35 +22,35 @@ public class Client : User
             LastName = lastName,
             Email = email,
             Phone = phone,
-            Cpf = cpf 
+            Cpf = cpf
         };
 
-        if (employee.ValidateClientData() is { } error)
+        if (employee.ValidateClientData() is { } errors)
         {
-            return error;
+            return errors;
         }
 
         return employee;
     }
-    
-    private Error? ValidateClientData()
+
+    private List<Error>? ValidateClientData()
     {
+        List<Error> errors = [];
         if (string.IsNullOrEmpty(Email))
         {
-            return Errors.Authentication.EmailNotInformed;
+            errors.Add(Errors.Authentication.EmailNotInformed);
         }
 
         if (string.IsNullOrEmpty(FirstName))
         {
-            return Errors.Authentication.FirstNameNotInformed;
+            errors.Add(Errors.Authentication.FirstNameNotInformed);
         }
 
         if (string.IsNullOrEmpty(LastName))
         {
-            return Errors.Authentication.LastNameNotInformed;
+            errors.Add(Errors.Authentication.LastNameNotInformed);
         }
-        
-        return null;
+
+        return errors.Count > 0 ? errors : null;
     }
-    
 }

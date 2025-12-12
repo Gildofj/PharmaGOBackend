@@ -1,8 +1,6 @@
 ﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
-#nullable enable
-
 using System.Diagnostics;
 using ErrorOr;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +21,8 @@ internal sealed class PharmaGOProblemDetailsFactory(IOptions<ApiBehaviorOptions>
         string? title = null,
         string? type = null,
         string? detail = null,
-        string? instance = null)
+        string? instance = null
+    )
     {
         statusCode ??= 500;
 
@@ -48,12 +47,10 @@ internal sealed class PharmaGOProblemDetailsFactory(IOptions<ApiBehaviorOptions>
         string? title = null,
         string? type = null,
         string? detail = null,
-        string? instance = null)
+        string? instance = null
+    )
     {
-        if (modelStateDictionary == null)
-        {
-            throw new ArgumentNullException(nameof(modelStateDictionary));
-        }
+        ArgumentNullException.ThrowIfNull(modelStateDictionary);
 
         statusCode ??= 400;
 
@@ -92,12 +89,9 @@ internal sealed class PharmaGOProblemDetailsFactory(IOptions<ApiBehaviorOptions>
             problemDetails.Extensions["traceId"] = traceId;
         }
 
-        var errors = httpContext?.Items[HttpContextItemKeys.Errors] as List<Error>;
-
-        if (errors is not null)
+        if (httpContext?.Items[HttpContextItemKeys.Errors] is List<Error> errors)
         {
             problemDetails.Extensions.Add("errorCodes", errors.Select(e => e.Code));
         }
-
     }
 }

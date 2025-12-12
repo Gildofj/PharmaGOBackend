@@ -16,8 +16,6 @@ public class ClientLoginQueryHandler(
     public async Task<ErrorOr<ClientAuthenticationResult>> Handle(ClientLoginQuery query,
         CancellationToken cancellationToken)
     {
-        await Task.CompletedTask;
-
         if (
             await clientRepository.GetClientByEmailAsync(query.Email) is not { } client ||
             !passwordHashing.VerifyPasswordHash(client, query.Password, client.Password)

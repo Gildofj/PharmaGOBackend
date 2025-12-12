@@ -11,40 +11,24 @@ public class CreateProductCommandHandler(IProductRepository productRepository)
 {
     public async Task<ErrorOr<Product>> Handle(CreateProductCommand command, CancellationToken cancellationToken)
     {
-        await Task.CompletedTask;
+        var productResult = Product.CreateProduct(
+            name: command.Name,
+            amount: command.Amount,
+            description: command.Description,
+            image: command.Image,
+            category: command.Category,
+            pharmacyId: command.PharmacyId
+        );
 
-        if (ValidateProductData(command) is { } error)
-            return error;
-
-        var product = new Product()
+        if (productResult.IsError)
         {
-            Name = command.Name,
-            Amount = command.Amount,
-            Description = command.Description,
-            Image = command.Image,
-            Category = command.Category,
-            PharmacyId = command.PharmacyId
-        };
+            return productResult.Errors;
+        }
+        
+        var product = productResult.Value;
 
         await productRepository.AddAsync(product);
 
         return product;
-    }
-
-    private static Error? ValidateProductData(CreateProductCommand command)
-    {
-        if (string.IsNullOrEmpty(command.Name))
-            return Errors.Product.NameNotInformed;
-
-        if (command.Amount <= 0)
-            return Errors.Product.AmountNotInformed;
-
-        if (command.Description.Length > 300)
-            return Errors.Product.DescriptionExceededMaxLength;
-
-        if (command.PharmacyId == Guid.Empty)
-            return Errors.Product.PharmacyIdNotInformed;
-
-        return null;
     }
 }

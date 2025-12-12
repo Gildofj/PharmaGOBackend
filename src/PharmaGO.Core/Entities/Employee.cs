@@ -25,36 +25,38 @@ public class Employee : User
             PharmacyId = pharmacyId,
         };
 
-        if (employee.ValidateEmployeeData() is { } error)
+        if (employee.ValidateEmployeeData() is { } errors)
         {
-            return error;
+            return errors;
         }
 
         return employee;
     }
     
-    private Error? ValidateEmployeeData()
+    private List<Error>? ValidateEmployeeData()
     {
+        List<Error> errors = [];
+        
         if (string.IsNullOrEmpty(Email))
         {
-            return Errors.Authentication.EmailNotInformed;
+            errors.Add(Errors.Authentication.EmailNotInformed);
         }
 
         if (string.IsNullOrEmpty(FirstName))
         {
-            return Errors.Authentication.FirstNameNotInformed;
+            errors.Add(Errors.Authentication.FirstNameNotInformed);
         }
 
         if (string.IsNullOrEmpty(LastName))
         {
-            return Errors.Authentication.LastNameNotInformed;
+            errors.Add(Errors.Authentication.LastNameNotInformed);
         }
         
         if (PharmacyId == Guid.Empty)
         {
-            return Errors.Employee.PharmacyIdRequired;
+            errors.Add(Errors.Employee.PharmacyIdRequired);
         }
 
-        return null;
+        return errors.Count > 0 ? errors : null;
     }
 }

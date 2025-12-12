@@ -11,30 +11,20 @@ public class CreatePharmacyCommandHandler(IPharmacyRepository pharmacyRepository
 {
     public async Task<ErrorOr<Pharmacy>> Handle(CreatePharmacyCommand command, CancellationToken cancellationToken)
     {
-        await Task.CompletedTask;
+        var pharmacyResult = Pharmacy.CreatePharmacy(
+            name: command.Name,
+            cnpj: command.Cnpj
+        );
 
-        if (ValidatePharmacyData(command) is Error error)
-            return error;
-
-        var pharmacy = new Pharmacy
+        if (pharmacyResult.IsError)
         {
-            Name = command.Name,
-            Cnpj = command.Cnpj,
-        };
+            return pharmacyResult.Errors;
+        }
+
+        var pharmacy = pharmacyResult.Value;
 
         await pharmacyRepository.AddAsync(pharmacy);
 
         return pharmacy;
-    }
-
-    public static Error? ValidatePharmacyData(CreatePharmacyCommand command)
-    {
-        if (string.IsNullOrEmpty(command.Name))
-            return Errors.Pharmacy.NameNotInformed;
-
-        if (string.IsNullOrEmpty(command.Cnpj))
-            return Errors.Pharmacy.CnpjNotInformed;
-
-        return null;
     }
 }
