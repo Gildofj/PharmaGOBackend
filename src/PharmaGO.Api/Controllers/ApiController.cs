@@ -1,12 +1,13 @@
 ﻿using ErrorOr;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.OData.Routing.Controllers;
 using PharmaGO.Api.Http;
 
 namespace PharmaGO.Api.Controllers;
 
 [ApiController]
-public abstract class ApiController : ControllerBase
+public abstract class ApiController : ODataController
 {
     protected IActionResult Problem(List<Error> errors)
     {

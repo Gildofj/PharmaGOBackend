@@ -10,7 +10,7 @@ namespace PharmaGO.Infrastructure;
 
 public static class DependencyInjection
 {
-    public static void AddInfrastructure(this IServiceCollection services, ConfigurationManager configuration)
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services, ConfigurationManager configuration)
     {
         services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.SectionName));
         services.AddDbContext(configuration.GetConnectionString("PharmaGOContext") ??
@@ -25,5 +25,7 @@ public static class DependencyInjection
         services.AddScoped<IEmployeeRepository, EmployeeRepository>();
         services.AddScoped<IPharmacyRepository, PharmacyRepository>();
         services.AddScoped<IProductRepository, ProductRepository>();
+
+        return services;
     }
 }

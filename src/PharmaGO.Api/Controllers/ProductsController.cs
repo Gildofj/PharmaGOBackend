@@ -1,16 +1,18 @@
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 using PharmaGO.Application.Products.Commands.CreateProduct;
 using PharmaGO.Application.Products.Queries.ListProducts;
 using PharmaGO.Contract.Product;
 
 namespace PharmaGO.Api.Controllers;
 
-[Route("api/[controller]")]
+[Route("odata/[controller]")]
 public class ProductsController(ISender mediator, IMapper mapper) : ApiController
 {
     [HttpGet]
+    [EnableQuery(AllowedQueryOptions = AllowedQueryOptions.All)]
     public async Task<IActionResult> GetAll()
     {
         var result = await mediator.Send(new ListProductsQuery());
@@ -19,6 +21,7 @@ public class ProductsController(ISender mediator, IMapper mapper) : ApiControlle
     }
 
     [HttpPost]
+    [EnableQuery]
     public async Task<IActionResult> Post(Guid pharmacyId, CreateProductRequest request)
     {
         request.PharmacyId = pharmacyId;
@@ -26,8 +29,8 @@ public class ProductsController(ISender mediator, IMapper mapper) : ApiControlle
         var result = await mediator.Send(command);
 
         return result.Match(
-            result => Ok(mapper.Map<ProductResponse>(result)),
+            products => Ok(mapper.Map<ProductResponse>(products)),
             errors => Problem(errors)
-            );
+        );
     }
 }

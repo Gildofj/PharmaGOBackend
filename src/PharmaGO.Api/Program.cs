@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
         .AddPresentation()
         .AddApplication(builder.Configuration)
         .AddInfrastructure(builder.Configuration);
-    
+
     builder.Services.AddOpenApiDefault();
 }
 
