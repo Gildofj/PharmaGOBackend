@@ -1,19 +1,22 @@
 using ErrorOr;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using PharmaGO.Application.Common.Auth.Constants;
+using PharmaGO.Application.Common.Interfaces;
 using PharmaGO.Application.Employees.Common;
+using PharmaGO.Core.Common.Constants;
 using PharmaGO.Core.Common.Errors;
 using PharmaGO.Core.Entities;
-using PharmaGO.Core.Interfaces.Services;
 using PharmaGO.Core.Interfaces.Persistence;
 
 namespace PharmaGO.Application.Employees.Commands.Register;
 
 public class RegisterEmployeeCommandHandler(
+    UserManager<IdentityUser<Guid>> userManager,
     IJwtTokenGenerator jwtTokenGenerator,
     IEmployeeRepository employeeRepository,
-    IPharmacyRepository pharmacyRepository,
-    IPasswordHashingService passwordHashing)
+    IPharmacyRepository pharmacyRepository
+)
     : IRequestHandler<RegisterEmployeeCommand, ErrorOr<EmployeeAuthenticationResult>>
 {
     public async Task<ErrorOr<EmployeeAuthenticationResult>> Handle(
@@ -21,7 +24,7 @@ public class RegisterEmployeeCommandHandler(
         CancellationToken cancellationToken
     )
     {
-        if (await employeeRepository.GetEmployeeByEmailAsync(command.Email) is not null)
+        if (await userManager.FindByEmailAsync(command.Email) is not null)
         {
             return Errors.Employee.DuplicateEmail;
         }
@@ -30,20 +33,36 @@ public class RegisterEmployeeCommandHandler(
         {
             return Errors.Employee.PharmacyNotFound;
         }
-        
-        if (string.IsNullOrEmpty(command.Password))
+
+        var identityUser = new IdentityUser<Guid>
         {
-            return Errors.Authentication.PasswordNotInformed;
+            UserName = command.Email,
+            Email = command.Email,
+            PhoneNumber = command.Phone,
+            EmailConfirmed = true
+        };
+
+        var createUserResult = await userManager.CreateAsync(identityUser, command.Password);
+
+        if (!createUserResult.Succeeded)
+        {
+            return createUserResult.Errors
+                .Select(e => Error.Validation(e.Code, e.Description))
+                .ToList();
         }
 
+        var roleName = command.IsAdmin ? EmployeeRoles.Admin : EmployeeRoles.Employee;
+        await userManager.AddToRoleAsync(identityUser, roleName);
+
         var employeeResult = Employee.CreateEmployee(
+            identityUserId: identityUser.Id,
             firstName: command.FirstName,
             lastName: command.LastName,
             email: command.Email,
             phone: command.Phone,
             pharmacyId: command.PharmacyId
         );
-        
+
         if (employeeResult.IsError)
         {
             return employeeResult.Errors;
@@ -51,11 +70,16 @@ public class RegisterEmployeeCommandHandler(
 
         var employee = employeeResult.Value;
 
-        employee.UpdatePassword(passwordHashing.HashPassword(employee, command.Password));
-
         await employeeRepository.AddAsync(employee);
 
-        var token = jwtTokenGenerator.GenerateToken(employee);
+        var token = await jwtTokenGenerator.GenerateToken(
+            new AuthContext
+            {
+                Person = employee,
+                User = identityUser,
+                UserType = UserType.Employee,
+            }
+        );
 
         return new EmployeeAuthenticationResult(employee, token);
     }

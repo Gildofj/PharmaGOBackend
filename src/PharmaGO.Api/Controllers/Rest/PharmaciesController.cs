@@ -1,17 +1,20 @@
 using MapsterMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OData.Query;
+using PharmaGO.Api.Controllers.Common;
+using PharmaGO.Application.Common.Auth;
+using PharmaGO.Application.Common.Auth.Constants;
 using PharmaGO.Application.Pharmacies.Commands.CreatePharmacy;
 using PharmaGO.Contract.Pharmacy;
 
-namespace PharmaGO.Api.Controllers;
+namespace PharmaGO.Api.Controllers.Rest;
 
-[Route("odata/[controller]")]
+[Route("api/[controller]")]
 public class PharmaciesController(ISender mediator, IMapper mapper) : ApiController
 {
     [HttpPost]
-    [EnableQuery(AllowedQueryOptions = AllowedQueryOptions.All)]
+    [Authorize(Policy = Policies.ManageEmployees)]
     public async Task<IActionResult> Post(CreatePharmacyRequest request)
     {
         var command = mapper.Map<CreatePharmacyCommand>(request);

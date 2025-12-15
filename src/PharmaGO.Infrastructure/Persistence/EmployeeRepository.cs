@@ -9,6 +9,6 @@ public class EmployeeRepository(PharmaGOContext db) : Repository<Employee>(db), 
 {
     public async Task<Employee?> GetEmployeeByEmailAsync(string email)
     {
-        return await Db.Employee.SingleOrDefaultAsync(u => u.Email == email);
+        return await Db.Employees.SingleOrDefaultAsync(u => u.Email == email);
     }
 }

@@ -1,16 +1,20 @@
 using ErrorOr;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using PharmaGO.Application.Clients.Common;
+using PharmaGO.Application.Common.Auth.Constants;
+using PharmaGO.Application.Common.Interfaces;
+using PharmaGO.Core.Common.Constants;
 using PharmaGO.Core.Common.Errors;
-using PharmaGO.Core.Interfaces.Services;
 using PharmaGO.Core.Interfaces.Persistence;
 
 namespace PharmaGO.Application.Clients.Queries.Login;
 
 public class ClientLoginQueryHandler(
+    UserManager<IdentityUser<Guid>> userManager,
     IJwtTokenGenerator jwtTokenGenerator,
-    IClientRepository clientRepository,
-    IPasswordHashingService passwordHashing)
+    IClientRepository clientRepository
+)
     : IRequestHandler<ClientLoginQuery, ErrorOr<ClientAuthenticationResult>>
 {
     public async Task<ErrorOr<ClientAuthenticationResult>> Handle(ClientLoginQuery query,
@@ -18,13 +22,21 @@ public class ClientLoginQueryHandler(
     {
         if (
             await clientRepository.GetClientByEmailAsync(query.Email) is not { } client ||
-            !passwordHashing.VerifyPasswordHash(client, query.Password, client.Password)
+            await userManager.FindByEmailAsync(query.Email) is not { } user ||
+            !await userManager.CheckPasswordAsync(user, query.Password)
         )
         {
             return Errors.Authentication.InvalidCredentials;
         }
 
-        var token = jwtTokenGenerator.GenerateToken(client);
+        var token = await jwtTokenGenerator.GenerateToken(
+            new AuthContext
+            {
+                Person = client,
+                User = user,
+                UserType = UserType.Client,
+            }
+        );
 
         return new ClientAuthenticationResult(client, token);
     }

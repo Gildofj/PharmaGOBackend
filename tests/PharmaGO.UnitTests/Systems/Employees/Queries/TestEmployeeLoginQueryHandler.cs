@@ -1,4 +1,5 @@
-﻿using PharmaGO.Application.Employees.Common;
+﻿using PharmaGO.Application.Common.Interfaces;
+using PharmaGO.Application.Employees.Common;
 using PharmaGO.Application.Employees.Queries.Login;
 using PharmaGO.UnitTests.Helpers.UserHelper;
 using PharmaGO.UnitTests.Helpers.QueriesHelper;

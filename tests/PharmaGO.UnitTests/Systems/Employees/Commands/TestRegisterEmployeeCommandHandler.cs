@@ -1,4 +1,5 @@
 using PharmaGO.Application.Clients.Common;
+using PharmaGO.Application.Common.Interfaces;
 using PharmaGO.UnitTests.Helpers.UserHelper;
 using PharmaGO.UnitTests.Helpers.CommandsHelper;
 using PharmaGO.Application.Employees.Commands.Register;

@@ -17,5 +17,9 @@ public static partial class Errors
 
         public static Error PharmacyIdNotInformed => Error.Validation(code: "Product.PharmacyIdNotInformed",
             description: "PharmacyId not informed.");
+
+        public static Error NotFound => Error.NotFound(
+            "Product.NotFound", "Product not found."
+        );
     }
 }

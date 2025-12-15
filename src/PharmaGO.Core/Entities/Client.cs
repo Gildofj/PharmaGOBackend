@@ -4,7 +4,7 @@ using PharmaGO.Core.Common.Errors;
 
 namespace PharmaGO.Core.Entities;
 
-public class Client : User
+public class Client : Person
 {
     public string Cpf { get; set; } = null!;
 

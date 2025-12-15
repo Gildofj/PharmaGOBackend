@@ -9,6 +9,6 @@ public class ClientRepository(PharmaGOContext db) : Repository<Client>(db), ICli
 {
     public async Task<Client?> GetClientByEmailAsync(string email)
     {
-        return await Db.Client.SingleOrDefaultAsync(u => u.Email == email);
+        return await Db.Clients.SingleOrDefaultAsync(u => u.Email == email);
     }
 }

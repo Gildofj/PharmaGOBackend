@@ -12,7 +12,8 @@ public static class RegisterEmployeeCommandFactory
             "teste@teste.com",
             "123",
             "5548991333748",
-            pharmacyId
+            pharmacyId,
+            true
         );
     }
 
@@ -24,7 +25,8 @@ public static class RegisterEmployeeCommandFactory
             "teste@teste.com",
             "123",
             "5548991333748",
-            pharmacyId
+            pharmacyId,
+            true
         );
     }
 
@@ -36,7 +38,8 @@ public static class RegisterEmployeeCommandFactory
             "teste@teste.com",
             "123",
             "5548991333748",
-            pharmacyId
+            pharmacyId,
+            true
         );
     }
 

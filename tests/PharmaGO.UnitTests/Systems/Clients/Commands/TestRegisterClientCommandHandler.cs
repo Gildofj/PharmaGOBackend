@@ -1,6 +1,7 @@
 using PharmaGO.UnitTests.Helpers.UserHelper;
 using PharmaGO.UnitTests.Helpers.CommandsHelper;
 using PharmaGO.Application.Clients.Commands.Register;
+using PharmaGO.Application.Common.Interfaces;
 using PharmaGO.Core.Interfaces.Services;
 using PharmaGO.Core.Common.Errors;
 using PharmaGO.Core.Entities;

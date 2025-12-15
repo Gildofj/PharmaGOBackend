@@ -10,5 +10,6 @@ public record RegisterEmployeeCommand(
     string Email,
     string Password,
     string Phone,
-    Guid PharmacyId
+    Guid PharmacyId,
+    bool IsAdmin
 ) : IRequest<ErrorOr<EmployeeAuthenticationResult>>;

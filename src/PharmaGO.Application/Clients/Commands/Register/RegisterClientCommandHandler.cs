@@ -1,6 +1,10 @@
 using ErrorOr;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using PharmaGO.Application.Clients.Common;
+using PharmaGO.Application.Common.Auth.Constants;
+using PharmaGO.Application.Common.Interfaces;
+using PharmaGO.Core.Common.Constants;
 using PharmaGO.Core.Common.Errors;
 using PharmaGO.Core.Entities;
 using PharmaGO.Core.Interfaces.Services;
@@ -9,9 +13,9 @@ using PharmaGO.Core.Interfaces.Persistence;
 namespace PharmaGO.Application.Clients.Commands.Register;
 
 public class RegisterClientCommandHandler(
+    UserManager<IdentityUser<Guid>> userManager,
     IJwtTokenGenerator jwtTokenGenerator,
-    IClientRepository clientRepository,
-    IPasswordHashingService passwordHashing)
+    IClientRepository clientRepository)
     : IRequestHandler<RegisterClientCommand, ErrorOr<ClientAuthenticationResult>>
 {
     public async Task<ErrorOr<ClientAuthenticationResult>> Handle(
@@ -19,15 +23,29 @@ public class RegisterClientCommandHandler(
         CancellationToken cancellationToken
     )
     {
-        if (await clientRepository.GetClientByEmailAsync(command.Email) is not null)
+        if (await userManager.FindByEmailAsync(command.Email) is not null)
         {
             return Errors.Client.DuplicateEmail;
         }
         
-        if (string.IsNullOrEmpty(command.Password))
+        var identityUser = new IdentityUser<Guid>
         {
-            return Errors.Authentication.PasswordNotInformed;
+            UserName = command.Email,
+            Email = command.Email,
+            PhoneNumber = command.Phone,
+            EmailConfirmed = true
+        };
+
+        var createUserResult = await userManager.CreateAsync(identityUser, command.Password);
+
+        if (!createUserResult.Succeeded)
+        {
+            return createUserResult.Errors
+                .Select(e => Error.Validation(e.Code, e.Description))
+                .ToList();
         }
+        
+        await userManager.AddToRoleAsync(identityUser, nameof(UserType.Client));
 
         var clientResult = Client.CreateClient(
             firstName: command.FirstName,
@@ -44,11 +62,16 @@ public class RegisterClientCommandHandler(
 
         var client = clientResult.Value;
 
-        client.UpdatePassword(passwordHashing.HashPassword(client, command.Password));
-
         await clientRepository.AddAsync(client);
 
-        var token = jwtTokenGenerator.GenerateToken(client);
+        var token = await jwtTokenGenerator.GenerateToken(
+            new AuthContext
+            {
+                Person = client,
+                User = identityUser,
+                UserType = UserType.Client,
+            }
+        );
 
         return new ClientAuthenticationResult(client, token);
     }

@@ -1,5 +1,6 @@
 ﻿using PharmaGO.Application.Clients.Common;
 using PharmaGO.Application.Clients.Queries.Login;
+using PharmaGO.Application.Common.Interfaces;
 using PharmaGO.UnitTests.Helpers.UserHelper;
 using PharmaGO.UnitTests.Helpers.QueriesHelper;
 using PharmaGO.Core.Interfaces.Persistence;
