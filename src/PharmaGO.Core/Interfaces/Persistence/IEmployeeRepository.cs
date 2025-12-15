@@ -5,5 +5,5 @@ namespace PharmaGO.Core.Interfaces.Persistence;
 
 public interface IEmployeeRepository : IRepository<Employee>
 {
-    Task<Employee?> GetEmployeeByEmailAsync(string email);
+    Task<Employee?> FindEmployeeByEmailAsync(string email);
 }

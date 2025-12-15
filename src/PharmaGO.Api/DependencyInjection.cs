@@ -2,11 +2,9 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.OData;
 using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;
-using Microsoft.OpenApi;
 using PharmaGO.Api.Errors;
 using PharmaGO.Api.Mapping;
 using PharmaGO.Core.Entities;
-using Scalar.AspNetCore;
 
 namespace PharmaGO.Api;
 

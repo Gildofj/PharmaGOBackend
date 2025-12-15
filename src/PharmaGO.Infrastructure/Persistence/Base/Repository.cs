@@ -24,7 +24,7 @@ namespace PharmaGO.Infrastructure.Persistence.Base
 
         public async Task<IEnumerable<T>> GetAllAsync() => await Db.Set<T>().ToListAsync();
 
-        public async Task<T?> GetByIdAsync(Guid id) => await Db.Set<T>().FindAsync(id);
+        public async Task<T?> FindByIdAsync(Guid id) => await Db.Set<T>().FindAsync(id);
 
         public async Task UpdateAsync(T entity)
         {

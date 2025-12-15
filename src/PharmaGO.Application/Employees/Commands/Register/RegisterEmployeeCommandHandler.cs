@@ -29,7 +29,7 @@ public class RegisterEmployeeCommandHandler(
             return Errors.Employee.DuplicateEmail;
         }
 
-        if (await pharmacyRepository.GetByIdAsync(command.PharmacyId) is null)
+        if (await pharmacyRepository.FindByIdAsync(command.PharmacyId) is null)
         {
             return Errors.Employee.PharmacyNotFound;
         }

@@ -21,7 +21,7 @@ public class EmployeeLoginQueryHandler(
         CancellationToken cancellationToken)
     {
         if (
-            await employeeRepository.GetEmployeeByEmailAsync(query.Email) is not { } employee ||
+            await employeeRepository.FindEmployeeByEmailAsync(query.Email) is not { } employee ||
             await userManager.FindByEmailAsync(query.Email) is not { } user ||
             !await userManager.CheckPasswordAsync(user, query.Password)
         )

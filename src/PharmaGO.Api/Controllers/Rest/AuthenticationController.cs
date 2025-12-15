@@ -3,7 +3,6 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PharmaGO.Api.Controllers.Common;
-using PharmaGO.Application.Common.Auth;
 using PharmaGO.Application.Clients.Commands.Register;
 using PharmaGO.Application.Clients.Queries.Login;
 using PharmaGO.Application.Common.Auth.Constants;

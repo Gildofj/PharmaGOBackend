@@ -2,11 +2,11 @@ using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Routing.Attributes;
 using PharmaGO.Api.Controllers.Common;
-using PharmaGO.Application.Common.Auth;
 using PharmaGO.Application.Common.Auth.Constants;
 using PharmaGO.Application.Products.Commands.CreateProduct;
-using PharmaGO.Application.Products.Queries.GetProduct;
+using PharmaGO.Application.Products.Queries.FindProduct;
 using PharmaGO.Contract.Product;
 
 namespace PharmaGO.Api.Controllers.Rest;
@@ -17,7 +17,7 @@ public class ProductsController(ISender mediator, IMapper mapper) : ApiControlle
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetById([FromRoute] Guid id)
     {
-        var result = await mediator.Send(new GetProductQuery(id));
+        var result = await mediator.Send(new FindProductQuery(id));
 
         result.Match(
             product => Ok(mapper.Map<ProductResponse>(product)),
@@ -27,7 +27,8 @@ public class ProductsController(ISender mediator, IMapper mapper) : ApiControlle
         return Ok();
     }
 
-    [HttpPost("({pharmacyId:guid})")]
+    [ODataIgnored]
+    [HttpPost("{pharmacyId:guid}")]
     [Authorize(Policy = Policies.ManageProduct)]
     public async Task<IActionResult> Post([FromRoute] Guid pharmacyId, CreateProductRequest request)
     {

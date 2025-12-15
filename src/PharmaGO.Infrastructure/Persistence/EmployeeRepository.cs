@@ -7,7 +7,7 @@ namespace PharmaGO.Infrastructure.Persistence;
 
 public class EmployeeRepository(PharmaGOContext db) : Repository<Employee>(db), IEmployeeRepository
 {
-    public async Task<Employee?> GetEmployeeByEmailAsync(string email)
+    public async Task<Employee?> FindEmployeeByEmailAsync(string email)
     {
         return await Db.Employees.SingleOrDefaultAsync(u => u.Email == email);
     }
