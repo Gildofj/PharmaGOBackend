@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PharmaGO.Application.Common.Auth.Constants;
 using PharmaGO.Core.Entities;
+using PharmaGO.Core.ValueObjects;
 
 namespace PharmaGO.Infrastructure.Persistence.Seed;
 
@@ -18,11 +19,23 @@ public static class PharmacyDemoSeed
 
         if (!context.Pharmacies.Any(p => p.Cnpj == "12.345.678/0001-99"))
         {
+            var address = Address.Create(
+                street: "Rodovia Francisco Thomaz dos Santos",
+                number: "1234",
+                neighborhood: "Armação do Pantano do Sul",
+                city: "Florianópolis",
+                state: "SC",
+                country: "Brasil",
+                zipCode: "88066000"
+            );
+
             var pharmacy = new Pharmacy
             {
                 Id = pharmacyId,
                 Name = "PharmaGO Demo",
                 Cnpj = "12.345.678/0001-99",
+                ContactNumber = "12345678901",
+                Address = address.Value,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
             };
@@ -61,7 +74,7 @@ public static class PharmacyDemoSeed
                 throw new Exception(result.Errors.First().Description);
             }
         }
-        
+
         if (!context.Employees.Any(e => e.Email == adminEmail))
         {
             var employee = new Employee

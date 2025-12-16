@@ -11,9 +11,9 @@ public class CreateProductCommandHandler(IProductRepository productRepository)
 {
     public async Task<ErrorOr<Product>> Handle(CreateProductCommand command, CancellationToken cancellationToken)
     {
-        var productResult = Product.CreateProduct(
+        var productResult = Product.Create(
             name: command.Name,
-            amount: command.Amount,
+            price: command.Amount,
             description: command.Description,
             image: command.Image,
             category: command.Category,

@@ -47,7 +47,7 @@ public class RegisterClientCommandHandler(
         
         await userManager.AddToRoleAsync(identityUser, nameof(UserType.Client));
 
-        var clientResult = Client.CreateClient(
+        var clientResult = Client.Create(
             firstName: command.FirstName,
             lastName: command.LastName,
             email: command.Email,

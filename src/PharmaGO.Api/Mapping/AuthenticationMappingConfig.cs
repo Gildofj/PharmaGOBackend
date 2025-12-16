@@ -1,5 +1,6 @@
 using Mapster;
 using PharmaGO.Application.Clients.Common;
+using PharmaGO.Application.Employees.Common;
 using PharmaGO.Contract.Authentication;
 
 namespace PharmaGO.Api.Mapping;
@@ -11,5 +12,9 @@ public class AuthenticationMappingConfig : IRegister
         config.NewConfig<ClientAuthenticationResult, AuthenticationResponse>()
             .Map(dest => dest.Token, src => src.Token)
             .Map(dest => dest, src => src.Client);
+        
+        config.NewConfig<EmployeeAuthenticationResult, AuthenticationResponse>()
+            .Map(dest => dest.Token, src => src.Token)
+            .Map(dest => dest, src => src.Employee);
     }
 }

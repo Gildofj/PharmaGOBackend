@@ -24,5 +24,7 @@ public class PharmaGOContext(DbContextOptions<PharmaGOContext> options)
         builder.Entity<IdentityUserClaim<Guid>>().ToTable("UserClaims");
         builder.Entity<IdentityUserToken<Guid>>().ToTable("UserTokens");
         builder.Entity<IdentityRoleClaim<Guid>>().ToTable("RoleClaims");
+        
+        builder.ApplyConfigurationsFromAssembly(typeof(PharmaGOContext).Assembly);
     }
 }

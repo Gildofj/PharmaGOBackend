@@ -54,7 +54,7 @@ public class RegisterEmployeeCommandHandler(
         var roleName = command.IsAdmin ? EmployeeRoles.Admin : EmployeeRoles.Employee;
         await userManager.AddToRoleAsync(identityUser, roleName);
 
-        var employeeResult = Employee.CreateEmployee(
+        var employeeResult = Employee.Create(
             identityUserId: identityUser.Id,
             firstName: command.FirstName,
             lastName: command.LastName,

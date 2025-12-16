@@ -11,5 +11,8 @@ public static partial class Errors
 
         public static Error CnpjNotInformed =>
             Error.Validation(code: "Pharmacy.CnpjNotInformed", description: "CNPJ not informed.");
+
+        public static Error InvalidAddress =>
+            Error.Validation(code: "Pharmacy.InvalidAddress", "Address is not valid.");
     }
 }

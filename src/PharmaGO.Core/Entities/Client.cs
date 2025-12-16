@@ -4,11 +4,11 @@ using PharmaGO.Core.Common.Errors;
 
 namespace PharmaGO.Core.Entities;
 
-public class Client : Person
+public sealed class Client : Person
 {
     public string Cpf { get; set; } = null!;
 
-    public static ErrorOr<Client> CreateClient(
+    public static ErrorOr<Client> Create(
         string firstName,
         string lastName,
         string email,

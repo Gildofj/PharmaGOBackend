@@ -3,12 +3,12 @@ using PharmaGO.Core.Common.Errors;
 
 namespace PharmaGO.Core.Entities;
 
-public class Employee : Person
+public sealed class Employee : Person
 {
     public Guid PharmacyId { get; set; } = Guid.Empty!;
-    public virtual Pharmacy Pharmacy { get; set; } = null!;
+    public Pharmacy Pharmacy { get; set; } = null!;
 
-    public static ErrorOr<Employee> CreateEmployee(
+    public static ErrorOr<Employee> Create(
         Guid identityUserId,
         string firstName,
         string lastName,
