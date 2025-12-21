@@ -18,11 +18,12 @@ public sealed class Client : Person
     {
         var employee = new Client
         {
+            Id = Guid.NewGuid(),
             FirstName = firstName,
             LastName = lastName,
             Email = email,
             Phone = phone,
-            Cpf = cpf
+            Cpf = cpf,
         };
 
         if (employee.ValidateClientData() is { } errors)

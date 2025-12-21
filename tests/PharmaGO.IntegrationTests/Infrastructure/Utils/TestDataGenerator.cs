@@ -1,10 +1,8 @@
 using Bogus;
-using Bogus.DataSets;
-using Bogus.Extensions;
 using PharmaGO.Core.Common.Constants;
 using PharmaGO.Core.Entities;
 
-namespace PharmaGO.IntegrationTests.Infrastructure;
+namespace PharmaGO.IntegrationTests.Infrastructure.Utils;
 
 public static class TestDataGenerator
 {
@@ -17,7 +15,7 @@ public static class TestDataGenerator
             number: Faker.Random.AlphaNumeric(Faker.PickRandom((IEnumerable<int>)[4, 5])),
             neighborhood: Faker.Address.City(),
             city: Faker.Address.City(),
-            state: Faker.Address.State(),
+            state: Faker.Address.StateAbbr(),
             country: Faker.Address.Country(),
             zipCode: Faker.Address.ZipCode()
         ).Value;
@@ -30,10 +28,9 @@ public static class TestDataGenerator
         ).Value;
     }
 
-    public static Employee CreateEmployee(Guid identityId, Guid pharmacyId)
+    public static Employee CreateEmployee(Guid pharmacyId)
     {
         return Employee.Create(
-            identityUserId: identityId,
             firstName: Faker.Name.FirstName(),
             lastName: Faker.Name.LastName(),
             email: Faker.Internet.Email(),
@@ -42,7 +39,7 @@ public static class TestDataGenerator
         ).Value;
     }
 
-    public static Client CreateClient(Guid? identityId = null)
+    public static Client CreateClient()
     {
         return Client.Create(
             firstName: Faker.Name.FirstName(),

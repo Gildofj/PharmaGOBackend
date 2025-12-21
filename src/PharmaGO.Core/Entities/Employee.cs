@@ -9,7 +9,6 @@ public sealed class Employee : Person
     public Pharmacy Pharmacy { get; set; } = null!;
 
     public static ErrorOr<Employee> Create(
-        Guid identityUserId,
         string firstName,
         string lastName,
         string email,
@@ -19,7 +18,7 @@ public sealed class Employee : Person
     {
         var employee = new Employee
         {
-            IdentityUserId = identityUserId,
+            Id = Guid.NewGuid(),
             FirstName = firstName,
             LastName = lastName,
             Email = email,

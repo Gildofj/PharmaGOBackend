@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PharmaGO.Application.Common.Auth.Constants;
@@ -15,9 +16,7 @@ public static class PharmacyDemoSeed
         var config = services.GetRequiredService<IConfiguration>();
         var userManager = services.GetRequiredService<UserManager<IdentityUser<Guid>>>();
 
-        var pharmacyId = Guid.NewGuid();
-
-        if (!context.Pharmacies.Any(p => p.Cnpj == "12.345.678/0001-99"))
+        if (await context.Pharmacies.FirstOrDefaultAsync(p => p.Cnpj == "12.345.678/0001-99") is not { } pharmacy)
         {
             var address = Address.Create(
                 street: "Rodovia Francisco Thomaz dos Santos",
@@ -29,9 +28,9 @@ public static class PharmacyDemoSeed
                 zipCode: "88066000"
             );
 
-            var pharmacy = new Pharmacy
+            pharmacy = new Pharmacy
             {
-                Id = pharmacyId,
+                Id = Guid.NewGuid(),
                 Name = "PharmaGO Demo",
                 Cnpj = "12.345.678/0001-99",
                 ContactNumber = "12345678901",
@@ -79,15 +78,14 @@ public static class PharmacyDemoSeed
         {
             var employee = new Employee
             {
-                Id = Guid.NewGuid(),
+                Id = adminUser.Id,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
                 FirstName = "Admin",
                 LastName = "Demo",
                 Email = adminEmail,
                 Phone = "(99) 99999-9999",
-                IdentityUserId = adminUser.Id,
-                PharmacyId = pharmacyId,
+                PharmacyId = pharmacy.Id,
             };
 
             context.Employees.Add(employee);

@@ -6,5 +6,5 @@ public record RegisterClientRequest(
     string Email,
     string Password,
     string Phone,
-    Guid PharmacyId
+    string Cpf
 ) : RegisterUserRequest(FirstName, LastName, Email, Password, Phone);

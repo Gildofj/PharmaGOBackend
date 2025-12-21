@@ -20,7 +20,6 @@ public static class DependencyInjection
         services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.SectionName));
         services.AddDbContext(configuration.GetConnectionString("PharmaGOContext") ??
                               throw new MissingFieldException("ConnectionString databse not found"));
-        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
         services.AddIdentity<IdentityUser<Guid>, IdentityRole<Guid>>(opts =>
                 {
@@ -35,6 +34,7 @@ public static class DependencyInjection
             .AddDefaultTokenProviders();
 
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
         services.AddScoped<IPermissionService, PermissionService>();
 

@@ -4,16 +4,18 @@ using Bogus;
 using FluentAssertions;
 using PharmaGO.Core.Common.Constants;
 using PharmaGO.IntegrationTests.Infrastructure;
+using PharmaGO.IntegrationTests.Infrastructure.Fixtures;
 
 namespace PharmaGO.IntegrationTests.Products;
 
-public class CreateProductTests(PostgreSqlFixture dbFixture) : IntegrationTestBase(dbFixture)
+public class CreateProductTests(PostgreSqlFixture dbFixture, EnviromentVarsFixture enviromentVarsFixture)
+    : IntegrationTestBase(dbFixture, enviromentVarsFixture)
 {
     [Fact]
     public async Task CreateProduct_WhenAuthenticated_ShouldPersistToDatabase()
     {
         var pharmacyId = await CreateTestPharmacyAsync();
-        
+
         var token = await CreateAndAuthenticateEmployeeAsync(pharmacyId);
         SetAuthorizationHeader(token);
 
@@ -32,7 +34,7 @@ public class CreateProductTests(PostgreSqlFixture dbFixture) : IntegrationTestBa
 
         await using var context = Context;
         var product = await context.Products.FindAsync(productId);
-        
+
         product.Should().NotBeNull();
         product!.Name.Should().Be("Aspirina");
         product.Price.Should().Be(10.50m);
@@ -52,9 +54,12 @@ public class CreateProductTests(PostgreSqlFixture dbFixture) : IntegrationTestBa
 
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
-    
+
     private async Task<string> CreateAndAuthenticateEmployeeAsync(Guid pharmacyId)
     {
+        var token = await AuthenticateAdminAsync();
+        SetAuthorizationHeader(token);
+
         var email = $"employee_{Guid.NewGuid():N}@test.com";
         const string password = "Employee@123";
 
@@ -69,8 +74,8 @@ public class CreateProductTests(PostgreSqlFixture dbFixture) : IntegrationTestBa
             PharmacyId = pharmacyId,
         };
 
-        await HttpClient.PostAsJsonAsync("/api/auth/register/employee", registerCommand);
-        
-        return await AuthenticateAsync(email, password);
+        await HttpClient.PostAsJsonAsync("/api/auth/admin/register", registerCommand);
+
+        return await AuthenticateEmployeeAsync(email, password);
     }
 }

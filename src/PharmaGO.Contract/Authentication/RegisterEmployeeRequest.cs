@@ -5,6 +5,8 @@ public record RegisterEmployeeRequest(
     string LastName,
     string Email,
     string Password,
-    string Phone,
-    string Cpf
-) : RegisterUserRequest(FirstName, LastName, Email, Password, Phone);
+    string Phone
+) : RegisterUserRequest(FirstName, LastName, Email, Password, Phone)
+{
+    public Guid PharmacyId { get; set; }
+}

@@ -45,6 +45,7 @@ public class AuthenticationController(ISender mediator, IMapper mapper) : ApiCon
     [Authorize(Policy = Policies.AdminOnly)]
     public async Task<IActionResult> RegisterEmployee([FromQuery] Guid pharmacyId, RegisterEmployeeRequest request)
     {
+        request.PharmacyId = pharmacyId;
         var command = mapper.Map<RegisterEmployeeCommand>(request);
         var authResult = await mediator.Send(command);
 
@@ -56,7 +57,7 @@ public class AuthenticationController(ISender mediator, IMapper mapper) : ApiCon
 
     [HttpPost("admin/Login")]
     [AllowAnonymous]
-    public async Task<IActionResult> LoginEmployee([FromQuery] Guid pharmacyId, LoginRequest request)
+    public async Task<IActionResult> LoginEmployee(LoginRequest request)
     {
         var command = mapper.Map<EmployeeLoginQuery>(request);
         var authResult = await mediator.Send(command);

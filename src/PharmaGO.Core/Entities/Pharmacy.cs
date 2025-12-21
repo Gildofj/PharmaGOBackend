@@ -24,6 +24,7 @@ public sealed class Pharmacy : Entity
     {
         var pharmacy = new Pharmacy
         {
+            Id =  Guid.NewGuid(),
             Name = name,
             Cnpj = cnpj,
             ContactNumber = contactNumber,

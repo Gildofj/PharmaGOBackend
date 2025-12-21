@@ -21,7 +21,7 @@ public class ClientLoginQueryHandler(
         CancellationToken cancellationToken)
     {
         if (
-            await clientRepository.FindClientByEmailAsync(query.Email) is not { } client ||
+            await clientRepository.FindByEmailAsync(query.Email) is not { } client ||
             await userManager.FindByEmailAsync(query.Email) is not { } user ||
             !await userManager.CheckPasswordAsync(user, query.Password)
         )

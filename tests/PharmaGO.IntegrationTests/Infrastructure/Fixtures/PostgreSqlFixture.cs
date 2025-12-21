@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using PharmaGO.Infrastructure.Persistence;
 using Testcontainers.PostgreSql;
 
-namespace PharmaGO.IntegrationTests.Infrastructure;
+namespace PharmaGO.IntegrationTests.Infrastructure.Fixtures;
 
 public class PostgreSqlFixture : IAsyncLifetime
 {

@@ -3,10 +3,12 @@ using System.Net.Http.Json;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using PharmaGO.IntegrationTests.Infrastructure;
+using PharmaGO.IntegrationTests.Infrastructure.Fixtures;
 
-namespace PharmaGO.IntegrationTests.Authentication;
+namespace PharmaGO.IntegrationTests.Authentication.Employee;
 
-public class RegisterTests(PostgreSqlFixture dbFixture) : IntegrationTestBase(dbFixture)
+public class RegisterTests(PostgreSqlFixture dbFixture, EnviromentVarsFixture enviromentVarsFixture)
+    : IntegrationTestBase(dbFixture, enviromentVarsFixture)
 {
     [Fact]
     public async Task Register_WhenValidEmployee_ShouldCreateUserAndEmployee()
@@ -24,19 +26,19 @@ public class RegisterTests(PostgreSqlFixture dbFixture) : IntegrationTestBase(db
             Phone = "48999999999",
             PharmacyId = pharmacyId,
         };
-        
+
         var response = await HttpClient.PostAsJsonAsync("/api/auth/admin/register", registerCommand);
 
         response.StatusCode.Should().Be(HttpStatusCode.Created);
 
         await using var context = Context;
-        
+
         var user = await context.Users.FirstOrDefaultAsync(u => u.Email == registerCommand.Email);
         user.Should().NotBeNull();
-        
+
         var employee = await context.Employees.FirstOrDefaultAsync(u => u.Email == registerCommand.Email);
         employee.Should().NotBeNull();
-        employee.IdentityUserId.Should().Be(user.Id);
+        employee.Id.Should().Be(user.Id);
     }
 
     [Fact]
@@ -54,13 +56,13 @@ public class RegisterTests(PostgreSqlFixture dbFixture) : IntegrationTestBase(db
             PharmacyId = pharmacyId,
             Position = "Vendedor",
         };
-        
-        await HttpClient.PostAsJsonAsync("/api/auth/register/employee", registerCommand);
+
+        await HttpClient.PostAsJsonAsync("/api/auth/admin/register", registerCommand);
 
         var secondCommand = registerCommand with { Phone = "48777777777" };
-        
+
         var response = await HttpClient.PostAsJsonAsync("/api/auth/admin/register", secondCommand);
-        
+
         response.StatusCode.Should().Be(HttpStatusCode.Conflict);
     }
 }

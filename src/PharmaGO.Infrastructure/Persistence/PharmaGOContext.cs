@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using PharmaGO.Core.Entities;
+using PharmaGO.Infrastructure.Persistence.Converters;
 
 namespace PharmaGO.Infrastructure.Persistence;
 
@@ -16,7 +17,7 @@ public class PharmaGOContext(DbContextOptions<PharmaGOContext> options)
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-        
+
         builder.Entity<IdentityUser<Guid>>().ToTable("Users");
         builder.Entity<IdentityRole<Guid>>().ToTable("Roles");
         builder.Entity<IdentityUserRole<Guid>>().ToTable("UserRoles");
@@ -24,7 +25,14 @@ public class PharmaGOContext(DbContextOptions<PharmaGOContext> options)
         builder.Entity<IdentityUserClaim<Guid>>().ToTable("UserClaims");
         builder.Entity<IdentityUserToken<Guid>>().ToTable("UserTokens");
         builder.Entity<IdentityRoleClaim<Guid>>().ToTable("RoleClaims");
-        
+
         builder.ApplyConfigurationsFromAssembly(typeof(PharmaGOContext).Assembly);
+    }
+
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+    {
+        configurationBuilder
+            .Properties<DateTimeOffset>()
+            .HaveConversion<UtcDateTimeOffsetConverter>();
     }
 }
