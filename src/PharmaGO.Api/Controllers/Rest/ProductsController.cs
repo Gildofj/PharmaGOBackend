@@ -37,7 +37,7 @@ public class ProductsController(ISender mediator, IMapper mapper) : ApiControlle
         var result = await mediator.Send(command);
 
         return result.Match(
-            products => Ok(mapper.Map<ProductResponse>(products)),
+            product => Ok(mapper.Map<ProductResponse>(product)),
             errors => Problem(errors)
         );
     }

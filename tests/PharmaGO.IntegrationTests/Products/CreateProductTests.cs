@@ -1,23 +1,19 @@
 using System.Net;
 using System.Net.Http.Json;
-using Bogus;
 using FluentAssertions;
-using PharmaGO.Core.Common.Constants;
+using PharmaGO.Contract.Product;
 using PharmaGO.IntegrationTests.Infrastructure;
 using PharmaGO.IntegrationTests.Infrastructure.Fixtures;
 
 namespace PharmaGO.IntegrationTests.Products;
 
-public class CreateProductTests(PostgreSqlFixture dbFixture, EnviromentVarsFixture enviromentVarsFixture)
-    : IntegrationTestBase(dbFixture, enviromentVarsFixture)
+public class CreateProductTests(PostgreSqlFixture dbFixture, EnviromentVarsFixture envVarsFixture)
+    : IntegrationTestBase(dbFixture, envVarsFixture)
 {
     [Fact]
     public async Task CreateProduct_WhenAuthenticated_ShouldPersistToDatabase()
     {
-        var pharmacyId = await CreateTestPharmacyAsync();
-
-        var token = await CreateAndAuthenticateEmployeeAsync(pharmacyId);
-        SetAuthorizationHeader(token);
+        var httpClient = GetAuthorizedEmployee();
 
         var createCommand = new
         {
@@ -26,14 +22,15 @@ public class CreateProductTests(PostgreSqlFixture dbFixture, EnviromentVarsFixtu
             Category = "Health",
         };
 
-        var response = await HttpClient.PostAsJsonAsync("/api/products", createCommand);
+        var response = await httpClient.PostAsJsonAsync($"/api/products/{TestPharmacy.Id}", createCommand);
 
-        response.StatusCode.Should().Be(HttpStatusCode.Created);
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-        var productId = await response.Content.ReadFromJsonAsync<Guid>();
+        var productData = await response.Content.ReadFromJsonAsync<ProductResponse>();
+        productData.Should().NotBeNull();
 
         await using var context = Context;
-        var product = await context.Products.FindAsync(productId);
+        var product = await context.Products.FindAsync(productData.Id);
 
         product.Should().NotBeNull();
         product!.Name.Should().Be("Aspirina");
@@ -41,7 +38,7 @@ public class CreateProductTests(PostgreSqlFixture dbFixture, EnviromentVarsFixtu
     }
 
     [Fact]
-    public async Task CreateProduct_WithoutAuthentication_ShouldReturnUnauthorized()
+    public async Task CreateProduct_WithoutAuthentication_ShouldReturnForbidden()
     {
         var createCommand = new
         {
@@ -50,32 +47,8 @@ public class CreateProductTests(PostgreSqlFixture dbFixture, EnviromentVarsFixtu
             Category = "Health",
         };
 
-        var response = await HttpClient.PostAsJsonAsync("/api/products", createCommand);
+        var response = await HttpClient.PostAsJsonAsync($"/api/products/{TestPharmacy.Id}", createCommand);
 
-        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
-    }
-
-    private async Task<string> CreateAndAuthenticateEmployeeAsync(Guid pharmacyId)
-    {
-        var token = await AuthenticateAdminAsync();
-        SetAuthorizationHeader(token);
-
-        var email = $"employee_{Guid.NewGuid():N}@test.com";
-        const string password = "Employee@123";
-
-        var registerCommand = new
-        {
-            Email = email,
-            Password = password,
-            FirstName = "Test",
-            LastName = "Employee",
-            Cpf = Guid.NewGuid().ToString("N")[..11],
-            Phone = "48999999999",
-            PharmacyId = pharmacyId,
-        };
-
-        await HttpClient.PostAsJsonAsync("/api/auth/admin/register", registerCommand);
-
-        return await AuthenticateEmployeeAsync(email, password);
+        response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
     }
 }

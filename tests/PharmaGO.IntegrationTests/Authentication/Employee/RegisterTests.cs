@@ -2,6 +2,8 @@ using System.Net;
 using System.Net.Http.Json;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
+using PharmaGO.Application.Employees.Commands.Register;
+using PharmaGO.Contract.Authentication;
 using PharmaGO.IntegrationTests.Infrastructure;
 using PharmaGO.IntegrationTests.Infrastructure.Fixtures;
 
@@ -13,21 +15,22 @@ public class RegisterTests(PostgreSqlFixture dbFixture, EnviromentVarsFixture en
     [Fact]
     public async Task Register_WhenValidEmployee_ShouldCreateUserAndEmployee()
     {
-        var pharmacyId = await CreateTestPharmacyAsync();
-
+        var httpClient = GetAuthorizedAdmin();
+        
         var registerCommand = new
         {
             Email = "employee@test.com",
             Password = "Employee@123",
-            ConfirmPassword = "Employee@123",
             FirstName = "João",
             LastName = "Silva",
-            Cpf = "12345678900",
             Phone = "48999999999",
-            PharmacyId = pharmacyId,
+            IsAdmin = false
         };
 
-        var response = await HttpClient.PostAsJsonAsync("/api/auth/admin/register", registerCommand);
+        var response = await httpClient.PostAsJsonAsync(
+            $"/api/auth/admin/register?pharmacyId={TestPharmacy.Id}",
+            registerCommand
+        );
 
         response.StatusCode.Should().Be(HttpStatusCode.Created);
 
@@ -42,9 +45,9 @@ public class RegisterTests(PostgreSqlFixture dbFixture, EnviromentVarsFixture en
     }
 
     [Fact]
-    public async Task Register_WhenInvalidEmail_ShouldReturnBadRequest()
+    public async Task Register_WhenDuplicatedEmail_ShouldReturnConflict()
     {
-        var pharmacyId = await CreateTestPharmacyAsync();
+        var httpClient = GetAuthorizedAdmin();
 
         var registerCommand = new
         {
@@ -53,15 +56,20 @@ public class RegisterTests(PostgreSqlFixture dbFixture, EnviromentVarsFixture en
             FirstName = "Test",
             LastName = "User",
             Phone = "48999999999",
-            PharmacyId = pharmacyId,
-            Position = "Vendedor",
+            IsAdmin = false
         };
 
-        await HttpClient.PostAsJsonAsync("/api/auth/admin/register", registerCommand);
+        var r = await httpClient.PostAsJsonAsync(
+            $"/api/auth/admin/register?pharmacyId={TestPharmacy.Id}",
+            registerCommand
+        );
 
         var secondCommand = registerCommand with { Phone = "48777777777" };
 
-        var response = await HttpClient.PostAsJsonAsync("/api/auth/admin/register", secondCommand);
+        var response = await httpClient.PostAsJsonAsync(
+            $"/api/auth/admin/register?pharmacyId={TestPharmacy.Id}",
+            secondCommand
+        );
 
         response.StatusCode.Should().Be(HttpStatusCode.Conflict);
     }

@@ -13,6 +13,6 @@ public static partial class Errors
             Error.Validation(code: "Employee.PharmacyIdRequired", description: "PharmacyId is required.");
 
         public static Error PharmacyNotFound =>
-            Error.Validation(code: "Employee.PharmacyNotFound", description: "The specified Pharmacy does not exist.");
+            Error.NotFound(code: "Employee.PharmacyNotFound", description: "The specified Pharmacy does not exist.");
     }
 }

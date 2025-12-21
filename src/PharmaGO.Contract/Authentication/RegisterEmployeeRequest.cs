@@ -5,7 +5,8 @@ public record RegisterEmployeeRequest(
     string LastName,
     string Email,
     string Password,
-    string Phone
+    string Phone,
+    bool IsAdmin
 ) : RegisterUserRequest(FirstName, LastName, Email, Password, Phone)
 {
     public Guid PharmacyId { get; set; }

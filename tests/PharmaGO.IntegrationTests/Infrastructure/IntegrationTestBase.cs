@@ -1,13 +1,17 @@
 using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using PharmaGO.Application.Common.Auth.Constants;
 using PharmaGO.Contract.Authentication;
+using PharmaGO.Core.Common.Constants;
 using PharmaGO.Core.Entities;
 using PharmaGO.Infrastructure.Persistence;
 using PharmaGO.IntegrationTests.Infrastructure.Factories;
 using PharmaGO.IntegrationTests.Infrastructure.Fixtures;
+using PharmaGO.IntegrationTests.Infrastructure.Identity;
 using PharmaGO.IntegrationTests.Infrastructure.Seeds;
 using PharmaGO.IntegrationTests.Infrastructure.Utils;
 
@@ -16,6 +20,7 @@ namespace PharmaGO.IntegrationTests.Infrastructure;
 public class IntegrationTestBase
     : IClassFixture<PostgreSqlFixture>, IClassFixture<EnviromentVarsFixture>, IAsyncLifetime
 {
+    private readonly CustomWebApplicationFactory Factory;
     protected readonly IConfiguration Configuration;
     protected readonly PostgreSqlFixture DbFixture;
     protected readonly HttpClient HttpClient;
@@ -27,9 +32,9 @@ public class IntegrationTestBase
         Configuration = envVarsFixture.Configuration;
         DbFixture = dbFixture;
 
-        var factory = new CustomWebApplicationFactory(DbFixture.Container.GetConnectionString());
+        Factory = new CustomWebApplicationFactory(DbFixture.Container.GetConnectionString());
 
-        HttpClient = factory.CreateClient();
+        HttpClient = Factory.CreateClient();
     }
 
     public virtual async Task InitializeAsync()
@@ -56,49 +61,67 @@ public class IntegrationTestBase
         return pharmacy.Id;
     }
 
-    protected async Task<string> AuthenticateClientAsync(string email, string password)
+    protected HttpClient GetAuthorizedClient()
     {
-        var loginRequest = new { Email = email, Password = password };
-        var response = await HttpClient.PostAsJsonAsync("/api/auth/login", loginRequest);
-        
-        if (!response.IsSuccessStatusCode)
-        {
-            var errorContent = await response.Content.ReadAsStringAsync();
-            Console.WriteLine(errorContent);
-        }
-        
-        response.EnsureSuccessStatusCode();
+        var client = Factory.CreateClient();
 
-        var result = await response.Content.ReadFromJsonAsync<AuthenticationResponse>();
-        return result!.Token;
+        client.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue(TestAuthenticationSchemeProvider.Name);
+
+        client.DefaultRequestHeaders.Add("role", nameof(UserType.Client));
+        
+        List<string> permissions = [Permissions.ClientAccess]; 
+        
+        client.DefaultRequestHeaders.Add("permissions", permissions);
+
+        return client;
     }
 
-    protected async Task<string> AuthenticateEmployeeAsync(string email, string password)
+    protected HttpClient GetAuthorizedEmployee()
     {
-        var loginRequest = new { Email = email, Password = password };
-        var response = await HttpClient.PostAsJsonAsync("/api/auth/admin/login", loginRequest);
-        if (!response.IsSuccessStatusCode)
-        {
-            var errorContent = await response.Content.ReadAsStringAsync();
-            Console.WriteLine(errorContent);
-        }
-        response.EnsureSuccessStatusCode();
+        var client = Factory.CreateClient();
 
-        var result = await response.Content.ReadFromJsonAsync<AuthenticationResponse>();
-        return result!.Token;
-    }
+        client.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue(TestAuthenticationSchemeProvider.Name);
 
-    protected async Task<string> AuthenticateAdminAsync()
-    {
-        var adminUserData = Configuration.GetSection("AdminUser");
-        var email = adminUserData.GetValue<string>("Email");
-        var password = adminUserData.GetValue<string>("Password");
+        client.DefaultRequestHeaders.Add("role", EmployeeRoles.Employee);
+
+        List<string> permissions = [Permissions.ManageProducts]; 
         
-        return await AuthenticateEmployeeAsync(email!, password!);
+        client.DefaultRequestHeaders.Add("permissions", permissions);
+
+        return client;
     }
 
-    protected void SetAuthorizationHeader(string token)
+    protected HttpClient GetAuthorizedAdmin()
     {
-        HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        var client = Factory.CreateClient();
+
+        client.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue(TestAuthenticationSchemeProvider.Name);
+
+        client.DefaultRequestHeaders.Add("role", EmployeeRoles.Admin);
+        
+        List<string> permissions = [Permissions.ManageProducts]; 
+        
+        client.DefaultRequestHeaders.Add("permissions", permissions);
+
+        return client;
+    }
+
+    protected HttpClient GetAuthorizedMasterAdmin()
+    {
+        var client = Factory.CreateClient();
+
+        client.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue(TestAuthenticationSchemeProvider.Name);
+
+        client.DefaultRequestHeaders.Add("role", nameof(UserType.MasterAdmin));
+        
+        List<string> permissions = Permissions.All.ToList(); 
+        
+        client.DefaultRequestHeaders.Add("permissions", permissions);
+
+        return client;
     }
 }

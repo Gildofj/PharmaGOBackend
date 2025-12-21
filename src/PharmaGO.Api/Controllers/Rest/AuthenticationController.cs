@@ -23,7 +23,7 @@ public class AuthenticationController(ISender mediator, IMapper mapper) : ApiCon
         var authResult = await mediator.Send(command);
 
         return authResult.Match(
-            result => Ok(mapper.Map<AuthenticationResponse>(result)),
+            result => Created(),
             errors => Problem(errors)
         );
     }
@@ -50,7 +50,7 @@ public class AuthenticationController(ISender mediator, IMapper mapper) : ApiCon
         var authResult = await mediator.Send(command);
 
         return authResult.Match(
-            result => Ok(mapper.Map<AuthenticationResponse>(result)),
+            result => Created(),
             errors => Problem(errors)
         );
     }
